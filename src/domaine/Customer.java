@@ -1,6 +1,6 @@
 package domaine;
 
-import domaine.Destination.City;
+import domaine.destination.City;
 
 import java.time.LocalDate;
 import java.time.Period;

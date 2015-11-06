@@ -1,6 +1,6 @@
 package domaine;
 
-import domaine.Destination.City;
+import domaine.destination.City;
 
 /**
  * I am a class that describe a fly.

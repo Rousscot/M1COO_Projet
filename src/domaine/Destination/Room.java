@@ -1,4 +1,4 @@
-package domaine.Destination;
+package domaine.destination;
 
 /**
  * I am a class that describe a room of a Hotel.

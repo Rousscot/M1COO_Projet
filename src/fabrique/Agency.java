@@ -1,4 +1,4 @@
-package domaine;
+package fabrique;
 
 /**
  * I am a class that manage an agency.

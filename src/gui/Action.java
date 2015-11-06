@@ -1,8 +1,7 @@
-package metier;
+package gui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * I am an abstract class that define an action.
@@ -12,16 +11,11 @@ import java.util.Map;
  */
 public abstract class Action {
 
-
-    // List of commands available to the user.
-    // I map the name of the command and the name of the class that map this command.
-    protected Map<String, String> commands;
-
     /**
      * I am an action that can execute the class.
      *
      * @param br a BufferedReader if the action need to interact with the user.
-     * @throws IOException
+     * @throws IOException todo
      */
     public abstract void action(BufferedReader br) throws IOException;
 
@@ -30,5 +24,4 @@ public abstract class Action {
      * @return a description of the action.
      */
     public abstract String description();
-
 }

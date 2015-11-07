@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="5648065">
+    <data-source source="LOCAL" name="PostgreSQL - cestpasfaux_agency@postgresql1.alwaysdata.com" uuid="0e4142ac-96cb-4703-b159-dac80eb8cfe3">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://postgresql1.alwaysdata.com:5432/cestpasfaux_agency</jdbc-url>
+    </data-source>
+  </component>
+</project>

@@ -1,0 +1,1 @@
+-- I am a script to insert value into the base to test the application.

@@ -1,5 +1,6 @@
 package dao;
 
+import dao.exception.DAOCannotInsertException;
 import dao.exception.DAONotFoundException;
 
 import java.sql.Connection;
@@ -29,7 +30,7 @@ public abstract class DAO<T> {
      * @param obj
      * @return
      */
-    public abstract boolean create(T obj);
+    public abstract T create(T obj) throws DAOCannotInsertException;
 
     /**
      * todo
@@ -37,7 +38,7 @@ public abstract class DAO<T> {
      * @param obj
      * @return
      */
-    public abstract boolean delete(T obj);
+    public abstract void delete(T obj);
 
     /**
      * todo
@@ -45,7 +46,7 @@ public abstract class DAO<T> {
      * @param obj
      * @return
      */
-    public abstract boolean update(T obj);
+    public abstract T update(T obj);
 
     /**
      * TODO
@@ -54,6 +55,6 @@ public abstract class DAO<T> {
      * @return
      * @throws DAONotFoundException
      */
-    public abstract T find(Integer id) throws DAONotFoundException;
+    public abstract T find(Long id) throws DAONotFoundException;
 
 }

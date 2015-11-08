@@ -12,7 +12,7 @@ import java.time.Period;
  */
 public class Customer {
 
-    protected final Integer id;
+    protected Long id;
 
     protected String firstName;
 
@@ -22,8 +22,7 @@ public class Customer {
 
     protected City city;
 
-    public Customer(Integer id, String firstName, String lastName, LocalDate birthday, City city) {
-        this.id = id;
+    public Customer(String firstName, String lastName, LocalDate birthday, City city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -41,9 +40,13 @@ public class Customer {
 
     //GETTERS AND SETTERS FOR DAO.
 
-    
-    public Integer id() {
+
+    public Long id() {
         return id;
+    }
+
+    public void id(Long id) {
+        this.id = id;
     }
 
     public String firstName() {

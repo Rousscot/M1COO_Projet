@@ -14,8 +14,11 @@ public class City {
 
     protected Set<Hotel> hotels;
 
-    public City(){
+    protected String name;
+
+    public City(String name){
         this.hotels = new HashSet<Hotel>();
+        this.name = name;
     }
 
 }

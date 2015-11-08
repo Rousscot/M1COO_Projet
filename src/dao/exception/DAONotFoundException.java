@@ -1,9 +1,11 @@
 package dao.exception;
 
+import java.sql.SQLException;
+
 /**
  * TODO
  */
-public class DAONotFoundException extends Exception {
+public class DAONotFoundException extends SQLException {
 
     protected final Integer id;
 

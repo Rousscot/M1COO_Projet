@@ -1,6 +1,6 @@
 package gui;
 
-import gui.actions.Quit;
+import gui.action.Quit;
 import gui.exception.NoActionForCommand;
 
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ public class MainInteractions extends Interaction {
 
     public MainInteractions(BufferedReader br) {
         super(br);
-        this.commands.put(Quit.COMMAND, "gui.actions.Quit");
+        this.commands.put(Quit.COMMAND, "gui.action.Quit");
     }
     
     //TODO: Maybe a part should go on the superclass.

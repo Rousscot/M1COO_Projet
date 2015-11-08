@@ -1,4 +1,4 @@
-package fabrique;
+package factory;
 
 /**
  * I am a class that manage an agency.

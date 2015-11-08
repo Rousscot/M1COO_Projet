@@ -1,4 +1,4 @@
-package gui.actions;
+package gui.action;
 
 import gui.Action;
 

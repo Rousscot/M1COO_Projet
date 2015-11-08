@@ -10,7 +10,7 @@
       <schema id="2" parent="1" name="public">
         <object-id>2200</object-id>
         <comment>standard public schema</comment>
-        <introspection-timestamp>2015-11-07.21:08:18.695</introspection-timestamp>
+        <introspection-timestamp>2015-11-08.22:28:26.803</introspection-timestamp>
       </schema>
       <schema id="3" parent="1" name="pg_catalog">
         <object-id>11</object-id>

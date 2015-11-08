@@ -3,3 +3,5 @@
 /* We can't use this with always data.
 DROP DATABASE "Agency";
 */
+
+DROP TABLE "Customer"; --This will also drop the customer_id_seq.

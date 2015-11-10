@@ -1,5 +1,6 @@
 import dao.ConnectionBdd;
 import dao.exception.CannotInsertCustomerException;
+import dao.exception.CustomerNotFoundException;
 import dao.implement.CustomerDAO;
 import domaine.Customer;
 import domaine.destination.City;
@@ -16,10 +17,16 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        Customer cust = new Customer("foo", "bar" , LocalDate.of(1993, 8, 20), new City("Galifrey"));
+      /*  Customer cust = new Customer(null, "foo", "bar" , LocalDate.of(1993, 8, 20), new City("Galifrey"));
         try {
             new CustomerDAO(ConnectionBdd.current()).create(cust);
         } catch (CannotInsertCustomerException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            Long id = Long.valueOf("1");
+            System.out.println(new CustomerDAO(ConnectionBdd.current()).find(id));
+        } catch (CustomerNotFoundException e) {
             e.printStackTrace();
         }
 

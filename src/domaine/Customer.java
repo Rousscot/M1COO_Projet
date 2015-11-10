@@ -22,7 +22,8 @@ public class Customer {
 
     protected City city;
 
-    public Customer(String firstName, String lastName, LocalDate birthday, City city) {
+    public Customer(Long id, String firstName, String lastName, LocalDate birthday, City city) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;

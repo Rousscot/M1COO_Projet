@@ -7,17 +7,17 @@ import java.sql.SQLException;
  */
 public class DAONotFoundException extends SQLException {
 
-    protected final Integer id;
+    protected final Long id;
 
     /**
      * todo
      * @param id
      */
-    public DAONotFoundException(Integer id) {
+    public DAONotFoundException(Long id) {
         this.id = id;
     }
 
-    public Integer id(){
+    public Long id(){
         return id;
     }
 }

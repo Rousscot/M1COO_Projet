@@ -4,8 +4,10 @@ import dao.DAO;
 import dao.exception.CannotInsertCustomerException;
 import dao.exception.CustomerNotFoundException;
 import domaine.Customer;
+import domaine.destination.City;
 
 import java.sql.*;
+import java.time.ZoneId;
 
 /**
  * TODO
@@ -52,7 +54,14 @@ public class CustomerDAO extends DAO<Customer> {
 
     @Override
     public Customer find(Long id) throws CustomerNotFoundException {
-        //TODO
-        return null;
+        try {
+            ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Customer\" WHERE cust_id = " + id);
+            if (result.first()) {
+                return new Customer(id, result.getString("first_name"), result.getString("last_name"), result.getDate("birthday").toLocalDate(),/* result.getString("city")*/ new City("Foo")); //TODO replace by the real city latter :)
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new CustomerNotFoundException(id);
     }
 }

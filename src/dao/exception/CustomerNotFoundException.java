@@ -5,7 +5,7 @@ package dao.exception;
  */
 public class CustomerNotFoundException extends DAONotFoundException {
 
-    public CustomerNotFoundException(Integer id) {
+    public CustomerNotFoundException(Long id) {
         super(id);
     }
 

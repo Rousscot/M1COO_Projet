@@ -1,4 +1,6 @@
-package dao.exception;
+package dao.exception.find;
+
+import dao.exception.DAONotFoundException;
 
 /**
  * TODO

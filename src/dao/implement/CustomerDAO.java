@@ -1,13 +1,13 @@
 package dao.implement;
 
 import dao.DAO;
-import dao.exception.CannotInsertCustomerException;
-import dao.exception.CustomerNotFoundException;
+import dao.exception.find.CustomerNotFoundException;
+import dao.exception.insert.CannotInsertCustomerException;
+import dao.exception.update.CustomerUpdateFailedException;
 import domaine.Customer;
 import domaine.destination.City;
 
 import java.sql.*;
-import java.time.ZoneId;
 
 /**
  * TODO
@@ -20,8 +20,8 @@ public class CustomerDAO extends DAO<Customer> {
 
     @Override
     public Customer create(Customer customer) throws CannotInsertCustomerException {
+        String idRequest = "SELECT NEXTVAL('customer_id_seq') AS id";
         try {
-            String idRequest = "SELECT NEXTVAL('customer_id_seq') AS id";
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
             if (result.first()) {
                 long id = result.getLong("id");
@@ -47,15 +47,26 @@ public class CustomerDAO extends DAO<Customer> {
     }
 
     @Override
-    public Customer update(Customer obj) {
-        //TODO
-        return null;
+    public Customer update(Customer customer) throws CustomerUpdateFailedException {
+        String request = "UPDATE \"Customer\" SET first_name = '" + customer.firstName() + "'," +
+                " last_name = '" + customer.lastName() + "'," +
+                " birthday = '" + Date.valueOf(customer.birthday()) + "'," +
+                " city = '" + customer.city().toString() + "'" + //TODO Use real city!
+                " WHERE cust_id = " + customer.id();
+        try {
+            this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
+            customer = this.find(customer.id());
+        } catch (SQLException e) {
+            throw new CustomerUpdateFailedException(customer);
+        }
+        return customer;
     }
 
     @Override
     public Customer find(Long id) throws CustomerNotFoundException {
+        String request = "SELECT * FROM \"Customer\" WHERE cust_id = " + id;
         try {
-            ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Customer\" WHERE cust_id = " + id);
+            ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
                 return new Customer(id, result.getString("first_name"), result.getString("last_name"), result.getDate("birthday").toLocalDate(),/* result.getString("city")*/ new City("Foo")); //TODO replace by the real city latter :)
             }

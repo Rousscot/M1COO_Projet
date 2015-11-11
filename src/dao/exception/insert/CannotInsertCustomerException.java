@@ -1,5 +1,6 @@
-package dao.exception;
+package dao.exception.insert;
 
+import dao.exception.DAOCannotInsertException;
 import domaine.Customer;
 
 /**

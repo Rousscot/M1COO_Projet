@@ -2,6 +2,7 @@ package dao;
 
 import dao.exception.DAOCannotInsertException;
 import dao.exception.DAONotFoundException;
+import dao.exception.DAOUpdateFailedException;
 
 import java.sql.Connection;
 
@@ -46,7 +47,7 @@ public abstract class DAO<T> {
      * @param obj
      * @return
      */
-    public abstract T update(T obj);
+    public abstract T update(T obj) throws DAOUpdateFailedException;
 
     /**
      * TODO

@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * I work with the subclasses of Action.
  *
- * @author Cyril Ferlicot & Aurelien Rousseau
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public abstract class Interaction {
 

@@ -8,7 +8,7 @@ import java.util.Set;
  *
  * hotels: a collection of hotels that are in a city.
  *
- * @author Cyril Ferlicot & Aurelien Rousseau
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class City {
 

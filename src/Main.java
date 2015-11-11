@@ -1,4 +1,5 @@
 import dao.ConnectionBdd;
+import dao.DAO;
 import dao.implement.CustomerDAO;
 import domaine.Customer;
 import domaine.destination.City;
@@ -18,13 +19,15 @@ public class Main {
 
         Customer cust = new Customer(null, "foo", "bar", LocalDate.of(1993, 8, 20), new City("Galifrey"));
         try {
-            CustomerDAO custDAO = new CustomerDAO(ConnectionBdd.current());
+            DAO<Customer> custDAO = new CustomerDAO();
             // Add
             cust = custDAO.create(cust);
             // Get
             System.out.println(custDAO.find(cust.id()));
             cust.firstName("Baracuda!");
+            // Update
             custDAO.update(cust);
+            // Delete
             custDAO.delete(cust);
         } catch (SQLException e) {
             e.printStackTrace();

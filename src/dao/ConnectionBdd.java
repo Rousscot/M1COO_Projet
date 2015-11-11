@@ -5,7 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * todo
+ * I am the class that manage the connection to the database.
+ * I am a Singleton to avoid multi-connections.
+ * I am use by the DAO.
+ *
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class ConnectionBdd {
 
@@ -17,6 +21,9 @@ public class ConnectionBdd {
 
     protected static Connection connection;
 
+    /**
+     * I am the constructor. I also check that the connection works.
+     */
     private ConnectionBdd() {
         try {
             //I just try to instantiate the driver to check that the driver is here.
@@ -34,8 +41,9 @@ public class ConnectionBdd {
     }
 
     /**
-     * TODO
-     * @return
+     * I am the only way to get an instance of ConnectionBdd.
+     *
+     * @return The unique instance of a ConnectionBdd.
      */
     public static Connection current() {
         if (connection == null) {

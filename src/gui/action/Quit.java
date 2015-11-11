@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * I am an action that allow the user to quit the application.
  *
- * @author Cyril Ferlicot & Aurélien Rousseau
+ * @author Cyril Ferlicot and Aurélien Rousseau
  */
 public class Quit extends Action {
 

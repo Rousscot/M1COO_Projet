@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * I am a class that describe a Category.
  *
- * @author Cyril Ferlicot & Aurelien Rousseau
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class Category {
 

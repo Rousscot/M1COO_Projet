@@ -7,7 +7,7 @@ import java.io.IOException;
  * I am an abstract class that define an action.
  * An action should have a COMMAND static final attribute that is a String but I cannot force it since Java use static and doesn't have metaclass.
  *
- * @author Cyril Ferlicot & Aurélien Rousseau
+ * @author Cyril Ferlicot and Aurélien Rousseau
  */
 public abstract class Action {
 

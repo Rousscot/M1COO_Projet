@@ -5,7 +5,7 @@ import domaine.destination.City;
 /**
  * I am a class that describe a fly.
  *
- * @author Cyril Ferlicot & Aurelien Rousseau
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class Fly {
 

@@ -8,15 +8,18 @@ import dao.exception.update.CustomerUpdateFailedException;
 import domaine.Customer;
 import domaine.destination.City;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * TODO
  */
 public class CustomerDAO extends DAO<Customer> {
 
-    public CustomerDAO(Connection connection) {
-        super(connection);
+    public CustomerDAO() {
+        super();
     }
 
     @Override
@@ -44,8 +47,8 @@ public class CustomerDAO extends DAO<Customer> {
 
     @Override
     public void delete(Customer customer) throws CustomerDeleteException {
-        String request =  "DELETE FROM \"Customer\" WHERE cust_id = " + customer.id();
-        try	{
+        String request = "DELETE FROM \"Customer\" WHERE cust_id = " + customer.id();
+        try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
         } catch (SQLException e) {
             throw new CustomerDeleteException(customer);

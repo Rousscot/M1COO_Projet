@@ -3,6 +3,7 @@ package dao;
 import dao.exception.DAOCannotInsertException;
 import dao.exception.DAONotFoundException;
 import dao.exception.DAOUpdateFailedException;
+import dao.exception.delete.CustomerDeleteException;
 
 import java.sql.Connection;
 
@@ -39,7 +40,7 @@ public abstract class DAO<T> {
      * @param obj
      * @return
      */
-    public abstract void delete(T obj);
+    public abstract void delete(T obj) throws CustomerDeleteException;
 
     /**
      * todo

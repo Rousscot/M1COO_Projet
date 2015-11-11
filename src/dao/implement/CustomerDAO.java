@@ -1,6 +1,7 @@
 package dao.implement;
 
 import dao.DAO;
+import dao.exception.delete.CustomerDeleteException;
 import dao.exception.find.CustomerNotFoundException;
 import dao.exception.insert.CannotInsertCustomerException;
 import dao.exception.update.CustomerUpdateFailedException;
@@ -42,8 +43,14 @@ public class CustomerDAO extends DAO<Customer> {
     }
 
     @Override
-    public void delete(Customer obj) {
-        //TODO
+    public void delete(Customer customer) throws CustomerDeleteException {
+        String request =  "DELETE FROM \"Customer\" WHERE cust_id = " + customer.id();
+        try	{
+            this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
+        } catch (SQLException e) {
+            throw new CustomerDeleteException(customer);
+        }
+
     }
 
     @Override

@@ -19,16 +19,13 @@ public class Main {
         Customer cust = new Customer(null, "foo", "bar", LocalDate.of(1993, 8, 20), new City("Galifrey"));
         try {
             CustomerDAO custDAO = new CustomerDAO(ConnectionBdd.current());
-            /* Add
-                custDAO.create(cust);
-             */
-            Long id = cust.id();
-            /* Get
-                System.out.println(custDAO.find(id));
-             */
-            cust.id(Long.valueOf("1"));
+            // Add
+            cust = custDAO.create(cust);
+            // Get
+            System.out.println(custDAO.find(cust.id()));
             cust.firstName("Baracuda!");
             custDAO.update(cust);
+            custDAO.delete(cust);
         } catch (SQLException e) {
             e.printStackTrace();
         }

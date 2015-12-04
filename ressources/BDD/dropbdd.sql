@@ -4,4 +4,8 @@
 DROP DATABASE "Agency";
 */
 
-DROP TABLE "Customer"; --This will also drop the customer_id_seq.
+DROP TABLE CUSTOMER; --This will also drop the customer_id_seq.
+DROP TABLE ROOM;
+DROP TABLE CATEGORY;
+DROP TABLE HOTEL;
+DROP TABLE CITY;      

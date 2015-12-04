@@ -22,7 +22,6 @@ public class City {
         id = 0L;
     }
 
-
     @Override
     public String toString() {
         return name;
@@ -50,5 +49,32 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public Integer numberOfHotels(){
+        return hotels.size();
+    }
+
+    public Hotel hotelAt(Integer index){
+        return hotels.get(index);
+    }
+
+    public void addHotel(Hotel hotel){
+        //TODO Duplicated ?
+        hotels.add(hotel);
+    }
+
+    public void createAndAddHotel(String name, Integer resignationDays){
+        Hotel hotel = new Hotel(name, resignationDays);
+        //TODO Insert BDD
+        addHotel(hotel);
+    }
+
+    public void deleteHotel(Hotel hotel){
+        //TODO not here ?
+        hotels.remove(hotel);
+        hotel.delete();
+        //TODO BDD Delete ?
     }
 }

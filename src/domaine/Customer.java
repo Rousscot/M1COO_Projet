@@ -30,6 +30,10 @@ public class Customer {
         this.city = city;
     }
 
+    public Customer( String firstName, String lastName, LocalDate birthday, City city) {
+       this(0L, firstName, lastName, birthday, city);
+    }
+
     /**
      * TODO
      * @return

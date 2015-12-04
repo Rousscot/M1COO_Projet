@@ -1,7 +1,7 @@
 package domaine.destination;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * I am a class that describe a Hotel.
@@ -10,9 +10,9 @@ import java.util.Set;
  */
 public class Hotel {
 
-    protected Set<Category> categories;
+    protected List<Category> categories;
 
     public Hotel(){
-        this.categories = new HashSet<>();
+        this.categories = new ArrayList<>();
     }
 }

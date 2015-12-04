@@ -53,27 +53,27 @@ public class City {
 
 
     public Integer numberOfHotels(){
-        return hotels.size();
+        return getHotels().size();
     }
 
     public Hotel hotelAt(Integer index){
-        return hotels.get(index);
+        return getHotels().get(index);
     }
 
     public void addHotel(Hotel hotel){
         //TODO Duplicated ?
-        hotels.add(hotel);
+        getHotels().add(hotel);
     }
 
     public void createAndAddHotel(String name, Integer resignationDays){
-        Hotel hotel = new Hotel(name, resignationDays);
+        Hotel hotel = new Hotel(name, resignationDays, this);
         //TODO Insert BDD
         addHotel(hotel);
     }
 
     public void deleteHotel(Hotel hotel){
         //TODO not here ?
-        hotels.remove(hotel);
+        getHotels().remove(hotel);
         hotel.delete();
         //TODO BDD Delete ?
     }

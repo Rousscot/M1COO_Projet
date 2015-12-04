@@ -16,11 +16,13 @@ public class Hotel {
     protected String name;
     protected Long id;
     protected Integer resignationDays;
+    protected City city;
 
-    public Hotel(String name, Integer resignationDays){
+    public Hotel(String name, Integer resignationDays, City city){
         this.categories = new ArrayList<>();
         this.resignationDays = resignationDays;
         this.name = name;
+        this.city = city;
         id = 0L;
     }
 
@@ -61,6 +63,13 @@ public class Hotel {
         this.resignationDays = resignationDays;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
 
     public Integer numberOfCategories(){
@@ -77,7 +86,7 @@ public class Hotel {
     }
 
     public void createAndAddCategory(String designation, Integer capacity, Integer price){
-        Category category = new Category(designation, capacity, price);
+        Category category = new Category(designation, capacity, price, this);
         //TODO BDD, insert
         addCategory(category);
     }

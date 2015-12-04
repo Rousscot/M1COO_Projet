@@ -9,11 +9,12 @@ public class Room {
 
 
     protected Boolean isBusy;
-
     protected Long id;
+    protected Category category;
 
-    public Room(){
+    public Room(Category category){
         isBusy = false;
+        this.category = category;
         id = 0L;
     }
 

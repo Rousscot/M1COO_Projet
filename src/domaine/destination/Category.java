@@ -15,12 +15,14 @@ public class Category {
     protected Integer capacity;
     protected Integer price;
     protected Long id;
+    protected Hotel hotel;
 
-    public Category(String designation, Integer capacity, Integer price){
+    public Category(String designation, Integer capacity, Integer price, Hotel hotel){
         this.rooms = new ArrayList<>();
         this.capacity = capacity;
         this.price = price;
         this.designation = designation;
+        this.hotel = hotel;
         id = 0L;
     }
 
@@ -69,6 +71,14 @@ public class Category {
         this.price = price;
     }
 
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
 
 
     public Integer numberOfRooms(){
@@ -85,7 +95,7 @@ public class Category {
     }
 
     public void createAndAddRoom(){
-        Room room = new Room();
+        Room room = new Room(this);
         // TODO Insert BDD
         addRoom(room);
     }

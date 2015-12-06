@@ -10,7 +10,7 @@ import java.time.Period;
  *
  * @author Cyril Ferlicot and Aurelien Rousseau
  */
-public class Customer {
+public class Customer implements DAOSerializable {
 
     protected Long id;
 
@@ -46,43 +46,43 @@ public class Customer {
     //GETTERS AND SETTERS FOR DAO.
 
 
-    public Long id() {
+    public Long getId() {
         return id;
     }
 
-    public void id(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String firstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void firstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String lastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void lastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public LocalDate birthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void birthday(LocalDate birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
-    public City city() {
+    public City getCity() {
         return city;
     }
 
-    public void city(City city) {
+    public void setCity(City city) {
         this.city = city;
     }
 }

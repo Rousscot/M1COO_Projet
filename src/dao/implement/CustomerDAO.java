@@ -1,10 +1,7 @@
 package dao.implement;
 
 import dao.DAO;
-import dao.exception.delete.CustomerDeleteException;
-import dao.exception.find.CustomerNotFoundException;
-import dao.exception.insert.CannotInsertCustomerException;
-import dao.exception.update.CustomerUpdateFailedException;
+import dao.exception.DAOException;
 import domaine.Customer;
 import domaine.destination.City;
 
@@ -23,7 +20,7 @@ public class CustomerDAO extends DAO<Customer> {
     }
 
     @Override
-    public Customer create(Customer customer) throws CannotInsertCustomerException {
+    public Customer create(Customer customer) throws DAOException {
         String idRequest = "SELECT NEXTVAL('customer_id_seq') AS id";
         try {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
@@ -32,48 +29,48 @@ public class CustomerDAO extends DAO<Customer> {
                 String insertRequest = "INSERT INTO \"Customer\" (cust_id, first_name, last_name, birthday , city) VALUES(?, ?, ?, ?, ?)";
                 PreparedStatement prepare = this.connection.prepareStatement(insertRequest);
                 prepare.setLong(1, id);
-                prepare.setString(2, customer.firstName());
-                prepare.setString(3, customer.lastName());
-                prepare.setDate(4, Date.valueOf(customer.birthday()));
-                prepare.setString(5, customer.city().toString()); //TODO switch to city latter.
+                prepare.setString(2, customer.getFirstName());
+                prepare.setString(3, customer.getLastName());
+                prepare.setDate(4, Date.valueOf(customer.getBirthday()));
+                prepare.setString(5, customer.getCity().toString()); //TODO switch to city latter.
                 prepare.executeUpdate();
                 customer = this.find(id);
             }
         } catch (SQLException e) {
-            throw new CannotInsertCustomerException(customer);
+            throw new DAOException(customer);
         }
         return customer;
     }
 
     @Override
-    public void delete(Customer customer) throws CustomerDeleteException {
-        String request = "DELETE FROM \"Customer\" WHERE cust_id = " + customer.id();
+    public void delete(Customer customer) throws DAOException {
+        String request = "DELETE FROM \"Customer\" WHERE cust_id = " + customer.getId();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
         } catch (SQLException e) {
-            throw new CustomerDeleteException(customer);
+            throw new DAOException(customer);
         }
 
     }
 
     @Override
-    public Customer update(Customer customer) throws CustomerUpdateFailedException {
-        String request = "UPDATE \"Customer\" SET first_name = '" + customer.firstName() + "'," +
-                " last_name = '" + customer.lastName() + "'," +
-                " birthday = '" + Date.valueOf(customer.birthday()) + "'," +
-                " city = '" + customer.city().toString() + "'" + //TODO Use real city!
-                " WHERE cust_id = " + customer.id();
+    public Customer update(Customer customer) throws DAOException {
+        String request = "UPDATE \"Customer\" SET first_name = '" + customer.getFirstName() + "'," +
+                " last_name = '" + customer.getLastName() + "'," +
+                " birthday = '" + Date.valueOf(customer.getBirthday()) + "'," +
+                " city = '" + customer.getCity().toString() + "'" + //TODO Use real city!
+                " WHERE cust_id = " + customer.getId();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
-            customer = this.find(customer.id());
+            customer = this.find(customer.getId());
         } catch (SQLException e) {
-            throw new CustomerUpdateFailedException(customer);
+            throw new DAOException(customer);
         }
         return customer;
     }
 
     @Override
-    public Customer find(Long id) throws CustomerNotFoundException {
+    public Customer find(Long id) throws DAOException {
         String request = "SELECT * FROM \"Customer\" WHERE cust_id = " + id;
         try {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
@@ -83,6 +80,6 @@ public class CustomerDAO extends DAO<Customer> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new CustomerNotFoundException(id);
+        throw new DAOException(id);
     }
 }

@@ -1,5 +1,7 @@
 package domaine.destination;
 
+import dao.implement.RoomDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class Category {
     protected Integer price;
     protected Long id;
     protected Hotel hotel;
+    protected RoomDAO dao;
 
     public Category(String designation, Integer capacity, Integer price, Hotel hotel){
         this.rooms = new ArrayList<>();
@@ -23,6 +26,7 @@ public class Category {
         this.price = price;
         this.designation = designation;
         this.hotel = hotel;
+        dao = new RoomDAO();
         id = 0L;
     }
 

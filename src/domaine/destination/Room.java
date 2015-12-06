@@ -1,11 +1,13 @@
 package domaine.destination;
 
+import domaine.DAOSerializable;
+
 /**
  * I am a class that describe a room of a Hotel.
  *
  * @author Cyril Ferlicot and Aurelien Rousseau
  */
-public class Room {
+public class Room implements DAOSerializable {
 
 
     protected Boolean isBusy;
@@ -13,9 +15,13 @@ public class Room {
     protected Category category;
 
     public Room(Category category){
+       this(0L, category);
+    }
+
+    public Room(Long id, Category category){
         isBusy = false;
         this.category = category;
-        id = 0L;
+        this.id = id;
     }
 
     @Override
@@ -37,5 +43,17 @@ public class Room {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Long getCategoryId(){
+        return this.getCategory().getId();
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

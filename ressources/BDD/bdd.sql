@@ -31,11 +31,11 @@ NO MAXVALUE
 CACHE 1;
 
 CREATE TABLE CUSTOMER (
-  id_cutomer    INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('customer_id_seq' :: REGCLASS),
-  first_name CHARACTER VARYING(64) NOT NULL,
-  last_name  CHARACTER VARYING(64) NOT NULL,
-  birthday   DATE                  NOT NULL,
-  city       CHARACTER VARYING(64) NOT NULL
+  id_customer INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('customer_id_seq' :: REGCLASS),
+  first_name  CHARACTER VARYING(64) NOT NULL,
+  last_name   CHARACTER VARYING(64) NOT NULL,
+  birthday    DATE                  NOT NULL,
+  city        CHARACTER VARYING(64) NOT NULL
 );
 
 ALTER SEQUENCE customer_id_seq OWNED BY CUSTOMER.id_customer;
@@ -50,8 +50,8 @@ NO MAXVALUE
 CACHE 1;
 
 CREATE TABLE CITY (
-  id_city   INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('city_id_seq' :: REGCLASS),
-  name CHARACTER VARYING(64) NOT NULL
+  id_city INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('city_id_seq' :: REGCLASS),
+  name    CHARACTER VARYING(64) NOT NULL
 );
 
 ALTER SEQUENCE city_id_seq OWNED BY CITY.id_city;
@@ -66,10 +66,10 @@ NO MAXVALUE
 CACHE 1;
 
 CREATE TABLE HOTEL (
-  id_hotel   INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('hotel_id_seq' :: REGCLASS),
-  name CHARACTER VARYING(64) NOT NULL,
-  resignationDays INTEGER NOT NULL,
-  id_city  INTEGER REFERENCES CITY(id_city)
+  id_hotel        INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('hotel_id_seq' :: REGCLASS),
+  name            CHARACTER VARYING(64) NOT NULL,
+  resignationDays INTEGER               NOT NULL,
+  id_city         INTEGER REFERENCES CITY (id_city)
 );
 
 ALTER SEQUENCE hotel_id_seq OWNED BY HOTEL.id_hotel;
@@ -84,11 +84,11 @@ NO MAXVALUE
 CACHE 1;
 
 CREATE TABLE CATEGORY (
-  id_category   INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('category_id_seq' :: REGCLASS),
-  name CHARACTER VARYING(64) NOT NULL,
-  capacity INTEGER NOT NULL,
-  price INTEGER NOT NULL,
-  id_hotel  INTEGER REFERENCES HOTEL(id_hotel)
+  id_category INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('category_id_seq' :: REGCLASS),
+  name        CHARACTER VARYING(64) NOT NULL,
+  capacity    INTEGER               NOT NULL,
+  price       INTEGER               NOT NULL,
+  id_hotel    INTEGER REFERENCES HOTEL (id_hotel)
 );
 
 ALTER SEQUENCE category_id_seq OWNED BY CATEGORY.id_category;
@@ -103,9 +103,9 @@ NO MAXVALUE
 CACHE 1;
 
 CREATE TABLE ROOM (
-  id_room  INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('room_id_seq' :: REGCLASS),
-  isBusy BOOLEAN NOT NULL,
-  id_category INTEGER REFERENCES CATEGORY(id_category)
+  id_room     INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('room_id_seq' :: REGCLASS),
+  isBusy      BOOLEAN               NOT NULL,
+  id_category INTEGER REFERENCES CATEGORY (id_category)
 );
 
 ALTER SEQUENCE room_id_seq OWNED BY ROOM.id_room;

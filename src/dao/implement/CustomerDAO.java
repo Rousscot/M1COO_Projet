@@ -61,11 +61,10 @@ public class CustomerDAO extends DAO<Customer> {
                 " WHERE id_customer = " + customer.getId();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
-            customer = this.find(customer.getId());
+            return this.find(customer.getId());
         } catch (SQLException e) {
             throw new DAOException(customer);
         }
-        return customer;
     }
 
     @Override

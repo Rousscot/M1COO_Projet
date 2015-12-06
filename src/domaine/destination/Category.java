@@ -2,18 +2,22 @@ package domaine.destination;
 
 import dao.exception.DAOException;
 import dao.implement.RoomDAO;
+import domaine.DAOSerializable;
 import domaine.exception.DuplicatedRoomException;
 import domaine.exception.RoomNotFoundException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * I am a class that describe a Category.
  *
+ * If you extend me, be careful if you add some rooms with the constructor because I do not check if all rooms are created on the DAO.
+ *
  * @author Cyril Ferlicot and Aurelien Rousseau
  */
-public class Category {
+public class Category implements DAOSerializable {
 
     protected List<Room> rooms;
     protected String designation;
@@ -24,13 +28,17 @@ public class Category {
     protected RoomDAO dao;
 
     public Category(String designation, Integer capacity, Integer price, Hotel hotel) {
-        this.rooms = new ArrayList<>();
+        this(0L, designation, capacity, price, hotel);
+    }
+
+
+    public Category(Long id, String designation, Integer capacity, Integer price, Hotel hotel) {
         this.capacity = capacity;
         this.price = price;
         this.designation = designation;
         this.hotel = hotel;
+        this.id = id;
         dao = new RoomDAO();
-        id = 0L;
     }
 
     @Override
@@ -39,6 +47,15 @@ public class Category {
     }
 
     public List<Room> getRooms() {
+        if(rooms == null){
+            try {
+                rooms = dao.allRoomsForId(getId());
+            } catch (SQLException e) {
+                //It would be problematic to throw an exception here… Try again at the next get.
+                e.printStackTrace();
+                return new ArrayList<>();
+            }
+        }
         return rooms;
     }
 
@@ -88,18 +105,18 @@ public class Category {
 
 
     public Integer numberOfRooms() {
-        return rooms.size();
+        return getRooms().size();
     }
 
     public Room roomAt(Integer index) {
-        return rooms.get(index);
+        return getRooms().get(index);
     }
 
     public void addRoom(Room room) throws DuplicatedRoomException {
-        if(rooms.contains(room)){
+        if(getRooms().contains(room)){
             throw new DuplicatedRoomException(room);
         }
-        rooms.add(room);
+        getRooms().add(room);
     }
 
     public void createAndAddRoom() throws DAOException, DuplicatedRoomException {
@@ -108,15 +125,26 @@ public class Category {
     }
 
     public void deleteRoom(Room room) throws RoomNotFoundException, DAOException {
-       if(!rooms.contains(room)){
+       if(!getRooms().contains(room)){
            throw new RoomNotFoundException(room);
        }
         dao.delete(room);
-        rooms.remove(room);
+        getRooms().remove(room);
     }
 
     public void delete() {
+        // TODO Utile ?
         rooms = null;
+    }
+
+    public long getHotelId() {
+        return this.getHotel().getId();
+    }
+
+    public void deleteAllRooms() throws DAOException, RoomNotFoundException {
+        for(Room room : getRooms()) {
+            deleteRoom(room);
+        }
     }
 }
 

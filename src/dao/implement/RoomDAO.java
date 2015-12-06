@@ -2,12 +2,13 @@ package dao.implement;
 
 import dao.DAO;
 import dao.exception.DAOException;
-import domaine.destination.Category;
 import domaine.destination.Room;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by JeCisC on 06/12/2015.
@@ -52,11 +53,10 @@ public class RoomDAO extends DAO<Room> {
                 " WHERE id_room = " + room.getId();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
-            room = this.find(room.getId());
+            return this.find(room.getId());
         } catch (SQLException e) {
             throw new DAOException(room);
         }
-        return room;
     }
 
     @Override
@@ -65,7 +65,8 @@ public class RoomDAO extends DAO<Room> {
         try {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
-                Room room = new Room(id, new Category(null, null, null, null) /*TODO Finish this :°*/);
+                //TODO Check that we do not have a loop.
+                Room room = new Room(id, (new CategoryDAO()).find(result.getLong("id_category")));
                 room.setBusy(result.getBoolean("isBusy"));
                 return room;
             }
@@ -73,5 +74,15 @@ public class RoomDAO extends DAO<Room> {
             e.printStackTrace();
         }
         throw new DAOException(id);
+    }
+
+    public List<Room> allRoomsForId(Long id) throws SQLException {
+        List<Room> rooms = new ArrayList<>();
+        String request = "SELECT id_room FROM room WHERE id_category = " + id;
+            ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
+        while (result.next()) {
+                rooms.add(find(result.getLong("id_room")));
+        }
+        return rooms;
     }
 }

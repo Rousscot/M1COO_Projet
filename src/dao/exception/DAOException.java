@@ -2,12 +2,12 @@ package dao.exception;
 
 import domaine.DAOSerializable;
 
-import java.util.LongSummaryStatistics;
+import java.sql.SQLException;
 
 /**
  * TODO
  */
-public class DAOException extends Exception {
+public class DAOException extends SQLException {
     protected Long id;
 
     public DAOException(Long id){

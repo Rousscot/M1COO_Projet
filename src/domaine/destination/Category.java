@@ -1,6 +1,9 @@
 package domaine.destination;
 
+import dao.exception.DAOException;
 import dao.implement.RoomDAO;
+import domaine.exception.DuplicatedRoomException;
+import domaine.exception.RoomNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ public class Category {
     protected Hotel hotel;
     protected RoomDAO dao;
 
-    public Category(String designation, Integer capacity, Integer price, Hotel hotel){
+    public Category(String designation, Integer capacity, Integer price, Hotel hotel) {
         this.rooms = new ArrayList<>();
         this.capacity = capacity;
         this.price = price;
@@ -32,7 +35,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Categorie " + designation + "(capacité: "+ capacity + ", prix: " + price + ")";
+        return "Categorie " + designation + "(capacité: " + capacity + ", prix: " + price + ")";
     }
 
     public List<Room> getRooms() {
@@ -84,33 +87,35 @@ public class Category {
     }
 
 
-
-    public Integer numberOfRooms(){
+    public Integer numberOfRooms() {
         return rooms.size();
     }
 
-    public Room roomAt(Integer index){
+    public Room roomAt(Integer index) {
         return rooms.get(index);
     }
 
-    public void addRoom(Room room){
-        //TODO Duplicated ?
+    public void addRoom(Room room) throws DuplicatedRoomException {
+        if(rooms.contains(room)){
+            throw new DuplicatedRoomException(room);
+        }
         rooms.add(room);
     }
 
-    public void createAndAddRoom(){
-        Room room = new Room(this);
-        // TODO Insert BDD
-        addRoom(room);
+    public void createAndAddRoom() throws DAOException, DuplicatedRoomException {
+        //TODO check if when we get a Duplicated exception this add the room to the database. If yes, throw the exception before we add it.
+        addRoom(dao.create(new Room(this)));
     }
 
-    public void deleteRoom(Room room){
-        //TODO not here ?
+    public void deleteRoom(Room room) throws RoomNotFoundException, DAOException {
+       if(!rooms.contains(room)){
+           throw new RoomNotFoundException(room);
+       }
+        dao.delete(room);
         rooms.remove(room);
-        //TODO BDD Delete ?
     }
 
-    public void delete(){
+    public void delete() {
         rooms = null;
     }
 }

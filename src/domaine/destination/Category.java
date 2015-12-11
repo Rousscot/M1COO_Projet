@@ -46,7 +46,7 @@ public class Category implements DAOSerializable {
         return "Categorie " + designation + "(capacité: " + capacity + ", prix: " + price + ")";
     }
 
-    public List<Room> getRooms() throws SQLException {
+    public List<Room> getRooms() throws DAOException {
         if(rooms == null){
                 rooms = dao.allRoomsForId(getId());
         }
@@ -106,7 +106,7 @@ public class Category implements DAOSerializable {
         return getRooms().get(index);
     }
 
-    public void addRoom(Room room) throws DuplicatedRoomException, SQLException {
+    public void addRoom(Room room) throws DuplicatedRoomException, DAOException {
         if(getRooms().contains(room)){
             throw new DuplicatedRoomException(room);
         }
@@ -118,17 +118,12 @@ public class Category implements DAOSerializable {
         addRoom(dao.create(new Room(this)));
     }
 
-    public void deleteRoom(Room room) throws RoomNotFoundException, SQLException {
+    public void deleteRoom(Room room) throws RoomNotFoundException, DAOException {
        if(!getRooms().contains(room)){
            throw new RoomNotFoundException(room);
        }
         dao.delete(room);
         getRooms().remove(room);
-    }
-
-    public void delete() {
-        // TODO Utile ?
-        rooms = null;
     }
 
     public long getHotelId() {

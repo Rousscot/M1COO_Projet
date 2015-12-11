@@ -8,6 +8,8 @@ import domaine.exception.RoomNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by JeCisC on 06/12/2015.
@@ -56,7 +58,7 @@ public class CategoryDAO extends DAO<Category> {
     public Category update(Category category) throws DAOException {
         // I do not check if the rooms need update because this should be handle by the Room object.
         String request = "UPDATE category SET name = '" + category.getDesignation() + "'," +
-                " category. = '" + category.getCapacity() + "'," +
+                " capacity = '" + category.getCapacity() + "'," +
                 " price = '" +category.getPrice() + "'," +
                 " id_hotel = '" + category.getHotelId() + "'" +
                 " WHERE id_category = " + category.getId();
@@ -75,11 +77,15 @@ public class CategoryDAO extends DAO<Category> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
                 // We do not get the rooms, I am lazy.
-                return new Category(id, result.getString("name"), result.getInt("capacity"), result.getInt("price"), null ); //TODO replace by the real Hotel latter :)
+                return new Category(id, result.getString("name"), result.getInt("capacity"), result.getInt("price"), (new HotelDAO()).find(result.getLong("id_hotel")) );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         throw new DAOException(id);
+    }
+
+    public List<Category> allCategoriesForId(Long id) throws DAOException {
+        return listOfAllObject("id_category",  "category", "id_hotel", id);
     }
 }

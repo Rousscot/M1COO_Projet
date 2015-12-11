@@ -10,6 +10,10 @@ import java.sql.SQLException;
 public class DAOException extends SQLException {
     protected Long id;
 
+    //TODO : See if we keep this one.
+    public DAOException(){
+    }
+
     public DAOException(Long id){
         this.id = id;
     }

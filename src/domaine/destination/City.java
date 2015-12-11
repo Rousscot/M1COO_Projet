@@ -74,7 +74,6 @@ public class City {
     public void deleteHotel(Hotel hotel){
         //TODO not here ?
         getHotels().remove(hotel);
-        hotel.delete();
         //TODO BDD Delete ?
     }
 }

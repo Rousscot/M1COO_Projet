@@ -28,7 +28,7 @@ public class RoomNotFoundException extends Exception {
      *
      * @return the room of the object that the DAO wanted to find.
      */
-    public Room entry() {
+    public Room getRoom() {
         return room;
     }
 

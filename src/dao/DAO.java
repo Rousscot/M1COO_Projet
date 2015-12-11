@@ -3,11 +3,16 @@ package dao;
 import dao.exception.DAOException;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * I am an Abstract class to define an implementation of a DAO class.
  * I describe how an Object interact with the Database.
- *
+ * <p>
  * I use a ConnectionBdd to act.
  *
  * @param <T> I am the class that the DAO need to manage.
@@ -62,5 +67,23 @@ public abstract class DAO<T> {
      * @throws DAOException I am raise if the method cannot find the object.
      */
     public abstract T find(Long id) throws DAOException;
+
+    public List<T> listOfAllObject(String idFieldName, String tableName, String idContainerFieldName, Long id) throws DAOException {
+        //TODO Maybe include a retry with  a time out in case of SQLException
+        List<T> list = new ArrayList<>();
+        String request = "SELECT " + idFieldName + " FROM " + tableName + " WHERE " + idContainerFieldName + "  = ? ";
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(request);
+            statement.setLong(1, id);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                list.add(find(result.getLong(idFieldName)));
+            }
+        } catch (SQLException e) {
+            throw new DAOException();
+        }
+        return list;
+
+    }
 
 }

@@ -1,25 +1,37 @@
 package domaine.destination;
 
+import dao.exception.DAOException;
+import dao.implement.HotelDAO;
+import domaine.DAOSerializable;
+import domaine.exception.DuplicatedHotelException;
+import domaine.exception.HotelNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * I am a class that describe a city.
- *
+ * <p>
  * hotels: a collection of hotels that are in a city.
  *
  * @author Cyril Ferlicot and Aurelien Rousseau
  */
-public class City {
+public class City implements DAOSerializable {
 
     protected List<Hotel> hotels;
     protected String name;
     protected Long id;
+    protected HotelDAO dao;
 
-    public City(String name){
+    public City(String name) {
+        this(0L, name);
+    }
+
+    public City(Long id, String name) {
         this.name = name;
         hotels = new ArrayList<>();
-        id = 0L;
+        this.id = id;
+        dao = new HotelDAO();
     }
 
     @Override
@@ -52,28 +64,37 @@ public class City {
     }
 
 
-    public Integer numberOfHotels(){
+    public Integer numberOfHotels() {
         return getHotels().size();
     }
 
-    public Hotel hotelAt(Integer index){
+    public Hotel hotelAt(Integer index) {
         return getHotels().get(index);
     }
 
-    public void addHotel(Hotel hotel){
-        //TODO Duplicated ?
+    public void addHotel(Hotel hotel) throws DuplicatedHotelException {
+        if(getHotels().contains(hotel)){
+            throw new DuplicatedHotelException(hotel);
+        }
         getHotels().add(hotel);
     }
 
-    public void createAndAddHotel(String name, Integer resignationDays){
-        Hotel hotel = new Hotel(name, resignationDays, this);
-        //TODO Insert BDD
-        addHotel(hotel);
+    public void createAndAddHotel(String name, Integer resignationDays) throws DAOException, DuplicatedHotelException {
+        //TODO check if when we get a Duplicated exception this add the category to the database. If yes, throw the exception before we add it.
+        addHotel(dao.create(new Hotel(name, resignationDays, this)));
     }
 
-    public void deleteHotel(Hotel hotel){
-        //TODO not here ?
+    public void deleteHotel(Hotel hotel) throws DAOException, HotelNotFoundException {
+        if (!getHotels().contains(hotel)) {
+            throw new HotelNotFoundException(hotel);
+        }
+        dao.delete(hotel);
         getHotels().remove(hotel);
-        //TODO BDD Delete ?
+    }
+
+    public void deleteAllHotels() throws HotelNotFoundException, DAOException {
+        for (Hotel hotel : getHotels()) {
+            deleteHotel(hotel);
+        }
     }
 }

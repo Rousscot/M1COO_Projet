@@ -13,9 +13,16 @@ import java.sql.SQLException;
  * Created by ferlicotdelbe on 11/12/15.
  */
 public class HotelDAO extends DAO<Hotel> {
+
+    protected CityDAO dao;
+
+    public HotelDAO() {
+        super();
+        dao = new CityDAO();
+    }
+
     @Override
     public Hotel create(Hotel hotel) throws DAOException {
-
         // All categories should be created when we add them to the hotel. So no need to add them.
 
         String idRequest = "SELECT NEXTVAL('hotel_id_seq') AS id";
@@ -47,7 +54,6 @@ public class HotelDAO extends DAO<Hotel> {
         } catch (SQLException | CategoryNotFoundException e) {
             throw new DAOException(hotel);
         }
-
     }
 
     @Override
@@ -73,7 +79,7 @@ public class HotelDAO extends DAO<Hotel> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
                 // We do not get the categories, I am lazy.
-                return new Hotel(id, result.getString("name"), result.getInt("resignationDays"), null); //TODO replace by the real City latter :)
+                return new Hotel(id, result.getString("name"), result.getInt("resignationDays"), dao.find(result.getLong("id_city")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

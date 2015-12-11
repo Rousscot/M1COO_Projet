@@ -7,13 +7,20 @@ import domaine.destination.Room;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by JeCisC on 06/12/2015.
  */
 public class RoomDAO extends DAO<Room> {
+
+    protected CategoryDAO dao;
+
+    public RoomDAO() {
+        super();
+        dao = new CategoryDAO();
+    }
+
 
     @Override
     public Room create(Room room) throws DAOException {
@@ -49,7 +56,7 @@ public class RoomDAO extends DAO<Room> {
     @Override
     public Room update(Room room) throws DAOException {
         String request = "UPDATE room SET isbusy = '" + room.isBusy() + "'," +
-                " id_category = '" + room.getCategoryId()+ "'" +
+                " id_category = '" + room.getCategoryId() + "'" +
                 " WHERE id_room = " + room.getId();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
@@ -66,7 +73,7 @@ public class RoomDAO extends DAO<Room> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
                 //TODO Check that we do not have a loop.
-                Room room = new Room(id, (new CategoryDAO()).find(result.getLong("id_category")));
+                Room room = new Room(id, dao.find(result.getLong("id_category")));
                 room.setBusy(result.getBoolean("isBusy"));
                 return room;
             }
@@ -77,6 +84,6 @@ public class RoomDAO extends DAO<Room> {
     }
 
     public List<Room> allRoomsForId(Long id) throws DAOException {
-        return listOfAllObject("id_room",  "room", "id_category", id);
+        return listOfAllObject("id_room", "room", "id_category", id);
     }
 }

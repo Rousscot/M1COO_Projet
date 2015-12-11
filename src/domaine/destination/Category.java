@@ -46,15 +46,9 @@ public class Category implements DAOSerializable {
         return "Categorie " + designation + "(capacité: " + capacity + ", prix: " + price + ")";
     }
 
-    public List<Room> getRooms() {
+    public List<Room> getRooms() throws SQLException {
         if(rooms == null){
-            try {
                 rooms = dao.allRoomsForId(getId());
-            } catch (SQLException e) {
-                //It would be problematic to throw an exception here… Try again at the next get.
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
         }
         return rooms;
     }
@@ -104,27 +98,27 @@ public class Category implements DAOSerializable {
     }
 
 
-    public Integer numberOfRooms() {
+    public Integer numberOfRooms() throws SQLException {
         return getRooms().size();
     }
 
-    public Room roomAt(Integer index) {
+    public Room roomAt(Integer index) throws SQLException {
         return getRooms().get(index);
     }
 
-    public void addRoom(Room room) throws DuplicatedRoomException {
+    public void addRoom(Room room) throws DuplicatedRoomException, SQLException {
         if(getRooms().contains(room)){
             throw new DuplicatedRoomException(room);
         }
         getRooms().add(room);
     }
 
-    public void createAndAddRoom() throws DAOException, DuplicatedRoomException {
+    public void createAndAddRoom() throws SQLException, DuplicatedRoomException {
         //TODO check if when we get a Duplicated exception this add the room to the database. If yes, throw the exception before we add it.
         addRoom(dao.create(new Room(this)));
     }
 
-    public void deleteRoom(Room room) throws RoomNotFoundException, DAOException {
+    public void deleteRoom(Room room) throws RoomNotFoundException, SQLException {
        if(!getRooms().contains(room)){
            throw new RoomNotFoundException(room);
        }
@@ -141,7 +135,7 @@ public class Category implements DAOSerializable {
         return this.getHotel().getId();
     }
 
-    public void deleteAllRooms() throws DAOException, RoomNotFoundException {
+    public void deleteAllRooms() throws SQLException, RoomNotFoundException {
         for(Room room : getRooms()) {
             deleteRoom(room);
         }

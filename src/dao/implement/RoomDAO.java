@@ -77,6 +77,7 @@ public class RoomDAO extends DAO<Room> {
     }
 
     public List<Room> allRoomsForId(Long id) throws SQLException {
+        //TODO Maybe include a retry with  a time out in case of SQLException
         List<Room> rooms = new ArrayList<>();
         String request = "SELECT id_room FROM room WHERE id_category = " + id;
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);

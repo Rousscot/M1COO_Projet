@@ -1,22 +1,11 @@
-import dao.ConnectionBdd;
-import dao.DAO;
-import dao.implement.CustomerDAO;
-import domaine.Customer;
-import domaine.destination.City;
-import gui.MainInteractions;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.SQLException;
-import java.time.LocalDate;
 
 /**
  * Todo
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-
+/*
         Customer cust = new Customer(null, "foo", "bar", LocalDate.of(1993, 8, 20), new City("Galifrey"));
         try {
             DAO<Customer> custDAO = new CustomerDAO();
@@ -37,6 +26,6 @@ public class Main {
         MainInteractions interaction = (new MainInteractions(br));
         while (true) {
             interaction.interact();
-        }
+        }*/
     }
 }

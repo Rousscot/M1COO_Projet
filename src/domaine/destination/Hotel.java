@@ -87,12 +87,12 @@ public class Hotel implements DAOSerializable {
     }
 
 
-    public Integer numberOfCategories(){
-        return categories.size();
+    public Integer numberOfCategories() throws DAOException {
+        return getCategories().size();
     }
 
-    public Category categoryAt(Integer index){
-        return categories.get(index);
+    public Category categoryAt(Integer index) throws DAOException {
+        return getCategories().get(index);
     }
 
     public void addCategory(Category category) throws DuplicatedCategoryException, DAOException {

@@ -47,7 +47,10 @@ public class City implements DAOSerializable {
         this.id = id;
     }
 
-    public List<Hotel> getHotels() {
+    public List<Hotel> getHotels() throws DAOException {
+        if(hotels == null){
+            hotels = dao.allHotelsForId(getId());
+        }
         return hotels;
     }
 
@@ -64,15 +67,15 @@ public class City implements DAOSerializable {
     }
 
 
-    public Integer numberOfHotels() {
+    public Integer numberOfHotels() throws DAOException {
         return getHotels().size();
     }
 
-    public Hotel hotelAt(Integer index) {
+    public Hotel hotelAt(Integer index) throws DAOException {
         return getHotels().get(index);
     }
 
-    public void addHotel(Hotel hotel) throws DuplicatedHotelException {
+    public void addHotel(Hotel hotel) throws DuplicatedHotelException, DAOException {
         if(getHotels().contains(hotel)){
             throw new DuplicatedHotelException(hotel);
         }

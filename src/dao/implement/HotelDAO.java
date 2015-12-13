@@ -8,6 +8,7 @@ import domaine.exception.CategoryNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by ferlicotdelbe on 11/12/15.
@@ -85,5 +86,9 @@ public class HotelDAO extends DAO<Hotel> {
             e.printStackTrace();
         }
         throw new DAOException(id);
+    }
+
+    public List<Hotel> allHotelsForId(Long id) throws DAOException {
+        return listOfAllObject("id_hotel", "hotel", "id_city", id);
     }
 }

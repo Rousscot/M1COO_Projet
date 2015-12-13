@@ -1,9 +1,11 @@
 package factory;
 
+import dao.exception.DAOException;
 import domaine.Customer;
 import domaine.Fly;
 import domaine.destination.City;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,11 +17,19 @@ import java.util.List;
  */
 public class Agency {
 
-    protected Planning planning;
+    //protected Planning planning;
     protected List<Customer> customers;
     protected List<City> cities;
     protected List<Fly> flies;
-    protected List<Booking> bookings;
+    //protected List<Booking> bookings;
+
+    public List<City> getCities() throws DAOException {
+        //TODO map DAO
+        if(cities == null){
+            cities = null; throw new DAOException(); //TODO remove this null And use dao.allCities();
+        }
+        return cities;
+    }
 
     public void addCustomer(Customer customer){
         customers.add(customer);
@@ -37,4 +47,11 @@ public class Agency {
     }
 
 
+    public City cityAt(int index) throws DAOException {
+        return getCities().get(index);
+    }
+
+    public int numberOfCities() throws DAOException {
+        return getCities().size();
+    }
 }

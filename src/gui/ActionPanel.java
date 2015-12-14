@@ -1,6 +1,7 @@
 package gui;
 
-import domaine.destination.City;
+import gui.userActions.EmployeeActions;
+import gui.userActions.ManagerActions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,29 +13,49 @@ import java.awt.event.ItemListener;
  */
 public class ActionPanel extends JPanel implements ItemListener {
 
-    protected JComboBox userManager;
+    protected JComboBox<JList> userManager;
 
     protected JList actions;
 
-    public ActionPanel(){
+    public ActionPanel() {
         setLayout(new BorderLayout());
         initializeComboBox();
+        initializeActionList();
+    }
+
+    public void initializeActionList() {
+        // I don't have the time to remove this cast.
+        JList list = (JList) userManager.getSelectedItem();
+        if(list != null){
+            actions = list;
+            add(actions, BorderLayout.CENTER);
+        }
+
     }
 
     public void initializeComboBox() {
-        userManager = new JComboBox();
+        userManager = new JComboBox<>();
         initUserManagerContent();
-        userManager.setSelectedIndex(1);
+        userManager.setSelectedIndex(0);
         userManager.addItemListener(this);
         add(userManager, BorderLayout.NORTH);
     }
 
     public void initUserManagerContent() {
-        //TODO
+        userManager.addItem(new ManagerActions());
+        userManager.addItem(new EmployeeActions());
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        //TODO
+        // I don't have the time to remove this cast.
+        if (actions != null) {
+            remove(actions);
+        }
+        actions = (JList) e.getItem();
+        add(actions, BorderLayout.CENTER);
+        actions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        revalidate();
+        repaint();
     }
 }

@@ -1,23 +1,24 @@
 package gui.userActions;
 
+import gui.actionPanels.DestinationManagementPanel;
+
 import javax.swing.*;
 
 /**
  * Created by JeCisC on 14/12/2015.
  */
-public class ManagerActions extends JList{
+public class ManagerActions extends JList<JPanel>{
 
-    protected DefaultListModel model;
+    protected DefaultListModel<JPanel> model;
 
     public ManagerActions(){
-        model = new DefaultListModel();
+        model = new DefaultListModel<>();
         setModel(model);
         initializeActions();
     }
 
     public void initializeActions() {
-        //TODO
-        model.addElement("MockAction");
+        model.addElement(new DestinationManagementPanel());
     }
 
     public String toString(){

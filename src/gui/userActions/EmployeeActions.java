@@ -5,19 +5,17 @@ import javax.swing.*;
 /**
  * Created by JeCisC on 14/12/2015.
  */
-public class EmployeeActions extends JList{
+public class EmployeeActions extends JList<JPanel>{
 
-    protected DefaultListModel model;
+    protected DefaultListModel<JPanel> model;
 
     public EmployeeActions(){
-        model = new DefaultListModel();
+        model = new DefaultListModel<>();
         setModel(model);
         initializeActions();
     }
 
     public void initializeActions() {
-        //TODO
-        model.addElement("MockAction");
     }
 
     public String toString(){

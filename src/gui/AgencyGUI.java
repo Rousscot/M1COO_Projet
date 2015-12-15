@@ -19,12 +19,11 @@ public class AgencyGUI extends JFrame {
     }
 
     public void initPanels() {
-        actionManager = new ActionPanel();
-        this.add(actionManager, BorderLayout.WEST);
+        mainPanel = new JPanel(); //I set it to a JPanel to be able to remove it without a NilCheck.
 
-        mainPanel = new JPanel(); //Change to something else later :)
-        add(mainPanel, BorderLayout.CENTER);
-    }
+        actionManager = new ActionPanel(this);
+        this.add(actionManager, BorderLayout.WEST);
+ }
 
     public void initFrame() {
         this.setTitle("Agency TP");
@@ -33,5 +32,13 @@ public class AgencyGUI extends JFrame {
         this.setLocation(200, 200);
         this.setMinimumSize(new Dimension(700,500));
         setLayout(new BorderLayout());
+    }
+
+    public void setMainPanelWith(JPanel panel){
+        remove(mainPanel);
+        mainPanel = panel;
+        add(mainPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 }

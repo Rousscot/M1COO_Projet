@@ -4,20 +4,25 @@ import gui.userActions.EmployeeActions;
 import gui.userActions.ManagerActions;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 /**
- * Created by JeCisC on 14/12/2015.
+ * //TODO
  */
-public class ActionPanel extends JPanel implements ItemListener {
+public class ActionPanel extends JPanel implements ItemListener, ListSelectionListener {
 
-    protected JComboBox<JList> userManager;
+    protected JComboBox<JList<JPanel>> userManager;
 
-    protected JList actions;
+    protected JList<JPanel> actions;
 
-    public ActionPanel() {
+    protected AgencyGUI owner;
+
+    public ActionPanel(AgencyGUI owner) {
+        this.owner = owner;
         setLayout(new BorderLayout());
         initializeComboBox();
         initializeActionList();
@@ -25,10 +30,9 @@ public class ActionPanel extends JPanel implements ItemListener {
 
     public void initializeActionList() {
         // I don't have the time to remove this cast.
-        JList list = (JList) userManager.getSelectedItem();
+        JList list = (JList<JPanel>) userManager.getSelectedItem();
         if(list != null){
-            actions = list;
-            add(actions, BorderLayout.CENTER);
+            setNewActionListWith(list);
         }
 
     }
@@ -48,14 +52,37 @@ public class ActionPanel extends JPanel implements ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        // I don't have the time to remove this cast.
-        if (actions != null) {
+        if(e.getStateChange() == ItemEvent.SELECTED)
+        {
             remove(actions);
+            // I don't have the time to remove this cast.
+            setNewActionListWith((JList<JPanel>) e.getItem());
         }
-        actions = (JList) e.getItem();
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if(e.getValueIsAdjusting()){
+            setMainPanelWith(actions.getSelectedValue());
+        }
+    }
+
+    public void setNewActionListWith(JList<JPanel> list) {
+        actions = list;
         add(actions, BorderLayout.CENTER);
         actions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        actions.setSelectedIndex(0);
+        actions.addListSelectionListener(this);
         revalidate();
         repaint();
+        setMainPanelWith(actions.getSelectedValue()); //The list should not be empty.
+    }
+
+    public void setMainPanelWith(JPanel panel) {
+        getOwner().setMainPanelWith(panel);
+    }
+
+    public AgencyGUI getOwner() {
+        return owner;
     }
 }

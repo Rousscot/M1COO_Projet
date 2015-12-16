@@ -9,9 +9,11 @@ import java.awt.*;
 /**
  * Created by JeCisC on 16/12/2015.
  */
-public class CityManagerPanel extends JPanel {
+public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
 
     protected JList jList; //TODO parameter
+    protected JPanel form;//TODO Use another Panel :(
+    protected StandardButtonsBar buttonsBar; //TODO
     protected Agency controller;
 
     public CityManagerPanel(Agency controller){
@@ -22,10 +24,12 @@ public class CityManagerPanel extends JPanel {
     }
 
     public void addPanels() {
-        this.setLayout(new BorderLayout());
-        add("North", jList);
-        //add("Center", entryForm);
-        //add("South", buttonsBar);
+        setLayout(new BorderLayout());
+        JScrollPane jScrollPane = new JScrollPane(jList);
+        jScrollPane.setPreferredSize(new Dimension(250, 250));
+        add("North", jScrollPane);
+        add("Center", form);
+        add("South", buttonsBar);
     }
 
     public void initJList() {
@@ -35,7 +39,20 @@ public class CityManagerPanel extends JPanel {
     }
 
     public void initComponents() {
-       initJList();
+        initJList();
+        form = new JPanel(); //TODO use real panel.
+        buttonsBar = new StandardButtonsBar(this); //TODO use real panel.
     }
 
+    @Override
+    public void createItem() {
+        //TODO
+        System.out.println("add");
+    }
+
+    @Override
+    public void deleteItem() {
+        //TODO
+        System.out.println("delete");
+    }
 }

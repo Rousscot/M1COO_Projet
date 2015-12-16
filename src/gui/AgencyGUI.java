@@ -1,5 +1,7 @@
 package gui;
 
+import factory.Agency;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,16 +14,16 @@ public class AgencyGUI extends JFrame {
 
     protected JPanel mainPanel;
 
-    public AgencyGUI() {
+    public AgencyGUI(Agency controller) {
         initFrame();
-        initPanels();
+        initPanels(controller);
         setVisible(true);
     }
 
-    public void initPanels() {
+    public void initPanels(Agency controller) {
         mainPanel = new JPanel(); //I set it to a JPanel to be able to remove it without a NilCheck.
 
-        actionManager = new ActionPanel(this);
+        actionManager = new ActionPanel(this, controller);
         this.add(actionManager, BorderLayout.WEST);
  }
 

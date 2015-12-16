@@ -1,5 +1,6 @@
 package gui;
 
+import factory.Agency;
 import gui.userActions.EmployeeActions;
 import gui.userActions.ManagerActions;
 
@@ -21,10 +22,10 @@ public class ActionPanel extends JPanel implements ItemListener, ListSelectionLi
 
     protected AgencyGUI owner;
 
-    public ActionPanel(AgencyGUI owner) {
+    public ActionPanel(AgencyGUI owner, Agency controller) {
         this.owner = owner;
         setLayout(new BorderLayout());
-        initializeComboBox();
+        initializeComboBox(controller);
         initializeActionList();
     }
 
@@ -37,16 +38,16 @@ public class ActionPanel extends JPanel implements ItemListener, ListSelectionLi
 
     }
 
-    public void initializeComboBox() {
+    public void initializeComboBox(Agency controller) {
         userManager = new JComboBox<>();
-        initUserManagerContent();
+        initUserManagerContent(controller);
         userManager.setSelectedIndex(0);
         userManager.addItemListener(this);
         add(userManager, BorderLayout.NORTH);
     }
 
-    public void initUserManagerContent() {
-        userManager.addItem(new ManagerActions());
+    public void initUserManagerContent(Agency controller) {
+        userManager.addItem(new ManagerActions(controller));
         userManager.addItem(new EmployeeActions());
     }
 

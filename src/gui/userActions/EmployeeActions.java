@@ -1,5 +1,7 @@
 package gui.userActions;
 
+import gui.actionPanels.JourneyManagementPanel;
+
 import javax.swing.*;
 
 /**
@@ -16,6 +18,7 @@ public class EmployeeActions extends JList<JPanel>{
     }
 
     public void initializeActions() {
+        model.addElement(new JourneyManagementPanel());
     }
 
     public String toString(){

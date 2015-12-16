@@ -1,5 +1,7 @@
 package gui.actionPanels;
 
+import factory.Agency;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,8 +10,24 @@ import java.awt.*;
  */
 public class DestinationManagementPanel extends JPanel {
 
-    public DestinationManagementPanel(){
-        setBackground(Color.black);
+    protected JPanel cityPanel;
+    protected JPanel hotelPanel;
+    protected JPanel categoryPanel;
+    protected JPanel roomPanel;
+
+    public DestinationManagementPanel(Agency controller){
+        initializePanel();
+        initializePanels(controller);
+    }
+
+    public void initializePanel() {
+        setLayout(new GridLayout(1, 4));
+    }
+
+    public void initializePanels(Agency controller) {
+        cityPanel = new CityManagerPanel(controller);
+        add(cityPanel);
+        //TODO
     }
 
     public String toString(){

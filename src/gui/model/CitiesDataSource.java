@@ -4,13 +4,14 @@ import domaine.destination.City;
 import domaine.destination.Hotel;
 import factory.Agency;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.AbstractList;
 
 /**
  * Created by JeCisC on 13/12/2015.
  */
-public class CitiesDataSource extends AbstractList<City> {
+public class CitiesDataSource extends AbstractListModel<City> {
 
     protected Agency agency;
 
@@ -19,7 +20,7 @@ public class CitiesDataSource extends AbstractList<City> {
     }
 
     @Override
-    public City get(int index) {
+    public City getElementAt(int index) {
         try {
             return agency.cityAt(index);
         } catch (SQLException e) {
@@ -29,7 +30,7 @@ public class CitiesDataSource extends AbstractList<City> {
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         try {
             return agency.numberOfCities();
         } catch (SQLException e) {

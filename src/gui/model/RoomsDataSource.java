@@ -3,13 +3,14 @@ package gui.model;
 import domaine.destination.Category;
 import domaine.destination.Room;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.AbstractList;
 
 /**
  * Created by JeCisC on 13/12/2015.
  */
-public class RoomsDataSource extends AbstractList<Room> {
+public class RoomsDataSource extends AbstractListModel<Room> {
 
     protected Category category;
 
@@ -18,7 +19,7 @@ public class RoomsDataSource extends AbstractList<Room> {
     }
 
     @Override
-    public Room get(int index) {
+    public Room getElementAt(int index) {
         try {
             return category.roomAt(index);
         } catch (SQLException e) {
@@ -28,7 +29,7 @@ public class RoomsDataSource extends AbstractList<Room> {
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         try {
             return category.numberOfRooms();
         } catch (SQLException e) {

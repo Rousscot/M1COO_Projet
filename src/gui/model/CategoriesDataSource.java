@@ -4,13 +4,14 @@ import domaine.destination.Category;
 import domaine.destination.Hotel;
 import domaine.destination.Room;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.AbstractList;
 
 /**
  * Created by JeCisC on 13/12/2015.
  */
-public class CategoriesDataSource extends AbstractList<Category> {
+public class CategoriesDataSource extends AbstractListModel<Category> {
 
     protected Hotel hotel;
 
@@ -19,7 +20,7 @@ public class CategoriesDataSource extends AbstractList<Category> {
     }
 
     @Override
-    public Category get(int index) {
+    public Category getElementAt(int index) {
         try {
             return hotel.categoryAt(index);
         } catch (SQLException e) {
@@ -29,7 +30,7 @@ public class CategoriesDataSource extends AbstractList<Category> {
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         try {
             return hotel.numberOfCategories();
         } catch (SQLException e) {

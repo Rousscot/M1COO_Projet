@@ -3,13 +3,14 @@ package gui.model;
 import domaine.destination.City;
 import domaine.destination.Hotel;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.AbstractList;
 
 /**
  * Created by JeCisC on 13/12/2015.
  */
-public class HotelsDataSource extends AbstractList<Hotel> {
+public class HotelsDataSource extends AbstractListModel<Hotel> {
 
     protected City city;
 
@@ -18,7 +19,7 @@ public class HotelsDataSource extends AbstractList<Hotel> {
     }
 
     @Override
-    public Hotel get(int index) {
+    public Hotel getElementAt(int index) {
         try {
             return city.hotelAt(index);
         } catch (SQLException e) {
@@ -28,7 +29,7 @@ public class HotelsDataSource extends AbstractList<Hotel> {
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         try {
             return city.numberOfHotels();
         } catch (SQLException e) {

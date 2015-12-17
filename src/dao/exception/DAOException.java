@@ -25,4 +25,12 @@ public class DAOException extends SQLException {
     public Long getId(){
         return id;
     }
+
+    public String toString(){
+        if(id == null){
+            return "";
+        } else {
+            return "Erreur sur id : " + getId().toString();
+        }
+    }
 }

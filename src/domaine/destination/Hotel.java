@@ -40,7 +40,7 @@ public class Hotel implements DAOSerializable {
 
     @Override
     public String toString() {
-        return "Hotel " + name;
+        return "Hotel " + name + " (" + resignationDays.toString() + " jour possible pour annulation)";
     }
 
     public List<Category> getCategories() throws DAOException {

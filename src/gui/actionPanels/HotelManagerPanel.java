@@ -2,10 +2,14 @@ package gui.actionPanels;
 
 import dao.exception.DAOException;
 import domaine.destination.City;
+import domaine.destination.Hotel;
 import domaine.exception.CityNotFoundException;
 import domaine.exception.DuplicatedCityException;
+import domaine.exception.DuplicatedHotelException;
+import domaine.exception.HotelNotFoundException;
 import factory.Agency;
 import gui.model.CitiesDataSource;
+import gui.model.HotelsDataSource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,17 +17,14 @@ import java.awt.*;
 /**
  * Created by JeCisC on 16/12/2015.
  */
-public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
+public class HotelManagerPanel extends JPanel implements StandardButtonsUsers {
 
-    protected JList<City> jList;
-    protected CityForm form;
+    protected JList<Hotel> jList;
+    protected HotelForm form;
     protected StandardButtonsBar buttonsBar;
-    protected Agency controller;
-    protected CitySelectionListener owner;
+    protected City controller;
 
-    public CityManagerPanel(Agency controller, CitySelectionListener owner) {
-        this.controller = controller;
-        this.owner = owner;
+    public HotelManagerPanel() {
         initComponents();
         addPanels();
     }
@@ -38,21 +39,16 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
     }
 
     public void initJList() {
-        jList = new JList<>(new CitiesDataSource(controller));
-        jList.addListSelectionListener(e -> citySelected());
+        jList = new JList<>(new HotelsDataSource(controller));
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         if(jList.getModel().getSize() > 0){
-           jList.setSelectedIndex(0);
+            jList.setSelectedIndex(0);
         }
-    }
-
-    public void citySelected() {
-        owner.citySelected(jList.getSelectedValue());
     }
 
     public void initComponents() {
         initJList();
-        form = new CityForm();
+        form = new HotelForm();
         buttonsBar = new StandardButtonsBar(this);
     }
 
@@ -60,11 +56,13 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
     public void createItem() {
         //TODO Check that the field is not empty
         try {
-            controller.createAndAddCity(cityName());
+            controller.createAndAddHotel(hotelName(), dayOfResignations());
         } catch (DAOException e) {
-            JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString() );
-        } catch (DuplicatedCityException e) {
-            JOptionPane.showMessageDialog(this, e.getCity().toString() + " existe déjà.");
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
+        } catch (DuplicatedHotelException e) {
+            JOptionPane.showMessageDialog(this, e.getHotel().toString() + " existe déjà.");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Le nombre de jours de reservation devrait être un nombre.");
         }
         cleanFields();
         refresh();
@@ -73,32 +71,41 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
     public void refresh() {
         jList.revalidate();
         jList.repaint();
-        jList.setModel(new CitiesDataSource(controller)); // I don't know why the repaint doesn't work :(
+        jList.setModel(new HotelsDataSource(controller)); // I don't know why the repaint doesn't work :(
 
     }
 
-    public String cityName() {
-        return form.cityName();
+    public String hotelName() {
+        return form.hotelName();
+    }
+
+    public Integer dayOfResignations() throws NumberFormatException{
+        return form.dayOfResignation();
     }
 
     @Override
     public void deleteItem() {
-        City city = jList.getSelectedValue();
-        if (city == null) {
+        Hotel hotel = jList.getSelectedValue();
+        if (hotel == null) {
             JOptionPane.showMessageDialog(this, "Pas de ville selectionnée.");
         } else {
             try {
-                controller.deleteCity(city);
+                controller.deleteHotel(hotel);
                 refresh();
             } catch ( DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
-            } catch (CityNotFoundException e) {
-                JOptionPane.showMessageDialog(this, e.getCity().toString() + " a déjà été supprimée.");
+            } catch (HotelNotFoundException e) {
+                JOptionPane.showMessageDialog(this, e.getHotel().toString() + " a déjà été supprimée.");
             }
         }
     }
 
     public void cleanFields() {
         form.clean();
+    }
+
+    public void setController(City controller){
+        this.controller = controller;
+        refresh();
     }
 }

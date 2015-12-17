@@ -34,7 +34,9 @@ public class HotelsDataSource extends AbstractListModel<Hotel> {
             return city.numberOfHotels();
         } catch (SQLException e) {
             //TODO Raise a message of error
+        } catch (NullPointerException e) {
+            //Happen sometimes but the debugger is not good enough to know why :'(
         }
-        return 0; //TODO will stay ?
+        return 0;
     }
 }

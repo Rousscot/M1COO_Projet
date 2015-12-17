@@ -14,11 +14,11 @@ import javax.swing.*;
  */
 public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, HotelForm> {
 
-    public HotelManagerPanel(City controller) {
-        super(controller);
+    public HotelManagerPanel() {
+        super();
         //this.owner = owner;
-        selectFirstIfPossible();
     }
+
 
     @Override
     public void setModelOfList() {

@@ -29,7 +29,7 @@ public class ConnectionBdd {
      * I am the constructor. I also check that the connection works.
      */
     private ConnectionBdd() {
-        setFacConnection();
+        setHomeConnection();
     }
 
     public void setHomeConnection() {

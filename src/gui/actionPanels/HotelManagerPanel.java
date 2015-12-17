@@ -3,53 +3,36 @@ package gui.actionPanels;
 import dao.exception.DAOException;
 import domaine.destination.City;
 import domaine.destination.Hotel;
-import domaine.exception.CityNotFoundException;
-import domaine.exception.DuplicatedCityException;
 import domaine.exception.DuplicatedHotelException;
 import domaine.exception.HotelNotFoundException;
-import factory.Agency;
-import gui.model.CitiesDataSource;
 import gui.model.HotelsDataSource;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by JeCisC on 16/12/2015.
  */
-public class HotelManagerPanel extends JPanel implements StandardButtonsUsers {
+public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, HotelForm> {
 
-    protected JList<Hotel> jList;
-    protected HotelForm form;
-    protected StandardButtonsBar buttonsBar;
-    protected City controller;
-
-    public HotelManagerPanel() {
-        initComponents();
-        addPanels();
+    public HotelManagerPanel(City controller) {
+        super(controller);
+        //this.owner = owner;
+        selectFirstIfPossible();
     }
 
-    public void addPanels() {
-        setLayout(new BorderLayout());
-        JScrollPane jScrollPane = new JScrollPane(jList);
-        jScrollPane.setPreferredSize(new Dimension(250, 250));
-        add("North", jScrollPane);
-        add("Center", form);
-        add("South", buttonsBar);
+    @Override
+    public void setModelOfList() {
+        jList.setModel(new HotelsDataSource(controller));
     }
 
-    public void initJList() {
-        jList = new JList<>(new HotelsDataSource(controller));
-        jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        if(jList.getModel().getSize() > 0){
-            jList.setSelectedIndex(0);
-        }
-    }
-
-    public void initComponents() {
-        initJList();
+    @Override
+    public void initForm() {
         form = new HotelForm();
-        buttonsBar = new StandardButtonsBar(this);
+    }
+
+    @Override
+    public void listSelectionChanged() {
+        //TODO
     }
 
     @Override
@@ -68,21 +51,6 @@ public class HotelManagerPanel extends JPanel implements StandardButtonsUsers {
         refresh();
     }
 
-    public void refresh() {
-        jList.revalidate();
-        jList.repaint();
-        jList.setModel(new HotelsDataSource(controller)); // I don't know why the repaint doesn't work :(
-
-    }
-
-    public String hotelName() {
-        return form.hotelName();
-    }
-
-    public Integer dayOfResignations() throws NumberFormatException{
-        return form.dayOfResignation();
-    }
-
     @Override
     public void deleteItem() {
         Hotel hotel = jList.getSelectedValue();
@@ -92,7 +60,7 @@ public class HotelManagerPanel extends JPanel implements StandardButtonsUsers {
             try {
                 controller.deleteHotel(hotel);
                 refresh();
-            } catch ( DAOException e) {
+            } catch (DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
             } catch (HotelNotFoundException e) {
                 JOptionPane.showMessageDialog(this, e.getHotel().toString() + " a déjà été supprimée.");
@@ -100,12 +68,11 @@ public class HotelManagerPanel extends JPanel implements StandardButtonsUsers {
         }
     }
 
-    public void cleanFields() {
-        form.clean();
+    public String hotelName() {
+        return form.hotelName();
     }
 
-    public void setController(City controller){
-        this.controller = controller;
-        refresh();
+    public Integer dayOfResignations() throws NumberFormatException {
+        return form.dayOfResignation();
     }
 }

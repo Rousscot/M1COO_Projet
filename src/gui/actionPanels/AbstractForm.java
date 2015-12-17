@@ -8,4 +8,5 @@ import javax.swing.*;
 public abstract class AbstractForm extends JPanel {
 
     public abstract void clean();
+    
 }

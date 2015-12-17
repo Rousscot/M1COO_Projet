@@ -23,7 +23,7 @@ public class StandardButtonsBar extends JPanel {
     }
 
     public void initDeleteButton() {
-        JButton button = createButton("Delete", "Permet de supprimer un élément.");
+        JButton button = createButton("Supprimer", "Permet de supprimer un élément.");
         button.addActionListener(e -> deleteAction());
         add(button);
     }

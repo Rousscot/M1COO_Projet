@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -28,7 +29,7 @@ public class ConnectionBdd {
      * I am the constructor. I also check that the connection works.
      */
     private ConnectionBdd() {
-        setHomeConnection();
+        setFacConnection();
     }
 
     public void setHomeConnection() {
@@ -50,7 +51,7 @@ public class ConnectionBdd {
         }
     }
 
-    public void setFacConnection(){
+    public void setFacConnection() {
         try {
             //I just try to instantiate the driver to check that the driver is here.
             Class.forName("org.postgresql.Driver");
@@ -58,7 +59,9 @@ public class ConnectionBdd {
 
             url = "jdbc:postgresql://webtp.fil.univ-lille1.fr:5432/ferlicotdelbe";
             user = "ferlicotdelbe";
+            System.out.println("Password : ");
             passwd = (new BufferedReader(new InputStreamReader(System.in))).readLine();
+            for(int i = 0; i < 20; i++){System.out.println();}
             connection = DriverManager.getConnection(url, user, passwd);
             System.out.println("Connection O.K.");
         } catch (ClassNotFoundException e) {
@@ -81,4 +84,5 @@ public class ConnectionBdd {
         }
         return connection;
     }
+
 }

@@ -29,7 +29,6 @@ public class City implements DAOSerializable {
 
     public City(Long id, String name) {
         this.name = name;
-        hotels = new ArrayList<>();
         this.id = id;
         dao = new HotelDAO();
     }
@@ -66,6 +65,21 @@ public class City implements DAOSerializable {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof City)) return false;
+
+        City city = (City) o;
+
+        return name.equals(city.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 
     public Integer numberOfHotels() throws DAOException {
         return getHotels().size();

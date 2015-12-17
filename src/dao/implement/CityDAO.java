@@ -8,6 +8,8 @@ import domaine.exception.HotelNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by JeCisC on 06/12/2015.
@@ -24,7 +26,7 @@ public class CityDAO extends DAO<City> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
             if (result.first()) {
                 long id = result.getLong("id");
-                String insertRequest = "INSERT INTO hotel (id_city, name) VALUES(?, ?)";
+                String insertRequest = "INSERT INTO city (id_city, name) VALUES(?, ?)";
                 PreparedStatement prepare = this.connection.prepareStatement(insertRequest);
                 prepare.setLong(1, id);
                 prepare.setString(2, city.getName());
@@ -41,7 +43,7 @@ public class CityDAO extends DAO<City> {
     public void delete(City city) throws DAOException {
         try {
             city.deleteAllHotels();
-            String request = "DELETE FROM hotel WHERE id_hotel = " + city.getId();
+            String request = "DELETE FROM city WHERE id_city = " + city.getId();
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
         } catch (SQLException | HotelNotFoundException e) {
             throw new DAOException(city);
@@ -76,5 +78,22 @@ public class CityDAO extends DAO<City> {
             e.printStackTrace();
         }
         throw new DAOException(id);
+    }
+
+    // For this one we don't have an ID in parameter because the agency is unique for now. 
+    public List<City> allCities() throws DAOException {
+        //TODO Maybe include a retry with  a time out in case of SQLException
+        List<City> list = new ArrayList<>();
+        String request = "SELECT id_city FROM city";
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(request);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                list.add(find(result.getLong("id_city")));
+            }
+        } catch (SQLException e) {
+            throw new DAOException();
+        }
+        return list;
     }
 }

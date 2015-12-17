@@ -1,5 +1,9 @@
 package gui.actionPanels;
 
+import dao.exception.DAOException;
+import domaine.destination.City;
+import domaine.exception.CityNotFoundException;
+import domaine.exception.DuplicatedCityException;
 import factory.Agency;
 import gui.model.CitiesDataSource;
 
@@ -11,12 +15,12 @@ import java.awt.*;
  */
 public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
 
-    protected JList jList;
+    protected JList<City> jList;
     protected CityForm form;
     protected StandardButtonsBar buttonsBar;
     protected Agency controller;
 
-    public CityManagerPanel(Agency controller){
+    public CityManagerPanel(Agency controller) {
         setBackground(Color.PINK);
         this.controller = controller;
         initComponents();
@@ -33,9 +37,8 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
     }
 
     public void initJList() {
-        jList = new JList<>();
+        jList = new JList<>(new CitiesDataSource(controller));
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        jList.setModel(new CitiesDataSource(controller));
     }
 
     public void initComponents() {
@@ -46,20 +49,23 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
 
     @Override
     public void createItem() {
-
-            //TODO Check that the field is not empty
+        //TODO Check that the field is not empty
+        try {
             controller.createAndAddCity(cityName());
-            cleanFields();
-            refresh();
-        /*} catch (EntryInsertException e) {
+        } catch (DAOException e) {
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard.");
-        } catch (DuplicateEntryException e) {
-            JOptionPane.showMessageDialog(this, "Ce contact existe déjà.");
-        }*/ //TODO Errors
+        } catch (DuplicatedCityException e) {
+            JOptionPane.showMessageDialog(this, "Cette Ville existe déjà.");
+        }
+        cleanFields();
+        refresh();
     }
 
     public void refresh() {
-        //TODO
+        jList.revalidate();
+        jList.repaint();
+        jList.setModel(new CitiesDataSource(controller)); // I don't know why the repaint doesn't work :(
+
     }
 
     public String cityName() {
@@ -68,11 +74,22 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
 
     @Override
     public void deleteItem() {
-        //TODO
-        System.out.println("delete");
+        City city = jList.getSelectedValue();
+        if (city == null) {
+            JOptionPane.showMessageDialog(this, "Pas de ville selectionnée.");
+        } else {
+            try {
+                controller.deleteCity(city);
+                refresh();
+            } catch ( DAOException e) {
+                JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard.");
+            } catch (CityNotFoundException e) {
+                JOptionPane.showMessageDialog(this, "La ville selectionnée a déjà été supprimée.");
+            }
+        }
     }
 
-    public void cleanFields(){
+    public void cleanFields() {
         form.clean();
     }
 }

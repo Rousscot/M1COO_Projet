@@ -11,9 +11,9 @@ import java.awt.*;
  */
 public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
 
-    protected JList jList; //TODO parameter
-    protected JPanel form;//TODO Use another Panel :(
-    protected StandardButtonsBar buttonsBar; //TODO
+    protected JList jList;
+    protected CityForm form;
+    protected StandardButtonsBar buttonsBar;
     protected Agency controller;
 
     public CityManagerPanel(Agency controller){
@@ -40,19 +40,39 @@ public class CityManagerPanel extends JPanel implements StandardButtonsUsers {
 
     public void initComponents() {
         initJList();
-        form = new JPanel(); //TODO use real panel.
-        buttonsBar = new StandardButtonsBar(this); //TODO use real panel.
+        form = new CityForm();
+        buttonsBar = new StandardButtonsBar(this);
     }
 
     @Override
     public void createItem() {
+
+            //TODO Check that the field is not empty
+            controller.createAndAddCity(cityName());
+            cleanFields();
+            refresh();
+        /*} catch (EntryInsertException e) {
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard.");
+        } catch (DuplicateEntryException e) {
+            JOptionPane.showMessageDialog(this, "Ce contact existe déjà.");
+        }*/ //TODO Errors
+    }
+
+    public void refresh() {
         //TODO
-        System.out.println("add");
+    }
+
+    public String cityName() {
+        return form.cityName();
     }
 
     @Override
     public void deleteItem() {
         //TODO
         System.out.println("delete");
+    }
+
+    public void cleanFields(){
+        form.clean();
     }
 }

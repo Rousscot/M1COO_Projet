@@ -9,4 +9,6 @@ public interface StandardButtonsUsers {
 
     void deleteItem();
 
+    void cleanFields();
+
 }

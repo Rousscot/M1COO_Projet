@@ -54,4 +54,8 @@ public class Agency {
     public int numberOfCities() throws DAOException {
         return getCities().size();
     }
+
+    public void createAndAddCity(String s) {
+        //TODO
+    }
 }

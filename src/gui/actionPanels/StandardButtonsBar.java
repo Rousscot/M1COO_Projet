@@ -12,7 +12,14 @@ public class StandardButtonsBar extends JPanel {
     public StandardButtonsBar(StandardButtonsUsers listener) {
         initAddButton();
         initDeleteButton();
+        initCleanButton();
         this.listener = listener;
+    }
+
+    public void initCleanButton() {
+        JButton button = createButton("Nettoyer", "Permet de nettoyer les champs.");
+        button.addActionListener(e -> cleanAction());
+        add(button);
     }
 
     public void initDeleteButton() {
@@ -41,5 +48,9 @@ public class StandardButtonsBar extends JPanel {
 
     public void deleteAction(){
         listener.deleteItem();
+    }
+
+    public void cleanAction() {
+        listener.cleanFields();
     }
 }

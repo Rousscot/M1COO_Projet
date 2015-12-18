@@ -9,7 +9,7 @@ public class DuplicatedCityException extends Exception {
 
     protected City city;
 
-    public DuplicatedCityException(City category) {
+    public DuplicatedCityException(City city) {
         this.city = city;
     }
 

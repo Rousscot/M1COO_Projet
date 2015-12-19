@@ -1,6 +1,7 @@
 package gui.actionPanels;
 
 import domaine.destination.City;
+import domaine.destination.Hotel;
 import factory.Agency;
 
 import javax.swing.*;
@@ -9,11 +10,11 @@ import java.awt.*;
 /**
  * Created by JeCisC on 15/12/2015.
  */
-public class DestinationManagementPanel extends JPanel implements CitySelectionListener {
+public class DestinationManagementPanel extends JPanel implements CitySelectionListener, HotelSelectionListener {
 
     protected CityManagerPanel cityPanel;
     protected HotelManagerPanel hotelPanel;
-    protected JPanel categoryPanel;
+    protected CategoryManagerPanel categoryPanel;
     protected JPanel roomPanel;
 
     public DestinationManagementPanel(Agency controller){
@@ -26,10 +27,12 @@ public class DestinationManagementPanel extends JPanel implements CitySelectionL
     }
 
     public void initializePanels(Agency controller) {
-        hotelPanel = new HotelManagerPanel();
+        categoryPanel = new CategoryManagerPanel();
+        hotelPanel = new HotelManagerPanel(this);
         cityPanel = new CityManagerPanel(controller, this);
         add(cityPanel);
         add(hotelPanel);
+        add(categoryPanel);
         //TODO
     }
 
@@ -40,5 +43,10 @@ public class DestinationManagementPanel extends JPanel implements CitySelectionL
     @Override
     public void citySelected(City city) {
         hotelPanel.setController(city);
+    }
+
+    @Override
+    public void hotelSelected(Hotel hotel) {
+        categoryPanel.setController(hotel);
     }
 }

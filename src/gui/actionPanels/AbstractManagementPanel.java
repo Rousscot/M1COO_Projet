@@ -63,6 +63,7 @@ public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> exte
         jList.revalidate();
         jList.repaint();
         setModelOfList(); // I don't know why the repaint doesn't work :(
+        selectFirstIfPossible();
     }
 
     @Override

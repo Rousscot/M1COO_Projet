@@ -14,9 +14,11 @@ import javax.swing.*;
  */
 public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, HotelForm> {
 
-    public HotelManagerPanel() {
+    protected HotelSelectionListener owner;
+
+    public HotelManagerPanel(HotelSelectionListener owner) {
         super();
-        //this.owner = owner;
+        this.owner = owner;
     }
 
 
@@ -32,7 +34,7 @@ public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, Hote
 
     @Override
     public void listSelectionChanged() {
-        //TODO
+        owner.hotelSelected(jList.getSelectedValue());
     }
 
     @Override
@@ -55,7 +57,7 @@ public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, Hote
     public void deleteItem() {
         Hotel hotel = jList.getSelectedValue();
         if (hotel == null) {
-            JOptionPane.showMessageDialog(this, "Pas de ville selectionnée.");
+            JOptionPane.showMessageDialog(this, "Pas d'hôtel selectionnée.");
         } else {
             try {
                 controller.deleteHotel(hotel);

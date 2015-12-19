@@ -1,4 +1,4 @@
-package gui.actionPanels;
+package gui.editableListPanels;
 
 import javax.swing.*;
 

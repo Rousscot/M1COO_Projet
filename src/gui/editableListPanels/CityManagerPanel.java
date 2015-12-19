@@ -1,10 +1,11 @@
-package gui.actionPanels;
+package gui.editableListPanels;
 
 import dao.exception.DAOException;
 import domaine.destination.City;
 import domaine.exception.CityNotFoundException;
 import domaine.exception.DuplicatedCityException;
 import factory.Agency;
+import gui.CitySelectionListener;
 import gui.model.CitiesDataSource;
 
 import javax.swing.*;

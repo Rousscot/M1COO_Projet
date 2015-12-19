@@ -1,4 +1,4 @@
-package gui.actionPanels;
+package gui.editableListPanels;
 
 /**
  * Created by JeCisC on 16/12/2015.

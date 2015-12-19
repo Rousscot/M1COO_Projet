@@ -1,4 +1,4 @@
-package gui.actionPanels;
+package gui;
 
 import domaine.destination.City;
 

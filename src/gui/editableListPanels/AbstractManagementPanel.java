@@ -1,6 +1,4 @@
-package gui.actionPanels;
-
-import gui.model.CitiesDataSource;
+package gui.editableListPanels;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +6,7 @@ import java.awt.*;
 /**
  * Created by JeCisC on 17/12/2015.
  */
-public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> extends JPanel implements StandardButtonsUsers  {
+public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> extends JPanel implements StandardButtonsUsers {
 
     protected JList<T> jList;
     protected F form;

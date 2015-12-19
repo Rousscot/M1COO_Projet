@@ -1,15 +1,11 @@
-package gui.actionPanels;
+package gui.editableListPanels;
 
 import dao.exception.DAOException;
 import domaine.destination.Category;
-import domaine.destination.City;
 import domaine.destination.Hotel;
 import domaine.exception.CategoryNotFoundException;
 import domaine.exception.DuplicatedCategoryException;
-import domaine.exception.DuplicatedHotelException;
-import domaine.exception.HotelNotFoundException;
 import gui.model.CategoriesDataSource;
-import gui.model.HotelsDataSource;
 
 import javax.swing.*;
 

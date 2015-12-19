@@ -3,6 +3,11 @@ package gui.actionPanels;
 import domaine.destination.City;
 import domaine.destination.Hotel;
 import factory.Agency;
+import gui.CitySelectionListener;
+import gui.HotelSelectionListener;
+import gui.editableListPanels.CategoryManagerPanel;
+import gui.editableListPanels.CityManagerPanel;
+import gui.editableListPanels.HotelManagerPanel;
 
 import javax.swing.*;
 import java.awt.*;

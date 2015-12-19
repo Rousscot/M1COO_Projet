@@ -5,6 +5,7 @@ import domaine.destination.Category;
 import domaine.destination.Hotel;
 import domaine.exception.CategoryNotFoundException;
 import domaine.exception.DuplicatedCategoryException;
+import gui.CategorySelectionListener;
 import gui.model.CategoriesDataSource;
 
 import javax.swing.*;
@@ -14,9 +15,12 @@ import javax.swing.*;
  */
 public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Category, CategoryForm> {
 //TODO MAnage the case where there is not hotel selected.
-    public CategoryManagerPanel() {
+
+    protected CategorySelectionListener owner;
+
+    public CategoryManagerPanel(CategorySelectionListener owner) {
         super();
-        //this.owner = owner;
+        this.owner = owner;
     }
 
     @Override
@@ -31,7 +35,7 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
 
     @Override
     public void listSelectionChanged() {
-        //TODO
+        owner.categorySelected(jList.getSelectedValue());
     }
 
     @Override

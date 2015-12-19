@@ -29,11 +29,12 @@ public class RoomDAO extends DAO<Room> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
             if (result.first()) {
                 long id = result.getLong("id");
-                String insertRequest = "INSERT INTO room (id_room, isbusy, id_category) VALUES(?, ?, ?)";
+                String insertRequest = "INSERT INTO room (id_room, room_number, isbusy, id_category) VALUES(?, ?, ?, ?)";
                 PreparedStatement prepare = this.connection.prepareStatement(insertRequest);
                 prepare.setLong(1, id);
-                prepare.setBoolean(2, room.isBusy());
-                prepare.setLong(3, room.getCategoryId());
+                prepare.setInt(2, room.getNumber());
+                prepare.setBoolean(3, room.isBusy());
+                prepare.setLong(4, room.getCategoryId());
                 prepare.executeUpdate();
                 room = this.find(id);
             }
@@ -56,6 +57,7 @@ public class RoomDAO extends DAO<Room> {
     @Override
     public Room update(Room room) throws DAOException {
         String request = "UPDATE room SET isbusy = '" + room.isBusy() + "'," +
+                " room_number = ''" + room.getNumber() + "'" +
                 " id_category = '" + room.getCategoryId() + "'" +
                 " WHERE id_room = " + room.getId();
         try {
@@ -73,7 +75,7 @@ public class RoomDAO extends DAO<Room> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
                 //TODO Check that we do not have a loop.
-                Room room = new Room(id, dao.find(result.getLong("id_category")));
+                Room room = new Room(id, dao.find(result.getLong("id_category")), result.getInt("room_number"));
                 room.setBusy(result.getBoolean("isBusy"));
                 return room;
             }

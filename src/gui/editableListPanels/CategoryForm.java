@@ -16,11 +16,15 @@ public class CategoryForm extends AbstractForm {
     protected static final String LABEL3 = "Prix :";
 
     public CategoryForm(){
-        setLayout(new GridLayout(3, 2, 0, 5));
-        initTextFields();
-        initLabels();
+        super();
     }
 
+    @Override
+    public LayoutManager getFormLayout(){
+        return new GridLayout(3, 2, 0, 5);
+    }
+
+    @Override
     public void initLabels() {
         JLabel label = new JLabel(CategoryForm.LABEL);
         JLabel label2 = new JLabel(CategoryForm.LABEL2);
@@ -33,6 +37,7 @@ public class CategoryForm extends AbstractForm {
         add(priceField);
     }
 
+    @Override
     public void initTextFields() {
         designationField = new JTextField();
         capacityField = new JTextField();

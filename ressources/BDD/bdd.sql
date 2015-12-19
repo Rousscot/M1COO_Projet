@@ -104,6 +104,7 @@ CACHE 1;
 
 CREATE TABLE ROOM (
   id_room     INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('room_id_seq' :: REGCLASS),
+  room_number INTEGER               NOT NULL,
   isBusy      BOOLEAN               NOT NULL,
   id_category INTEGER REFERENCES CATEGORY (id_category)
 );

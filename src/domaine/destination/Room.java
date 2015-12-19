@@ -12,21 +12,23 @@ public class Room implements DAOSerializable {
 
     protected Boolean isBusy;
     protected Long id;
+    protected Integer number;
     protected Category category;
 
-    public Room(Category category){
-       this(0L, category);
+    public Room(Category category, Integer number){
+       this(0L, category, number);
     }
 
-    public Room(Long id, Category category){
+    public Room(Long id, Category category, Integer number){
         isBusy = false;
         this.category = category;
+        this.number = number;
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return "Chambre " + id;
+        return "Chambre " + number;
     }
 
     public Boolean isBusy() {
@@ -55,5 +57,13 @@ public class Room implements DAOSerializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }

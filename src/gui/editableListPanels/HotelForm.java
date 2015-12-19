@@ -14,11 +14,15 @@ public class HotelForm extends AbstractForm {
     protected static final String LABEL2 = "Jours d'annulation :";
 
     public HotelForm(){
-        setLayout(new GridLayout(2, 2, 0, 5));
-        initTextFields();
-        initLabels();
+        super();
     }
 
+    @Override
+    public LayoutManager getFormLayout(){
+        return new GridLayout(2, 2, 0, 5);
+    }
+
+    @Override
     public void initLabels() {
         JLabel label = new JLabel(HotelForm.LABEL);
         JLabel label2 = new JLabel(HotelForm.LABEL2);
@@ -28,6 +32,7 @@ public class HotelForm extends AbstractForm {
         add(resignationField);
     }
 
+    @Override
     public void initTextFields() {
         nameField = new JTextField();
         resignationField = new JTextField();

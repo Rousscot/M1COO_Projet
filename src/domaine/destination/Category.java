@@ -5,6 +5,7 @@ import dao.implement.RoomDAO;
 import domaine.DAOSerializable;
 import domaine.exception.DuplicatedRoomException;
 import domaine.exception.RoomNotFoundException;
+import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -113,13 +114,14 @@ public class Category implements DAOSerializable {
         getRooms().add(room);
     }
 
-    public void createAndAddRoom() throws SQLException, DuplicatedRoomException {
+    public void createAndAddRoom(Integer number) throws DAOException, DuplicatedRoomException {
         //TODO check if when we get a Duplicated exception this add the room to the database. If yes, throw the exception before we add it.
-        addRoom(dao.create(new Room(this)));
+        addRoom(dao.create(new Room(this, number)));
     }
 
     public void deleteRoom(Room room) throws RoomNotFoundException, DAOException {
-       if(!getRooms().contains(room)){
+       //Maybe check if there is a busy room inside ?
+        if(!getRooms().contains(room)){
            throw new RoomNotFoundException(room);
        }
         dao.delete(room);

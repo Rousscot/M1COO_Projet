@@ -1,13 +1,16 @@
 package gui.actionPanels;
 
+import domaine.destination.Category;
 import domaine.destination.City;
 import domaine.destination.Hotel;
 import factory.Agency;
+import gui.CategorySelectionListener;
 import gui.CitySelectionListener;
 import gui.HotelSelectionListener;
 import gui.editableListPanels.CategoryManagerPanel;
 import gui.editableListPanels.CityManagerPanel;
 import gui.editableListPanels.HotelManagerPanel;
+import gui.editableListPanels.RoomManagerPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +18,12 @@ import java.awt.*;
 /**
  * Created by JeCisC on 15/12/2015.
  */
-public class DestinationManagementPanel extends JPanel implements CitySelectionListener, HotelSelectionListener {
+public class DestinationManagementPanel extends JPanel implements CitySelectionListener, HotelSelectionListener, CategorySelectionListener {
 
     protected CityManagerPanel cityPanel;
     protected HotelManagerPanel hotelPanel;
     protected CategoryManagerPanel categoryPanel;
-    protected JPanel roomPanel;
+    protected RoomManagerPanel roomPanel;
 
     public DestinationManagementPanel(Agency controller){
         initializePanel();
@@ -32,13 +35,14 @@ public class DestinationManagementPanel extends JPanel implements CitySelectionL
     }
 
     public void initializePanels(Agency controller) {
-        categoryPanel = new CategoryManagerPanel();
+        roomPanel = new RoomManagerPanel();
+        categoryPanel = new CategoryManagerPanel(this);
         hotelPanel = new HotelManagerPanel(this);
         cityPanel = new CityManagerPanel(controller, this);
         add(cityPanel);
         add(hotelPanel);
         add(categoryPanel);
-        //TODO
+        add(roomPanel);
     }
 
     public String toString(){
@@ -53,5 +57,10 @@ public class DestinationManagementPanel extends JPanel implements CitySelectionL
     @Override
     public void hotelSelected(Hotel hotel) {
         categoryPanel.setController(hotel);
+    }
+
+    @Override
+    public void categorySelected(Category category) {
+       roomPanel.setController(category);
     }
 }

@@ -9,11 +9,20 @@ public class StandardButtonsBar extends JPanel {
 
     protected StandardButtonsUsers listener;
 
-    public StandardButtonsBar(StandardButtonsUsers listener) {
+    public StandardButtonsBar(StandardButtonsUsers listener, Boolean shouldHaveAnUpdateButton) {
         initAddButton();
         initDeleteButton();
         initCleanButton();
+        if(shouldHaveAnUpdateButton){
+            initUpdateButton();
+        }
         this.listener = listener;
+    }
+
+    public void initUpdateButton() {
+        JButton button = createButton("Mise à Jour", "Permet de mettre à jour un élément.");
+        button.addActionListener(e -> updateAction());
+        add(button);
     }
 
     public void initCleanButton() {
@@ -53,4 +62,9 @@ public class StandardButtonsBar extends JPanel {
     public void cleanAction() {
         listener.cleanFields();
     }
+
+    public void updateAction() {
+        listener.updateItem();
+    }
+
 }

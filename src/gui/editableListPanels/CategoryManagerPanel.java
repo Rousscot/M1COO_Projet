@@ -14,7 +14,7 @@ import javax.swing.*;
  * Created by JeCisC on 16/12/2015.
  */
 public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Category, CategoryForm> {
-//TODO MAnage the case where there is not hotel selected.
+//TODO Manage the case where there is not hotel selected.
 
     protected CategorySelectionListener owner;
 
@@ -33,6 +33,10 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
         form = new CategoryForm();
     }
 
+    @Override
+    public void initButtonsBar() {
+        buttonsBar = new StandardButtonsBar(this, true);
+    }
     @Override
     public void listSelectionChanged() {
         owner.categorySelected(jList.getSelectedValue());
@@ -69,6 +73,11 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
                 JOptionPane.showMessageDialog(this, e.getCategory().toString() + " a déjà été supprimée.");
             }
         }
+    }
+
+    @Override
+    public void updateItem(){
+        //TODO
     }
 
     public String categoryDesignation() {

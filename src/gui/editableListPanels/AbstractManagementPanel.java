@@ -48,7 +48,12 @@ public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> exte
     public void initComponents() {
         initJList();
         initForm();
-        buttonsBar = new StandardButtonsBar(this);
+        initButtonsBar();
+    }
+
+    //Hook :)
+    public void initButtonsBar() {
+        buttonsBar = new StandardButtonsBar(this, false);
     }
 
     public abstract void initForm();
@@ -66,6 +71,11 @@ public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> exte
 
     @Override
     public abstract void deleteItem();
+
+    @Override
+    public void updateItem(){
+        //In most case I should not be call. If a class override #initButtonsBar I should maybe override this method. :)
+    }
 
     @Override
     public void cleanFields() {

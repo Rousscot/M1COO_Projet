@@ -66,4 +66,25 @@ public class Room implements DAOSerializable {
     public void setNumber(Integer number) {
         this.number = number;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room)) return false;
+
+        Room room = (Room) o;
+
+        if (!isBusy.equals(room.isBusy)) return false;
+        if (!number.equals(room.number)) return false;
+        return category.equals(room.category);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = isBusy.hashCode();
+        result = 31 * result + number.hashCode();
+        result = 31 * result + category.hashCode();
+        return result;
+    }
 }

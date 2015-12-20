@@ -98,6 +98,29 @@ public class Category implements DAOSerializable {
         this.hotel = hotel;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+
+        Category category = (Category) o;
+
+        if (designation != null ? !designation.equals(category.designation) : category.designation != null)
+            return false;
+        if (capacity != null ? !capacity.equals(category.capacity) : category.capacity != null) return false;
+        if (price != null ? !price.equals(category.price) : category.price != null) return false;
+        return hotel != null ? hotel.equals(category.hotel) : category.hotel == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = designation != null ? designation.hashCode() : 0;
+        result = 31 * result + (capacity != null ? capacity.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (hotel != null ? hotel.hashCode() : 0);
+        return result;
+    }
 
     public Integer numberOfRooms() throws SQLException {
         return getRooms().size();

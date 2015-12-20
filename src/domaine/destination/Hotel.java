@@ -86,6 +86,26 @@ public class Hotel implements DAOSerializable {
         this.city = city;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Hotel)) return false;
+
+        Hotel hotel = (Hotel) o;
+
+        if (!name.equals(hotel.name)) return false;
+        if (!resignationDays.equals(hotel.resignationDays)) return false;
+        return city.equals(hotel.city);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + resignationDays.hashCode();
+        result = 31 * result + city.hashCode();
+        return result;
+    }
 
     public Integer numberOfCategories() throws DAOException {
         return getCategories().size();

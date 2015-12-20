@@ -1,12 +1,14 @@
 package gui.editableListPanels;
 
+import domaine.destination.City;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by ferlicotdelbe on 17/12/15.
  */
-public class CityForm extends AbstractForm {
+public class CityForm extends AbstractForm<City> {
 
     protected JTextField nameField;
     protected static final String LABEL = "Ville :";
@@ -36,6 +38,11 @@ public class CityForm extends AbstractForm {
     @Override
     public void clean() {
         nameField.setText("");
+    }
+
+    @Override
+    public void setWithNotNull(City controller) {
+        nameField.setText(controller.getName());
     }
 
     public String cityName() {

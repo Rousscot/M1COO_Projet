@@ -39,6 +39,8 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     }
     @Override
     public void listSelectionChanged() {
+        Category newSelection = jList.getSelectedValue();
+        form.setWith(newSelection);
         owner.categorySelected(jList.getSelectedValue());
     }
 

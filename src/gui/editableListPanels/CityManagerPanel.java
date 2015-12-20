@@ -35,7 +35,9 @@ public class CityManagerPanel extends AbstractManagementPanel<Agency, City, City
 
     @Override
     public void listSelectionChanged() {
-        owner.citySelected(jList.getSelectedValue());
+        City newSelection = jList.getSelectedValue();
+        form.setWith(newSelection);
+        owner.citySelected(newSelection);
     }
 
     @Override

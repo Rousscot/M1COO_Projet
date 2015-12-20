@@ -1,12 +1,14 @@
 package gui.editableListPanels;
 
+import domaine.destination.Hotel;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by ferlicotdelbe on 17/12/15.
  */
-public class HotelForm extends AbstractForm {
+public class HotelForm extends AbstractForm<Hotel> {
 
     protected JTextField nameField;
     protected JTextField resignationField;
@@ -42,6 +44,12 @@ public class HotelForm extends AbstractForm {
     public void clean() {
         nameField.setText("");
         resignationField.setText("");
+    }
+
+    @Override
+    public void setWithNotNull(Hotel controller) {
+        nameField.setText(controller.getName());
+        resignationField.setText(controller.getResignationDays().toString());
     }
 
     public String hotelName() {

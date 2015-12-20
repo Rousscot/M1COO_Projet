@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  * Created by ferlicotdelbe on 17/12/15.
  */
-public abstract class AbstractForm extends JPanel {
+public abstract class AbstractForm<T> extends JPanel {
 
     public AbstractForm(){
         setLayout(getFormLayout());
@@ -21,5 +21,15 @@ public abstract class AbstractForm extends JPanel {
     protected abstract void initLabels();
 
     public abstract void clean();
+
+    public void setWith(T controller){
+        if(controller != null) {
+            setWithNotNull(controller);
+        } else {
+            clean();
+        }
+    }
+
+    public abstract void setWithNotNull(T controller);
     
 }

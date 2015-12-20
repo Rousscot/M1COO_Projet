@@ -1,22 +1,24 @@
 package gui.editableListPanels;
 
+import domaine.destination.Room;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by ferlicotdelbe on 17/12/15.
  */
-public class RoomForm extends AbstractForm {
+public class RoomForm extends AbstractForm<Room> {
 
-    protected JTextField numberField;
     protected static final String LABEL = "Number :";
+    protected JTextField numberField;
 
-    public RoomForm(){
+    public RoomForm() {
         super();
     }
 
     @Override
-    public LayoutManager getFormLayout(){
+    public LayoutManager getFormLayout() {
         return new GridLayout(1, 2, 0, 5);
     }
 
@@ -36,6 +38,11 @@ public class RoomForm extends AbstractForm {
     @Override
     public void clean() {
         numberField.setText("");
+    }
+
+    @Override
+    public void setWithNotNull(Room controller) {
+        numberField.setText(controller.getCategory().toString());
     }
 
     public Integer roomNumber() {

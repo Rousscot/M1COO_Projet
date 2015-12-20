@@ -1,12 +1,15 @@
 package gui.editableListPanels;
 
+import domaine.destination.Category;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * Created by ferlicotdelbe on 17/12/15.
  */
-public class CategoryForm extends AbstractForm {
+public class CategoryForm extends AbstractForm<Category> {
 
     protected JTextField designationField;
     protected JTextField capacityField;
@@ -49,6 +52,13 @@ public class CategoryForm extends AbstractForm {
         designationField.setText("");
         capacityField.setText("");
         priceField.setText("");
+    }
+
+    @Override
+    public void setWithNotNull(Category controller) {
+        designationField.setText(controller.getDesignation());
+        capacityField.setText(controller.getCapacity().toString());
+        priceField.setText(controller.getPrice().toString());
     }
 
     public String categoryDesignation() {

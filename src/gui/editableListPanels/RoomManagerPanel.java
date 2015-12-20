@@ -31,7 +31,7 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
 
     @Override
     public void listSelectionChanged() {
-        //We do nothing here.
+        form.setWith(jList.getSelectedValue());
     }
 
     @Override

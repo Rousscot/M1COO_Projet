@@ -1,5 +1,6 @@
 package gui.editableListPanels;
 
+import domaine.destination.Category;
 import domaine.destination.Room;
 
 import javax.swing.*;
@@ -42,7 +43,7 @@ public class RoomForm extends AbstractForm<Room> {
 
     @Override
     public void setWithNotNull(Room controller) {
-        numberField.setText(controller.getCategory().toString());
+        numberField.setText(controller.getNumber().toString());
     }
 
     public Integer roomNumber() {

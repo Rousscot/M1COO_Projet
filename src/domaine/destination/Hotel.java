@@ -30,7 +30,6 @@ public class Hotel implements DAOSerializable {
     }
 
     public Hotel(Long id, String name, Integer resignationDays, City city){
-        this.categories = new ArrayList<>();
         this.resignationDays = resignationDays;
         this.name = name;
         this.city = city;

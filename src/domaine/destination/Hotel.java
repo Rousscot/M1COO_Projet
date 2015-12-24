@@ -115,16 +115,16 @@ public class Hotel implements DAOSerializable {
         return getCategories().get(index);
     }
 
-    public void addCategory(Category category) throws DuplicatedCategoryException, DAOException {
-        if(getCategories().contains(category)){
-            throw new DuplicatedCategoryException(category);
-        }
+    public void addCategory(Category category) throws DAOException {
         getCategories().add(category);
     }
 
     public void createAndAddCategory(String designation, Integer capacity, Integer price) throws DuplicatedCategoryException, DAOException {
-        //TODO check if when we get a Duplicated exception this add the category to the database. If yes, throw the exception before we add it.
-        addCategory(dao.create(new Category(designation, capacity, price, this)));
+        Category category = new Category(designation, capacity, price, this);
+        if(getCategories().contains(category)){
+            throw new DuplicatedCategoryException(category);
+        }
+        addCategory(dao.create(category));
     }
 
     public void deleteCategory(Category category) throws DAOException, CategoryNotFoundException {

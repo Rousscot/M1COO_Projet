@@ -130,16 +130,16 @@ public class Category implements DAOSerializable {
         return getRooms().get(index);
     }
 
-    public void addRoom(Room room) throws DuplicatedRoomException, DAOException {
-        if(getRooms().contains(room)){
-            throw new DuplicatedRoomException(room);
-        }
+    public void addRoom(Room room) throws DAOException {
         getRooms().add(room);
     }
 
     public void createAndAddRoom(Integer number) throws DAOException, DuplicatedRoomException {
-        //TODO check if when we get a Duplicated exception this add the room to the database. If yes, throw the exception before we add it.
-        addRoom(dao.create(new Room(this, number)));
+        Room room = new Room(this, number);
+        if(getRooms().contains(room)){
+            throw new DuplicatedRoomException(room);
+        }
+        addRoom(dao.create(room));
     }
 
     public void deleteRoom(Room room) throws RoomNotFoundException, DAOException {

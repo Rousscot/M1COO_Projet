@@ -89,16 +89,16 @@ public class City implements DAOSerializable {
         return getHotels().get(index);
     }
 
-    public void addHotel(Hotel hotel) throws DuplicatedHotelException, DAOException {
-        if(getHotels().contains(hotel)){
-            throw new DuplicatedHotelException(hotel);
-        }
+    public void addHotel(Hotel hotel) throws DAOException {
         getHotels().add(hotel);
     }
 
     public void createAndAddHotel(String name, Integer resignationDays) throws DAOException, DuplicatedHotelException {
-        //TODO check if when we get a Duplicated exception this add the category to the database. If yes, throw the exception before we add it.
-        addHotel(dao.create(new Hotel(name, resignationDays, this)));
+        Hotel hotel = new Hotel(name, resignationDays, this);
+        if(getHotels().contains(hotel)){
+            throw new DuplicatedHotelException(hotel);
+        }
+        addHotel(dao.create(hotel));
     }
 
     public void deleteHotel(Hotel hotel) throws DAOException, HotelNotFoundException {

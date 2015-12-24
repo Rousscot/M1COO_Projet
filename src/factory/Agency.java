@@ -62,15 +62,15 @@ public class Agency {
     }
 
     public void createAndAddCity(String name) throws DAOException, DuplicatedCityException {
-        //TODO check if when we get a Duplicated exception this add the city to the database. If yes, throw the exception before we add it.
-        addCity(daoCity.create(new City(name)));
+        City city = new City(name);
+        if(getCities().contains(city)){
+            throw new DuplicatedCityException(city);
+        }
+        addCity(daoCity.create(city));
     }
 
-    public void addCity(City city) throws DAOException, DuplicatedCityException {
-            if(getCities().contains(city)){
-                throw new DuplicatedCityException(city);
-            }
-            getCities().add(city);
+    public void addCity(City city) throws DAOException {
+        getCities().add(city);
     }
 
     public void deleteCity(City city) throws DAOException, CityNotFoundException {

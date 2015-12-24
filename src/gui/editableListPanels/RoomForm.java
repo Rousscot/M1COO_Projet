@@ -1,6 +1,5 @@
 package gui.editableListPanels;
 
-import domaine.destination.Category;
 import domaine.destination.Room;
 
 import javax.swing.*;

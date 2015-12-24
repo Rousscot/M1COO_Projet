@@ -14,7 +14,6 @@ import javax.swing.*;
  * Created by JeCisC on 16/12/2015.
  */
 public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, RoomForm> {
-//TODO MAnage the case where there is not hotel selected.
 
     public RoomManagerPanel() {
         super();
@@ -23,7 +22,9 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
     @Override
     public Category getController(){
         if(this.controller == null){
-            this.controller = new NullCategory(null, null, null, null);
+            NullCategory category = new NullCategory(null, null, null, null);
+            category.setOwner(this);
+            this.controller = category;
         }
         return this.controller;
     }

@@ -27,7 +27,9 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     @Override
     public Hotel getController(){
         if(this.controller == null){
-            this.controller = new NullHotel(null, null, null);
+            NullHotel hotel = new NullHotel(null, null, null);
+            hotel.setOwner(this);
+            this.controller = hotel;
         }
         return this.controller;
     }

@@ -23,6 +23,10 @@ public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> exte
         this(null);
     }
 
+    public C getController() {
+        return controller;
+    }
+
     public void addPanels() {
         setLayout(new BorderLayout());
         JScrollPane jScrollPane = new JScrollPane(jList);
@@ -34,7 +38,8 @@ public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> exte
 
     public void initJList() {
         jList = new JList<>();
-        if(controller != null){
+        //TODO 
+        if(getController() != null){
             setModelOfList();
         }
         jList.addListSelectionListener(e -> listSelectionChanged());

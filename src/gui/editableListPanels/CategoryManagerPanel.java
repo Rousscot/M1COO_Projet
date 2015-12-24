@@ -6,6 +6,7 @@ import domaine.destination.Hotel;
 import domaine.exception.CategoryNotFoundException;
 import domaine.exception.DuplicatedCategoryException;
 import gui.CategorySelectionListener;
+import gui.NullObjects.NullHotel;
 import gui.model.CategoriesDataSource;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ import javax.swing.*;
  * Created by JeCisC on 16/12/2015.
  */
 public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Category, CategoryForm> {
-//TODO Manage the case where there is not hotel selected.
+//TODO Manage the case where there is not hotel selected. Also the case where we add something where the previous is not selected.
 
     protected CategorySelectionListener owner;
 
@@ -24,8 +25,16 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     }
 
     @Override
+    public Hotel getController(){
+        if(this.controller == null){
+            this.controller = new NullHotel(null, null, null);
+        }
+        return this.controller;
+    }
+
+    @Override
     public void setModelOfList() {
-        jList.setModel(new CategoriesDataSource(controller));
+        jList.setModel(new CategoriesDataSource(getController()));
     }
 
     @Override
@@ -48,7 +57,7 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     public void createItem() {
         //TODO Check that the field is not empty
         try {
-            controller.createAndAddCategory(categoryDesignation(), categoryCapacity(), categoryPrice());
+            getController().createAndAddCategory(categoryDesignation(), categoryCapacity(), categoryPrice());
         } catch (DAOException e) {
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
         } catch (DuplicatedCategoryException e) {
@@ -67,7 +76,7 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
             JOptionPane.showMessageDialog(this, "Pas de category selectionnée.");
         } else {
             try {
-                controller.deleteCategory(category);
+                getController().deleteCategory(category);
                 refresh();
             } catch (DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());

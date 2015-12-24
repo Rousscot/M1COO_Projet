@@ -5,6 +5,7 @@ import domaine.destination.Category;
 import domaine.destination.Room;
 import domaine.exception.DuplicatedRoomException;
 import domaine.exception.RoomNotFoundException;
+import gui.NullObjects.NullCategory;
 import gui.model.RoomsDataSource;
 
 import javax.swing.*;
@@ -20,8 +21,16 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
     }
 
     @Override
+    public Category getController(){
+        if(this.controller == null){
+            this.controller = new NullCategory(null, null, null, null);
+        }
+        return this.controller;
+    }
+
+    @Override
     public void setModelOfList() {
-        jList.setModel(new RoomsDataSource(controller));
+        jList.setModel(new RoomsDataSource(getController()));
     }
 
     @Override
@@ -38,7 +47,7 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
     public void createItem() {
         //TODO Check that the field is not empty
         try {
-            controller.createAndAddRoom(roomNumber());
+            getController().createAndAddRoom(roomNumber());
         } catch (DAOException e) {
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
         } catch (DuplicatedRoomException e) {
@@ -57,7 +66,7 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
             JOptionPane.showMessageDialog(this, "Pas de chambre selectionnée.");
         } else {
             try {
-                controller.deleteRoom(room);
+                getController().deleteRoom(room);
                 refresh();
             } catch (DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());

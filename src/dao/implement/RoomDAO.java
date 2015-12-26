@@ -10,10 +10,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by JeCisC on 06/12/2015.
+ * I am a DAO use to map a Room with the database.
+ *
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class RoomDAO extends DAO<Room> {
 
+    /**
+     * I might need to manage categories so I remember a CategoryDAO.
+     */
     protected CategoryDAO dao;
 
     public RoomDAO() {
@@ -21,7 +26,13 @@ public class RoomDAO extends DAO<Room> {
         dao = new CategoryDAO();
     }
 
-
+    /**
+     * I allow to create a new Room inside the database.
+     *
+     * @param room the category I need to add.
+     * @return the category with the right id.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Room create(Room room) throws DAOException {
         String idRequest = "SELECT NEXTVAL('room_id_seq') AS id";
@@ -44,6 +55,12 @@ public class RoomDAO extends DAO<Room> {
         return room;
     }
 
+    /**
+     * I allow to delete a Room from the database.
+     *
+     * @param room the category to delete.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public void delete(Room room) throws DAOException {
         String request = "DELETE FROM room WHERE id_room = " + room.getId();
@@ -54,6 +71,13 @@ public class RoomDAO extends DAO<Room> {
         }
     }
 
+    /**
+     * I allow to update a Room in the database.
+     *
+     * @param room the category to update.
+     * @return the category.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Room update(Room room) throws DAOException {
         String request = "UPDATE room SET isbusy = '" + room.isBusy() + "'," +
@@ -68,6 +92,13 @@ public class RoomDAO extends DAO<Room> {
         }
     }
 
+    /**
+     * I allow to get a Room in the database from his id.
+     *
+     * @param id the id of the room.
+     * @return the room.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Room find(Long id) throws DAOException {
         String request = "SELECT * FROM room WHERE id_room = " + id;
@@ -85,6 +116,13 @@ public class RoomDAO extends DAO<Room> {
         throw new DAOException(id);
     }
 
+    /**
+     * I allow to get a list of Rooms of a Category where the id of the Category is `id`.
+     *
+     * @param id the id of the Category.
+     * @return the list of rooms of the category.
+     * @throws DAOException is raise if there is a problem with database.
+     */
     public List<Room> allRoomsForId(Long id) throws DAOException {
         return listOfAllObject("id_room", "room", "id_category", id);
     }

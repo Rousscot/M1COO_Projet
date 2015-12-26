@@ -11,10 +11,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by JeCisC on 06/12/2015.
+ * I am a DAO use to map a Category with the database.
+ *
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class CategoryDAO extends DAO<Category> {
 
+    /**
+     * I might need to manage hotels so I remember a Hotel DAO.
+     */
     protected HotelDAO dao;
 
     public CategoryDAO() {
@@ -22,6 +27,13 @@ public class CategoryDAO extends DAO<Category> {
         dao = new HotelDAO();
     }
 
+    /**
+     * I allow to create a new Category inside the database.
+     *
+     * @param category the category I need to add.
+     * @return the category with the right id.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Category create(Category category) throws DAOException {
 
@@ -48,6 +60,12 @@ public class CategoryDAO extends DAO<Category> {
         return category;
     }
 
+    /**
+     * I allow to delete a Category from the database.
+     *
+     * @param category the category to delete.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public void delete(Category category) throws DAOException {
         try {
@@ -60,6 +78,13 @@ public class CategoryDAO extends DAO<Category> {
         }
     }
 
+    /**
+     * I allow to update a category in the database.
+     *
+     * @param category the category to update.
+     * @return the category.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Category update(Category category) throws DAOException {
         // I do not check if the rooms need update because this should be handle by the Room object.
@@ -76,6 +101,13 @@ public class CategoryDAO extends DAO<Category> {
         }
     }
 
+    /**
+     * I allow to get a category in the database from his id.
+     *
+     * @param id the id of the category.
+     * @return the category.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Category find(Long id) throws DAOException {
         String request = "SELECT * FROM category WHERE id_category = " + id;
@@ -91,6 +123,13 @@ public class CategoryDAO extends DAO<Category> {
         throw new DAOException(id);
     }
 
+    /**
+     * I allow to get a list of categories of an Hotel where the id of the hotel is `id`.
+     *
+     * @param id the id of the hotel.
+     * @return the list of categories of the hotel.
+     * @throws DAOException is raise if there is a problem with database.
+     */
     public List<Category> allCategoriesForId(Long id) throws DAOException {
         return listOfAllObject("id_category", "category", "id_hotel", id);
     }

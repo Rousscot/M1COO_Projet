@@ -12,10 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by JeCisC on 06/12/2015.
+ * I am a DAO use to map a City with the database.
+ *
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class CityDAO extends DAO<City> {
 
+    /**
+     * I allow to create a new City inside the database.
+     *
+     * @param city the category I need to add.
+     * @return the category with the right id.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public City create(City city) throws DAOException {
 
@@ -39,6 +48,12 @@ public class CityDAO extends DAO<City> {
         return city;
     }
 
+    /**
+     * I allow to delete a City from the database.
+     *
+     * @param city the category to delete.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public void delete(City city) throws DAOException {
         try {
@@ -51,6 +66,13 @@ public class CityDAO extends DAO<City> {
 
     }
 
+    /**
+     * I allow to update a City in the database.
+     *
+     * @param city the category to update.
+     * @return the category.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public City update(City city) throws DAOException {
 
@@ -65,6 +87,13 @@ public class CityDAO extends DAO<City> {
         }
     }
 
+    /**
+     * I allow to get a City in the database from his id.
+     *
+     * @param id the id of the city.
+     * @return the category.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public City find(Long id) throws DAOException {
         String request = "SELECT * FROM city WHERE id_city = " + id;
@@ -80,8 +109,15 @@ public class CityDAO extends DAO<City> {
         throw new DAOException(id);
     }
 
-    // For this one we don't have an ID in parameter because the agency is unique for now. 
+
+    /**
+     * I allow to get a list of cities of the Agency.
+     *
+     * @return the list of cities of the agency.
+     * @throws DAOException is raise if there is a problem with database.
+     */
     public List<City> allCities() throws DAOException {
+        // For this one we don't have an ID in parameter because the agency is unique for now. 
         //TODO Maybe include a retry with  a time out in case of SQLException
         List<City> list = new ArrayList<>();
         String request = "SELECT id_city FROM city";

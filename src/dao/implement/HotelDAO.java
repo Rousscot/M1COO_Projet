@@ -11,16 +11,29 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by ferlicotdelbe on 11/12/15.
+ * I am a DAO use to map a Hotel with the database.
+ *
+ * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class HotelDAO extends DAO<Hotel> {
 
+    /**
+     * I might need to manage cities so I remember a CityDAO.
+     */
     protected CityDAO dao;
 
     public HotelDAO() {
         super();
         dao = new CityDAO();
     }
+
+    /**
+     * I allow to create a new Hotel inside the database.
+     *
+     * @param hotel the category I need to add.
+     * @return the category with the right id.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
 
     @Override
     public Hotel create(Hotel hotel) throws DAOException {
@@ -46,6 +59,12 @@ public class HotelDAO extends DAO<Hotel> {
         return hotel;
     }
 
+    /**
+     * I allow to delete a Hotel from the database.
+     *
+     * @param hotel the category to delete.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public void delete(Hotel hotel) throws DAOException {
         try {
@@ -57,6 +76,13 @@ public class HotelDAO extends DAO<Hotel> {
         }
     }
 
+    /**
+     * I allow to update a hotel in the database.
+     *
+     * @param hotel the category to update.
+     * @return the category.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Hotel update(Hotel hotel) throws DAOException {
 
@@ -73,6 +99,13 @@ public class HotelDAO extends DAO<Hotel> {
         }
     }
 
+    /**
+     * I allow to get a hotel in the database from his id.
+     *
+     * @param id the id of the hotel.
+     * @return the hotel.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     @Override
     public Hotel find(Long id) throws DAOException {
         String request = "SELECT * FROM hotel WHERE id_hotel = " + id;
@@ -88,6 +121,13 @@ public class HotelDAO extends DAO<Hotel> {
         throw new DAOException(id);
     }
 
+    /**
+     * I allow to get a list of hotels of a City where the id of the city is `id`.
+     *
+     * @param id the id of the city.
+     * @return the list of hotel of the city.
+     * @throws DAOException is raise if there is a problem with database.
+     */
     public List<Hotel> allHotelsForId(Long id) throws DAOException {
         return listOfAllObject("id_hotel", "hotel", "id_city", id);
     }

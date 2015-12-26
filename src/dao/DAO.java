@@ -29,7 +29,7 @@ public abstract class DAO<T> {
      * I am an constructor. I initialize the connection.
      */
     public DAO() {
-        this.connection = ConnectionBdd.current();
+        this.connection = ConnectionBdd.current().getConnection();
     }
 
     /**
@@ -68,6 +68,16 @@ public abstract class DAO<T> {
      */
     public abstract T find(Long id) throws DAOException;
 
+    /**
+     * I allow to get all the id named idFieldFame in a table call tableName where the id equals the field name idContainerFieldName.
+     *
+     * @param idFieldName the name of the field that contains the id to fetch.
+     * @param tableName the name of the table where to get the id to fetch.
+     * @param idContainerFieldName the name of the container's id field.
+     * @param id the id of the container.
+     * @return the list of ids.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
     public List<T> listOfAllObject(String idFieldName, String tableName, String idContainerFieldName, Long id) throws DAOException {
         //TODO Maybe include a retry with  a time out in case of SQLException
         List<T> list = new ArrayList<>();

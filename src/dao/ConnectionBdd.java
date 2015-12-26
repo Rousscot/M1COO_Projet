@@ -1,7 +1,6 @@
 package dao;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -13,17 +12,17 @@ import java.sql.SQLException;
  * I am a Singleton to avoid multi-connections.
  * I am use by the DAO.
  *
+ * TODO refactor some code.
+ *
  * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class ConnectionBdd {
 
-    protected String url;
-
-    protected String user;
-
-    protected String passwd;
-
+    protected static ConnectionBdd instance = null;
     protected static Connection connection;
+    protected String url;
+    protected String user;
+    protected String passwd;
 
     /**
      * I am the constructor. I also check that the connection works.
@@ -32,6 +31,21 @@ public class ConnectionBdd {
         setHomeConnection();
     }
 
+    /**
+     * I am the only way to get an instance of ConnectionBdd.
+     *
+     * @return The unique instance of a ConnectionBdd.
+     */
+    public static ConnectionBdd current() {
+        if (instance == null) {
+            instance = new ConnectionBdd();
+        }
+        return instance;
+    }
+
+    /**
+     * This is the standard connection. I am use when we develop the application at home.
+     */
     public void setHomeConnection() {
         try {
             //I just try to instantiate the driver to check that the driver is here.
@@ -51,6 +65,9 @@ public class ConnectionBdd {
         }
     }
 
+    /**
+     * I can be use to work at the faculty because of the stupid proxy.
+     */
     public void setFacConnection() {
         try {
             //I just try to instantiate the driver to check that the driver is here.
@@ -61,7 +78,9 @@ public class ConnectionBdd {
             user = "ferlicotdelbe";
             System.out.println("Password : ");
             passwd = (new BufferedReader(new InputStreamReader(System.in))).readLine();
-            for(int i = 0; i < 20; i++){System.out.println();}
+            for (int i = 0; i < 20; i++) {
+                System.out.println();
+            }
             connection = DriverManager.getConnection(url, user, passwd);
             System.out.println("Connection O.K.");
         } catch (ClassNotFoundException e) {
@@ -74,15 +93,12 @@ public class ConnectionBdd {
     }
 
     /**
-     * I am the only way to get an instance of ConnectionBdd.
+     * I allow to get the connection.
+     * The `current` method do not return directly the connection to allow to change the connection at the faculty.
      *
-     * @return The unique instance of a ConnectionBdd.
+     * @return the current connection.
      */
-    public static Connection current() {
-        if (connection == null) {
-            new ConnectionBdd();
-        }
+    public Connection getConnection() {
         return connection;
     }
-
 }

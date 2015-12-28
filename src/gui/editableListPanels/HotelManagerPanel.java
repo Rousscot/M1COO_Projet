@@ -34,6 +34,11 @@ public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, Hote
     }
 
     @Override
+    public void initButtonsBar() {
+        buttonsBar = new StandardButtonsBar(this, true);
+    }
+
+    @Override
     public void listSelectionChanged() {
         Hotel newSelection = jList.getSelectedValue();
         form.setWith(newSelection);
@@ -61,6 +66,7 @@ public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, Hote
         Hotel hotel = jList.getSelectedValue();
         if (hotel == null) {
             JOptionPane.showMessageDialog(this, "Pas d'hôtel selectionnée.");
+            refresh();
         } else {
             try {
                 controller.deleteHotel(hotel);
@@ -70,6 +76,19 @@ public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, Hote
             } catch (HotelNotFoundException e) {
                 JOptionPane.showMessageDialog(this, e.getHotel().toString() + " a déjà été supprimée.");
             }
+        }
+    }
+
+    @Override
+    public void updateItem(){
+        if(jList.getSelectedValue().getName().equals(hotelName())){
+            try {
+                jList.getSelectedValue().updateWith(dayOfResignations());
+            } catch (DAOException e) {
+                JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Veuillez ne pas changer le nom de l'hôtel.");
         }
     }
 

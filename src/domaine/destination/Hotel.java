@@ -2,6 +2,7 @@ package domaine.destination;
 
 import dao.exception.DAOException;
 import dao.implement.CategoryDAO;
+import dao.implement.HotelDAO;
 import domaine.DAOSerializable;
 import domaine.exception.CategoryNotFoundException;
 import domaine.exception.DuplicatedCategoryException;
@@ -142,5 +143,10 @@ public class Hotel implements DAOSerializable {
         for(Category category : getCategories()) {
             deleteCategory(category);
         }
+    }
+
+    public void updateWith(Integer daysOfResignation) throws DAOException {
+        this.setResignationDays(daysOfResignation);
+        new HotelDAO().update(this);
     }
 }

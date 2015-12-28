@@ -48,6 +48,7 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     public void initButtonsBar() {
         buttonsBar = new StandardButtonsBar(this, true);
     }
+
     @Override
     public void listSelectionChanged() {
         Category newSelection = jList.getSelectedValue();
@@ -90,7 +91,16 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
 
     @Override
     public void updateItem(){
-        //TODO
+        if(jList.getSelectedValue().getDesignation().equals(categoryDesignation())){
+            try {
+                jList.getSelectedValue().updateWith(categoryCapacity(), categoryPrice());
+                refresh();
+            } catch (DAOException e) {
+                JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
+            }
+        }else {
+            JOptionPane.showMessageDialog(this, "Veuillez ne pas changer le nom de la désignation.");
+        }
     }
 
     public String categoryDesignation() {

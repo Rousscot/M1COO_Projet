@@ -1,6 +1,7 @@
 package domaine.destination;
 
 import dao.exception.DAOException;
+import dao.implement.CategoryDAO;
 import dao.implement.RoomDAO;
 import domaine.DAOSerializable;
 import domaine.exception.DuplicatedRoomException;
@@ -159,6 +160,12 @@ public class Category implements DAOSerializable {
         for(Room room : getRooms()) {
             deleteRoom(room);
         }
+    }
+
+    public void updateWith(Integer capacity, Integer price) throws DAOException {
+        this.setCapacity(capacity);
+        this.setPrice(price);
+        new CategoryDAO().update(this);
     }
 }
 

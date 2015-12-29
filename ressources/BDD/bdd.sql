@@ -111,6 +111,28 @@ CREATE TABLE ROOM (
 
 ALTER SEQUENCE room_id_seq OWNED BY ROOM.id_room;
 
+-- Fly
+
+CREATE SEQUENCE fly_id_seq
+START WITH 1
+INCREMENT BY 1
+NO MINVALUE
+NO MAXVALUE
+CACHE 1;
+
+CREATE TABLE FLY (
+  id_fly              INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('fly_id_seq' :: REGCLASS),
+  id_origin           INTEGER REFERENCES CITY (id_city),
+  id_destination      INTEGER REFERENCES CITY (id_city),
+  day                 CHARACTER VARYING(20) NOT NULL,
+  hour                TIME                  NOT NULL,
+  duration            INTEGER               NOT NULL,
+  firstClassCapacity  INTEGER               NOT NULL,
+  secondClassCapacity INTEGER               NOT NULL,
+  resignation         INTEGER               NOT NULL
+);
+
+ALTER SEQUENCE fly_id_seq OWNED BY FLY.id_fly;
 
 
 

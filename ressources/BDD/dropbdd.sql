@@ -9,3 +9,4 @@ DROP TABLE room;
 DROP TABLE category;
 DROP TABLE hotel;
 DROP TABLE city;
+DROP TABLE fly;

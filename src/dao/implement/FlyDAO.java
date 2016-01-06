@@ -3,14 +3,13 @@ package dao.implement;
 import dao.DAO;
 import dao.exception.DAOException;
 import domaine.Fly;
-import domaine.destination.City;
-import domaine.exception.HotelNotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 /**
  * I am a DAO use to map a Fly with the database.
@@ -18,6 +17,13 @@ import java.util.List;
  * @author Cyril Ferlicot and Aurelien Rousseau
  */
 public class FlyDAO extends DAO<Fly> {
+
+    protected CityDAO dao;
+
+    public FlyDAO() {
+        super();
+        this.dao = new CityDAO();
+    }
 
     /**
      * I allow to create a new Fly inside the database.
@@ -38,6 +44,12 @@ public class FlyDAO extends DAO<Fly> {
                 prepare.setLong(1, id);
                 prepare.setLong(2, fly.getOriginId());
                 prepare.setLong(3, fly.getDestinationId());
+                prepare.setInt(4, fly.getDay().getValue());
+                prepare.setTime(5, new Time(Long.valueOf(fly.getHour().toSecondOfDay() * 1000)));
+                prepare.setInt(6, fly.getDuration());
+                prepare.setInt(7, fly.getFirstTimeCapacity());
+                prepare.setInt(8, fly.getSecondClassCapacity());
+                prepare.setInt(9, fly.getDaysOfResignation());
                 prepare.executeUpdate();
                 fly = this.find(id);
             }
@@ -48,59 +60,73 @@ public class FlyDAO extends DAO<Fly> {
     }
 
     /**
-     * I allow to delete a City from the database.
+     * I allow to delete a Fly from the database.
      *
-     * @param city the category to delete.
+     * @param fly the fly to delete.
      * @throws DAOException is raise if there is a problem with the database.
      */
     @Override
-    public void delete(City city) throws DAOException {
+    public void delete(Fly fly) throws DAOException {
         try {
-            city.deleteAllHotels();
-            String request = "DELETE FROM city WHERE id_city = " + city.getId();
+            String request = "DELETE FROM fly WHERE id_fly = " + fly.getId();
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
-        } catch (SQLException | HotelNotFoundException e) {
-            throw new DAOException(city);
-        }
-
-    }
-
-    /**
-     * I allow to update a City in the database.
-     *
-     * @param city the category to update.
-     * @return the category.
-     * @throws DAOException is raise if there is a problem with the database.
-     */
-    @Override
-    public City update(City city) throws DAOException {
-
-        // I do not check if the hotels need update because this should be handle by the Hotel object.
-        String request = "UPDATE city SET name = '" + city.getName() + "'," +
-                " WHERE id_city = " + city.getId();
-        try {
-            this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
-            return this.find(city.getId());
         } catch (SQLException e) {
-            throw new DAOException(city);
+            throw new DAOException(fly);
+        }
+
+    }
+
+    /**
+     * I allow to update a Fly in the database.
+     *
+     * @param fly the fly to update.
+     * @return the fly.
+     * @throws DAOException is raise if there is a problem with the database.
+     */
+    @Override
+    public Fly update(Fly fly) throws DAOException {
+        LocalTime time = fly.getHour();
+        String hour = time.getHour() + ":" + time.getMinute() + ":" + time.getSecond();
+        String request = "UPDATE fly SET id_origin = '" + fly.getOriginId().toString() + "'," +
+                " id_destination = '" + fly.getDestinationId().toString() + "'," +
+                " day = '" + fly.getDay().getValue() + "'," +
+                " hour = '" + hour + "'," +
+                " duration = '" + fly.getDuration().toString() + "'," +
+                " firstClassCapacity = '" + fly.getFirstTimeCapacity().toString() + "'," +
+                " secondClassCapacity = '" + fly.getSecondClassCapacity().toString() + "'," +
+                " resignation = '" + fly.getDaysOfResignation().toString() + "'," +
+                " WHERE id_fly = " + fly.getId().toString();
+        try {
+            this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
+            return this.find(fly.getId());
+        } catch (SQLException e) {
+            throw new DAOException(fly);
         }
     }
 
     /**
-     * I allow to get a City in the database from his id.
+     * I allow to get a Fly in the database from his id.
      *
-     * @param id the id of the city.
-     * @return the category.
+     * @param id the id of the Fly.
+     * @return the Fly.
      * @throws DAOException is raise if there is a problem with the database.
      */
     @Override
     public Fly find(Long id) throws DAOException {
-        String request = "SELECT * FROM city WHERE id_city = " + id;
+        String request = "SELECT * FROM fly WHERE id_fly = " + id;
         try {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
-                // We do not get the hotels, I am lazy.
-                return new City(id, result.getString("name"));
+                return new Fly(id,
+                        dao.find(result.getLong("id_origin")),
+                        dao.find(result.getLong("id_destination")),
+                        DayOfWeek.valueOf(result.getString("day")),
+                        result.getTime("hour").toLocalTime(),
+                        result.getInt("duration"),
+                        result.getInt("firstClassCapacity"),
+                        result.getInt("secondClassCapacity"),
+                        result.getInt("resignation")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,27 +134,4 @@ public class FlyDAO extends DAO<Fly> {
         throw new DAOException(id);
     }
 
-
-    /**
-     * I allow to get a list of cities of the Agency.
-     *
-     * @return the list of cities of the agency.
-     * @throws DAOException is raise if there is a problem with database.
-     */
-    public List<City> allCities() throws DAOException {
-        // For this one we don't have an ID in parameter because the agency is unique for now. 
-        //TODO Maybe include a retry with  a time out in case of SQLException
-        List<City> list = new ArrayList<>();
-        String request = "SELECT id_city FROM city";
-        try {
-            PreparedStatement statement = this.connection.prepareStatement(request);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                list.add(find(result.getLong("id_city")));
-            }
-        } catch (SQLException e) {
-            throw new DAOException();
-        }
-        return list;
-    }
 }

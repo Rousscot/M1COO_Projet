@@ -124,7 +124,7 @@ CREATE TABLE FLY (
   id_fly              INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('fly_id_seq' :: REGCLASS),
   id_origin           INTEGER REFERENCES CITY (id_city),
   id_destination      INTEGER REFERENCES CITY (id_city),
-  day                 CHARACTER VARYING(20) NOT NULL,
+  day                 INTEGER               NOT NULL,
   hour                TIME                  NOT NULL,
   duration            INTEGER               NOT NULL,
   firstClassCapacity  INTEGER               NOT NULL,

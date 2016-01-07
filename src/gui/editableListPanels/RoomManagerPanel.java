@@ -17,6 +17,7 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
 
     public RoomManagerPanel() {
         super();
+        selectFirstIfPossible();
     }
 
     @Override

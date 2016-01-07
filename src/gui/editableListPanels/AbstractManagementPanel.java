@@ -5,6 +5,13 @@ import java.awt.*;
 
 /**
  * Created by JeCisC on 17/12/2015.
+ *
+ * TODO
+ *
+ * C is the type of the Panel controller.
+ * T is the type of the elements of the list.
+ * F is a type of form to use.
+ *
  */
 public abstract class AbstractManagementPanel<C, T, F extends AbstractForm> extends JPanel implements StandardButtonsUsers {
 

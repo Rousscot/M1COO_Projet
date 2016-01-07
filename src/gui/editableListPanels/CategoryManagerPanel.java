@@ -25,8 +25,8 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     }
 
     @Override
-    public Hotel getController(){
-        if(this.controller == null){
+    public Hotel getController() {
+        if (this.controller == null) {
             NullHotel hotel = new NullHotel(null, null, null);
             hotel.setOwner(this);
             this.controller = hotel;
@@ -51,8 +51,7 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
 
     @Override
     public void listSelectionChanged() {
-        Category newSelection = jList.getSelectedValue();
-        form.setWith(newSelection);
+        super.listSelectionChanged();
         owner.categorySelected(jList.getSelectedValue());
     }
 
@@ -90,15 +89,15 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
     }
 
     @Override
-    public void updateItem(){
-        if(jList.getSelectedValue().getDesignation().equals(categoryDesignation())){
+    public void updateItem() {
+        if (jList.getSelectedValue().getDesignation().equals(categoryDesignation())) {
             try {
                 jList.getSelectedValue().updateWith(categoryCapacity(), categoryPrice());
                 refresh();
             } catch (DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
             }
-        }else {
+        } else {
             JOptionPane.showMessageDialog(this, "Veuillez ne pas changer le nom de la désignation.");
         }
     }
@@ -107,11 +106,11 @@ public class CategoryManagerPanel extends AbstractManagementPanel<Hotel, Categor
         return form.categoryDesignation();
     }
 
-    public Integer categoryCapacity()  throws NumberFormatException  {
+    public Integer categoryCapacity() throws NumberFormatException {
         return form.categoryCapacity();
     }
 
-    public Integer categoryPrice()  throws NumberFormatException  {
+    public Integer categoryPrice() throws NumberFormatException {
         return form.categoryPrice();
     }
 

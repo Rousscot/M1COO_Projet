@@ -14,11 +14,6 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
     }
 
     @Override
-    protected void listSelectionChanged() {
-
-    }
-
-    @Override
     public void setModelOfList() {
 
     }

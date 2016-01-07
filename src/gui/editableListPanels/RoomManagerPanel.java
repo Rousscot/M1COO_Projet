@@ -41,11 +41,6 @@ public class RoomManagerPanel extends AbstractManagementPanel<Category, Room, Ro
     }
 
     @Override
-    public void listSelectionChanged() {
-        form.setWith(jList.getSelectedValue());
-    }
-
-    @Override
     public void createItem() {
         //TODO Check that the field is not empty
         try {

@@ -40,8 +40,7 @@ public class HotelManagerPanel extends AbstractManagementPanel<City, Hotel, Hote
 
     @Override
     public void listSelectionChanged() {
-        Hotel newSelection = jList.getSelectedValue();
-        form.setWith(newSelection);
+        super.listSelectionChanged();
         owner.hotelSelected(jList.getSelectedValue());
     }
 

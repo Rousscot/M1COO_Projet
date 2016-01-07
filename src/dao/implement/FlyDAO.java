@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * I am a DAO use to map a Fly with the database.
@@ -134,4 +136,19 @@ public class FlyDAO extends DAO<Fly> {
         throw new DAOException(id);
     }
 
+    public List<Fly> allFlies() throws DAOException{
+        // For this one we don't have an ID in parameter because the agency is unique for now. 
+        //TODO Maybe include a retry with  a time out in case of SQLException
+        List<Fly> list = new ArrayList<>();
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT id_fly FROM fly");
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                list.add(find(result.getLong("id_fly")));
+            }
+        } catch (SQLException e) {
+            throw new DAOException();
+        }
+        return list;
+    }
 }

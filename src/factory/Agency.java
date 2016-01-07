@@ -2,6 +2,7 @@ package factory;
 
 import dao.exception.DAOException;
 import dao.implement.CityDAO;
+import dao.implement.FlyDAO;
 import domaine.Customer;
 import domaine.Fly;
 import domaine.destination.City;
@@ -26,9 +27,11 @@ public class Agency {
     protected List<Fly> flies;
     //protected List<Booking> bookings;
     protected CityDAO daoCity;
+    protected FlyDAO daoFly;
 
     public Agency() {
         daoCity = new CityDAO();
+        daoFly = new FlyDAO();
     }
 
     public List<City> getCities() throws DAOException {
@@ -36,6 +39,13 @@ public class Agency {
             cities = daoCity.allCities();
         }
         return cities;
+    }
+
+    public List<Fly> getFlies() throws DAOException {
+        if (flies == null) {
+            flies = daoFly.allFlies();
+        }
+        return flies;
     }
 
     public void addCustomer(Customer customer) {
@@ -79,5 +89,13 @@ public class Agency {
         }
         daoCity.delete(city);
         getCities().remove(city);
+    }
+
+    public Fly flyAt(int index) throws DAOException {
+        return getFlies().get(index);
+    }
+
+    public int numberOfFlies() throws DAOException {
+        return getFlies().size();
     }
 }

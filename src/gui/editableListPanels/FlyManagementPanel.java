@@ -2,6 +2,7 @@ package gui.editableListPanels;
 
 import domaine.Fly;
 import factory.Agency;
+import gui.model.FliesDataSource;
 
 /**
  * Created by ferlicotdelbe on 07/01/16.
@@ -15,7 +16,7 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
 
     @Override
     public void setModelOfList() {
-
+        jList.setModel(new FliesDataSource(getController()));
     }
 
     @Override

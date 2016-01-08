@@ -6,11 +6,11 @@ import dao.implement.FlyDAO;
 import domaine.Customer;
 import domaine.Fly;
 import domaine.destination.City;
-import domaine.exception.CityNotFoundException;
-import domaine.exception.DuplicatedCityException;
-import domaine.exception.DuplicatedHotelException;
+import domaine.exception.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -98,4 +98,25 @@ public class Agency {
     public int numberOfFlies() throws DAOException {
         return getFlies().size();
     }
+
+    public void createAndAddFly(City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstTimeCapacity, Integer secondClassCapacity, Integer daysOfResignation) throws DAOException, DuplicatedFlyException {
+        Fly fly = new Fly(origin, destination, day, hour, duration, firstTimeCapacity, secondClassCapacity, daysOfResignation);
+        if(getFlies().contains(fly)){
+            throw new DuplicatedFlyException(fly);
+        }
+        addFly(daoFly.create(fly));
+    }
+
+    public void addFly(Fly fly) throws DAOException {
+        getFlies().add(fly);
+    }
+
+    public void deleteFly(Fly fly) throws DAOException, FlyNotFoundException {
+        if (!getFlies().contains(fly)) {
+            throw new FlyNotFoundException(fly);
+        }
+        daoFly.delete(fly);
+        getFlies().remove(fly);
+    }
+
 }

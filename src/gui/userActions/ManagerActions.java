@@ -21,7 +21,7 @@ public class ManagerActions extends JList<JPanel> {
 
     public void initializeActions(Agency controller) {
         model.addElement(new DestinationManagementPanel(controller));
-        //model.addElement(new FlyManagementPanel(controller));
+        model.addElement(new FlyManagementPanel(controller));
     }
 
     public String toString() {

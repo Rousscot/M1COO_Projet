@@ -8,5 +8,5 @@ DROP TABLE customer; --This will also drop the customer_id_seq.
 DROP TABLE room;
 DROP TABLE category;
 DROP TABLE hotel;
-DROP TABLE city;
 DROP TABLE fly;
+DROP TABLE city;

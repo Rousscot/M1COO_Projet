@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Test">
-  <grid id="27dc6" layout-manager="GridBagLayout">
+  <grid id="27dc6" binding="Test" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="515" height="400"/>
+      <xy x="20" y="20" width="477" height="523"/>
     </constraints>
     <properties/>
+    <clientProperties>
+      <html.disable class="java.lang.Boolean" value="false"/>
+    </clientProperties>
     <border type="none"/>
     <children>
       <vspacer id="b54a4">
@@ -44,7 +47,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="eed9f" class="javax.swing.JList" binding="list1" default-binding="true">
+                  <component id="eed9f" class="javax.swing.JList" binding="origine">
                     <constraints/>
                     <properties>
                       <model/>
@@ -82,7 +85,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="157cb" class="javax.swing.JList" binding="list2" default-binding="true">
+                  <component id="157cb" class="javax.swing.JList" binding="destination">
                     <constraints/>
                     <properties>
                       <model/>
@@ -103,10 +106,10 @@
           <text value="Jour de départ"/>
         </properties>
       </component>
-      <component id="c0e4" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="c0e4" class="javax.swing.JComboBox" binding="day">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
         </constraints>
         <properties>
           <model/>
@@ -125,7 +128,113 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Heure de départ"/>
+        </properties>
+      </component>
+      <component id="af04e" class="javax.swing.JComboBox" binding="hour">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <hspacer id="85e50">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+      </hspacer>
+      <component id="a9be6" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Durée (Minutes)"/>
+        </properties>
+      </component>
+      <component id="a87e3" class="javax.swing.JTextArea" binding="duration">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <hspacer id="673f3">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </hspacer>
+      <component id="69fe1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <text value="Capacité (première classe)"/>
+        </properties>
+      </component>
+      <component id="7f928" class="javax.swing.JTextArea" binding="firstClassCapacity">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <editable value="true"/>
+        </properties>
+      </component>
+      <hspacer id="9a618">
+        <constraints>
+          <grid row="9" column="0" row-span="1" col-span="3" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </hspacer>
+      <component id="94409" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Capacité (deuxième classe)"/>
+        </properties>
+      </component>
+      <component id="c831b" class="javax.swing.JTextArea" binding="secondClassCapacity">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <hspacer id="c0be5">
+        <constraints>
+          <grid row="11" column="0" row-span="1" col-span="3" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </hspacer>
+      <component id="354ba" class="javax.swing.JTextArea" binding="daysOfRetractation">
+        <constraints>
+          <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="cb27e" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Temps de retractation (jour)"/>
         </properties>
       </component>
     </children>

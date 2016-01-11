@@ -21,28 +21,32 @@ public class FlyForm extends AbstractForm<Agency> {
 
     protected JComboBox hour;
 
-    protected JTextArea duration;
+    protected JTextField duration;
 
-    protected JTextArea firstClassCapacity;
+    protected JTextField firstClassCapacity;
 
-    protected JTextArea secondClassCapacity;
+    protected JTextField secondClassCapacity;
 
-    protected JTextArea daysOfRetractation;
+    protected JTextField daysOfRetractation;
+
+    public FlyForm(){
+        super();
+        initSeparators();
+    }
 
     @Override
     public LayoutManager getFormLayout() {
         return new GridBagLayout();
     }
 
-    @Override
-    public void initTextFields() {
-        
-        GridBagConstraints gridBagConstraints;
-        gridBagConstraints = new GridBagConstraints();
+    public void initSeparators() {
+        //Between the two lists
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = GridBagConstraints.VERTICAL;
         this.add(new JPanel(), gridBagConstraints);
+
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -50,7 +54,98 @@ public class FlyForm extends AbstractForm<Agency> {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(new JPanel(), gridBagConstraints);
 
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(new JPanel(), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(new JPanel(), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(new JPanel(), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(new JPanel(), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(new JPanel(), gridBagConstraints);
+    }
+
+    @Override
+    public void initTextFields() {
         initTabbedPanels();
+
+        day = new JComboBox();
+        day.setModel(new DefaultComboBoxModel());
+        day.setToolTipText("Selectionnez le jour du vol");
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(day, gridBagConstraints);
+
+        hour = new JComboBox();
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        this.add(hour, gridBagConstraints);
+
+        duration = new JTextField();
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(duration, gridBagConstraints);
+
+        firstClassCapacity = new JTextField();
+        firstClassCapacity.setEditable(true);
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(firstClassCapacity, gridBagConstraints);
+
+        secondClassCapacity = new JTextField();
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(secondClassCapacity, gridBagConstraints);
+
+        daysOfRetractation = new JTextField();
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        this.add(daysOfRetractation, gridBagConstraints);
+
     }
 
     public void initTabbedPanels() {
@@ -101,7 +196,42 @@ public class FlyForm extends AbstractForm<Agency> {
 
     @Override
     public void initLabels() {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.add(new JLabel("Jour de départ"), gridBagConstraints);
 
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.add(new JLabel("Heure de départ"), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.add(new JLabel("Durée (Minutes)"), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.add(new JLabel("Capacité (première classe)"), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.add(new JLabel("Capacité (deuxième classe)"), gridBagConstraints);
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.add(new JLabel("Temps de retractation (jour)"), gridBagConstraints);
     }
 
     @Override

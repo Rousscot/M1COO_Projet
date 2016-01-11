@@ -2,6 +2,7 @@ package gui.userActions;
 
 import factory.Agency;
 import gui.actionPanels.DestinationManagementPanel;
+import gui.editableListPanels.CustomerManagementPanel;
 import gui.editableListPanels.FlyManagementPanel;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class ManagerActions extends JList<JPanel> {
     public void initializeActions(Agency controller) {
         model.addElement(new DestinationManagementPanel(controller));
         model.addElement(new FlyManagementPanel(controller));
+        model.addElement(new CustomerManagementPanel(controller));
     }
 
     public String toString() {

@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class RoomForm extends AbstractForm<Room> {
 
-    protected static final String LABEL = "Number :";
+    protected static final String LABEL = "Numéro :";
     protected JTextField numberField;
 
     public RoomForm() {

@@ -2,6 +2,7 @@ package factory;
 
 import dao.exception.DAOException;
 import dao.implement.CityDAO;
+import dao.implement.CustomerDAO;
 import dao.implement.FlyDAO;
 import domaine.Customer;
 import domaine.Fly;
@@ -28,10 +29,12 @@ public class Agency {
     //protected List<Booking> bookings;
     protected CityDAO daoCity;
     protected FlyDAO daoFly;
+    protected CustomerDAO daoCustomer;
 
     public Agency() {
         daoCity = new CityDAO();
         daoFly = new FlyDAO();
+        daoCustomer = new CustomerDAO();
     }
 
     public List<City> getCities() throws DAOException {
@@ -48,19 +51,31 @@ public class Agency {
         return flies;
     }
 
-    public void addCustomer(Customer customer) {
-        customers.add(customer);
-        //TODO BDD
+    public List<Customer> getCustomers() throws DAOException{
+        if(customers == null){
+            customers = daoCustomer.allCustomers();
+        }
+        return customers;
     }
 
-    public void deleteCustomer(Customer customer) {
-        customers.remove(customer);
-        //TODO BDD
+    public void addCustomer(Customer customer) throws DAOException, DuplicatedCustomerException{
+        getCustomers().add(customer);
     }
 
-    public void createAndAddCustomer(String firstName, String lastName, LocalDate birthday, City city) {
+    public void deleteCustomer(Customer customer) throws DAOException, CustomerNotFoundException {
+        if(!getCustomers().contains(customer)){
+            throw new CustomerNotFoundException(customer);
+        }
+        daoCustomer.delete(customer);
+        getCustomers().remove(customer);
+    }
+
+    public void createAndAddCustomer(String firstName, String lastName, LocalDate birthday, City city) throws DuplicatedCustomerException, DAOException {
         Customer customer = new Customer(firstName, lastName, birthday, city);
-        addCustomer(customer);
+        if(getCustomers().contains(customer)){
+            throw new DuplicatedCustomerException(customer);
+        }
+        addCustomer(daoCustomer.create(customer));
     }
 
     public City cityAt(int index) throws DAOException {
@@ -119,4 +134,11 @@ public class Agency {
         getFlies().remove(fly);
     }
 
+    public int numberOfCustomers() throws DAOException{
+        return getCustomers().size();
+    }
+
+    public Customer customerAt(int index) throws DAOException {
+        return getCustomers().get(index);
+    }
 }

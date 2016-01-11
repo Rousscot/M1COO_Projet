@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO
@@ -80,4 +82,30 @@ public class CustomerDAO extends DAO<Customer> {
         }
         throw new DAOException(id);
     }
+
+    public List<Customer> allCustomers() throws DAOException{
+        List<Customer> list = new ArrayList<>();
+        try{
+            PreparedStatement statement = this.connection.prepareStatement("SELECT id_customer FROM customer");
+            ResultSet result = statement.executeQuery();
+            while(result.next()){
+                list.add(find(result.getLong("id_customer")));
+            }
+        } catch (SQLException e){
+            throw new DAOException();
+        }
+        return list;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

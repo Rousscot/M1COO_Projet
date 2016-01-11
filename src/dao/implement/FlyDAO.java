@@ -41,7 +41,7 @@ public class FlyDAO extends DAO<Fly> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
             if (result.first()) {
                 long id = result.getLong("id");
-                String insertRequest = "INSERT INTO city ( id_fly, id_origin, id_destination, day, hour, duration, firstClassCapacity, secondClassCapacity, resignation ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String insertRequest = "INSERT INTO fly ( id_fly, id_origin, id_destination, day, hour, duration, firstClassCapacity, secondClassCapacity, resignation ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement prepare = this.connection.prepareStatement(insertRequest);
                 prepare.setLong(1, id);
                 prepare.setLong(2, fly.getOriginId());
@@ -122,7 +122,7 @@ public class FlyDAO extends DAO<Fly> {
                 return new Fly(id,
                         dao.find(result.getLong("id_origin")),
                         dao.find(result.getLong("id_destination")),
-                        DayOfWeek.valueOf(result.getString("day")),
+                        DayOfWeek.of(result.getInt("day")),
                         result.getTime("hour").toLocalTime(),
                         result.getInt("duration"),
                         result.getInt("firstClassCapacity"),
@@ -136,7 +136,7 @@ public class FlyDAO extends DAO<Fly> {
         throw new DAOException(id);
     }
 
-    public List<Fly> allFlies() throws DAOException{
+    public List<Fly> allFlies() throws DAOException {
         // For this one we don't have an ID in parameter because the agency is unique for now. 
         //TODO Maybe include a retry with  a time out in case of SQLException
         List<Fly> list = new ArrayList<>();

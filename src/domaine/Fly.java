@@ -150,6 +150,11 @@ public class Fly implements DAOSerializable {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Vol " + origin.toString() + " - " + destination.toString() + " du " + day + " à " + hour;
+    }
+
     public Long getOriginId() {
         return origin.getId();
     }

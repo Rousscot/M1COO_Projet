@@ -1,5 +1,6 @@
 package gui.editableListPanels;
 
+import domaine.Fly;
 import domaine.destination.City;
 import factory.Agency;
 import gui.model.CitiesDataSource;
@@ -12,9 +13,9 @@ import java.time.LocalTime;
 /**
  * Created by ferlicotdelbe on 07/01/16.
  */
-public class FlyForm extends AbstractForm<Agency> {
+public class FlyForm extends AbstractForm<Fly> {
 
-    public Agency controller;
+    public Agency cityController;
     protected JList<City> origins;
     protected JList<City> destinations;
     protected JComboBox<DayOfWeek> day;
@@ -102,7 +103,7 @@ public class FlyForm extends AbstractForm<Agency> {
 
         //I don't know if there is a class as Interval in java and I don't have the time to check so I do this horrible initialization.
         Integer[] hours = new Integer[24];
-        for(Integer i = 0; i < 24; i++){
+        for (Integer i = 0; i < 24; i++) {
             hours[i] = i;
         }
         hour = new JComboBox<>(hours);
@@ -235,24 +236,41 @@ public class FlyForm extends AbstractForm<Agency> {
 
     @Override
     public void clean() {
-        throw new NullPointerException();
+        selectFirstElementIfPossible(origins);
+        selectFirstElementIfPossible(destinations);
+        day.setSelectedIndex(0);
+        hour.setSelectedIndex(0);
+        duration.setText("");
+        firstClassCapacity.setText("");
+        secondClassCapacity.setText("");
+        daysOfRetractation.setText("");
     }
 
     @Override
-    public void setWithNotNull(Agency controller) {
-        this.controller = controller;
+    public void setWithNotNull(Fly controller) {
+        refresh();
+    }
+
+    public void setCityController(Agency cityController) {
+        this.cityController = cityController;
         refresh();
     }
 
     public void refresh() {
-        refreshList(origins);
-        refreshList(destinations);
+        if (cityController != null) {
+            refreshList(origins);
+            refreshList(destinations);
+        }
     }
 
     public void refreshList(JList list) {
-        list.setModel(new CitiesDataSource(controller));
+        list.setModel(new CitiesDataSource(cityController));
         //list.revalidate();
         //list.repaint(); // I don't know why the repaint doesn't work :(
+        selectFirstElementIfPossible(list);
+    }
+
+    public void selectFirstElementIfPossible(JList list) {
         if (list.getModel().getSize() > 0) {
             list.setSelectedIndex(0);
         }
@@ -261,7 +279,7 @@ public class FlyForm extends AbstractForm<Agency> {
     @Override
     public void revalidate() {
         super.revalidate();
-        if (controller != null) {
+        if (cityController != null) {
             refresh();
         }
     }

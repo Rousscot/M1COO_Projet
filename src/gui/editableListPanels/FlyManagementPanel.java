@@ -20,7 +20,7 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
     public FlyManagementPanel(Agency controller) {
         super(controller);
         selectFirstIfPossible();
-        form.setWith(controller);
+        form.setCityController(controller);
     }
 
     @Override
@@ -41,17 +41,22 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
     @Override
     public void createItem() {
         //TODO Check that the field is not empty
-        try {
-            getController().createAndAddFly(flyOrigin(), flyDestination(), flyDay(), flyHour(), flyDuration(), flyFirstTimeCapacity(), flySecondClassCapacity(), flyDaysOfResignation());
-        } catch (DAOException e) {
-            JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
-        } catch (DuplicatedFlyException e) {
-            JOptionPane.showMessageDialog(this, e.getFly().toString() + " existe déjà.");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "La capacité et le prix devraient être des nombres. (bitch).");
+        if (flyOrigin().equals(flyDestination())) {
+            JOptionPane.showMessageDialog(this, "Les deux villes doivent être différentes.");
+        } else {
+            try {
+                getController().createAndAddFly(flyOrigin(), flyDestination(), flyDay(), flyHour(), flyDuration(), flyFirstTimeCapacity(), flySecondClassCapacity(), flyDaysOfResignation());
+            } catch (DAOException e) {
+                JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
+            } catch (DuplicatedFlyException e) {
+                JOptionPane.showMessageDialog(this, e.getFly().toString() + " existe déjà.");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "L'heure, les capacités et le nombre de jours avant resignation devraient être des nombres. (bitch).");
+            }
+            cleanFields();
+            refresh();
         }
-        cleanFields();
-        refresh();
+
     }
 
     @Override

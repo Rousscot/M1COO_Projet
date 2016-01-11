@@ -40,6 +40,7 @@ public class AgencyGUI extends JFrame {
         remove(mainPanel);
         mainPanel = panel;
         add(mainPanel, BorderLayout.CENTER);
+        mainPanel.revalidate();
         revalidate();
         repaint();
     }

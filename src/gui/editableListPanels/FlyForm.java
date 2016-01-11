@@ -2,6 +2,7 @@ package gui.editableListPanels;
 
 import domaine.destination.City;
 import factory.Agency;
+import gui.model.CitiesDataSource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,23 +14,17 @@ import java.time.LocalTime;
  */
 public class FlyForm extends AbstractForm<Agency> {
 
+    public Agency controller;
     protected JList<City> origins;
-
     protected JList<City> destinations;
-
-    protected JComboBox day;
-
-    protected JComboBox hour;
-
+    protected JComboBox<DayOfWeek> day;
+    protected JComboBox<Integer> hour;
     protected JTextField duration;
-
     protected JTextField firstClassCapacity;
-
     protected JTextField secondClassCapacity;
-
     protected JTextField daysOfRetractation;
 
-    public FlyForm(){
+    public FlyForm() {
         super();
         initSeparators();
     }
@@ -95,8 +90,7 @@ public class FlyForm extends AbstractForm<Agency> {
     public void initTextFields() {
         initTabbedPanels();
 
-        day = new JComboBox();
-        day.setModel(new DefaultComboBoxModel());
+        day = new JComboBox<>(DayOfWeek.values());
         day.setToolTipText("Selectionnez le jour du vol");
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -106,7 +100,12 @@ public class FlyForm extends AbstractForm<Agency> {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(day, gridBagConstraints);
 
-        hour = new JComboBox();
+        //I don't know if there is a class as Interval in java and I don't have the time to check so I do this horrible initialization.
+        Integer[] hours = new Integer[24];
+        for(Integer i = 0; i < 24; i++){
+            hours[i] = i;
+        }
+        hour = new JComboBox<>(hours);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -167,7 +166,7 @@ public class FlyForm extends AbstractForm<Agency> {
         destinationTabbedPanel.addTab("Destination", destinationPanel);
         JScrollPane destinationScrollPane = new JScrollPane();
         destinationPanel.add(destinationScrollPane, BorderLayout.CENTER);
-        destinations = new JList();
+        destinations = new JList<>();
         //DefaultListModel defaultListModel2 = new DefaultListModel();
         //destinations.setModel(defaultListModel2);
         destinationScrollPane.setViewportView(destinations);
@@ -236,12 +235,35 @@ public class FlyForm extends AbstractForm<Agency> {
 
     @Override
     public void clean() {
-
+        throw new NullPointerException();
     }
 
     @Override
     public void setWithNotNull(Agency controller) {
+        this.controller = controller;
+        refresh();
+    }
 
+    public void refresh() {
+        refreshList(origins);
+        refreshList(destinations);
+    }
+
+    public void refreshList(JList list) {
+        list.setModel(new CitiesDataSource(controller));
+        //list.revalidate();
+        //list.repaint(); // I don't know why the repaint doesn't work :(
+        if (list.getModel().getSize() > 0) {
+            list.setSelectedIndex(0);
+        }
+    }
+
+    @Override
+    public void revalidate() {
+        super.revalidate();
+        if (controller != null) {
+            refresh();
+        }
     }
 
     public City flyOrigin() {
@@ -253,26 +275,26 @@ public class FlyForm extends AbstractForm<Agency> {
     }
 
     public DayOfWeek flyDay() {
-        return null;
+        return (DayOfWeek) day.getSelectedItem(); //Dunno why I have to cast since day is a JComboBox<DayOfWeek>
     }
 
     public LocalTime flyHour() {
-        return null;
+        return LocalTime.of((Integer) hour.getSelectedItem(), 0, 0); //Idem
     }
 
-    public Integer flyDuration() throws NumberFormatException{
-        return null;
+    public Integer flyDuration() throws NumberFormatException {
+        return Integer.parseInt(duration.getText().trim());
     }
 
-    public Integer flyFirstTimeCapacity() throws NumberFormatException{
-        return null;
+    public Integer flyFirstTimeCapacity() throws NumberFormatException {
+        return Integer.parseInt(firstClassCapacity.getText().trim());
     }
 
-    public Integer flySecondClassCapacity() throws NumberFormatException{
-        return null;
+    public Integer flySecondClassCapacity() throws NumberFormatException {
+        return Integer.parseInt(secondClassCapacity.getText().trim());
     }
 
-    public Integer flyDaysOfResignation() throws NumberFormatException{
-        return null;
+    public Integer flyDaysOfResignation() throws NumberFormatException {
+        return Integer.parseInt(daysOfRetractation.getText().trim());
     }
 }

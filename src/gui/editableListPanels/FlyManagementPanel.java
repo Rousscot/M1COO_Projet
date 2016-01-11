@@ -8,7 +8,6 @@ import domaine.exception.FlyNotFoundException;
 import factory.Agency;
 import gui.model.FliesDataSource;
 
-import javax.jws.Oneway;
 import javax.swing.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -21,6 +20,7 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
     public FlyManagementPanel(Agency controller) {
         super(controller);
         selectFirstIfPossible();
+        form.setWith(controller);
     }
 
     @Override
@@ -86,40 +86,48 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
     }*/
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Gestion des vols";
     }
 
-    public City flyOrigin(){
+    public City flyOrigin() {
         return form.flyOrigin();
     }
 
-    public City flyDestination(){
+    public City flyDestination() {
         return form.flyDestination();
     }
 
-    public DayOfWeek flyDay(){
+    public DayOfWeek flyDay() {
         return form.flyDay();
     }
 
-    public LocalTime flyHour(){
+    public LocalTime flyHour() {
         return form.flyHour();
     }
 
-    public Integer flyDuration() throws NumberFormatException{
+    public Integer flyDuration() throws NumberFormatException {
         return form.flyDuration();
     }
 
-    public Integer flyFirstTimeCapacity() throws NumberFormatException{
+    public Integer flyFirstTimeCapacity() throws NumberFormatException {
         return form.flyFirstTimeCapacity();
     }
 
-    public Integer flySecondClassCapacity() throws NumberFormatException{
+    public Integer flySecondClassCapacity() throws NumberFormatException {
         return form.flySecondClassCapacity();
     }
 
-    public Integer flyDaysOfResignation() throws NumberFormatException{
+    public Integer flyDaysOfResignation() throws NumberFormatException {
         return form.flyDaysOfResignation();
+    }
+
+    @Override
+    public void revalidate() {
+        super.revalidate();
+        if (form != null) {
+            form.revalidate();
+        }
     }
 
 }

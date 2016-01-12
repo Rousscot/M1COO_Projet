@@ -2,6 +2,7 @@ package domaine;
 
 import domaine.destination.City;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -85,5 +86,9 @@ public class Customer implements DAOSerializable {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Long getCityId() {
+        return city.getId();
     }
 }

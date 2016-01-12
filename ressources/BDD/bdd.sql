@@ -21,25 +21,6 @@ SET default_tablespace = '';
 
 SET default_with_oids = FALSE;
 
--- CUSTOMER
-
-CREATE SEQUENCE customer_id_seq
-START WITH 1
-INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
-CACHE 1;
-
-CREATE TABLE CUSTOMER (
-  id_customer INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('customer_id_seq' :: REGCLASS),
-  first_name  CHARACTER VARYING(64) NOT NULL,
-  last_name   CHARACTER VARYING(64) NOT NULL,
-  birthday    DATE                  NOT NULL,
-  city        CHARACTER VARYING(64) NOT NULL
-);
-
-ALTER SEQUENCE customer_id_seq OWNED BY CUSTOMER.id_customer;
-
 -- CITY
 
 CREATE SEQUENCE city_id_seq
@@ -110,6 +91,25 @@ CREATE TABLE ROOM (
 );
 
 ALTER SEQUENCE room_id_seq OWNED BY ROOM.id_room;
+
+-- CUSTOMER
+
+CREATE SEQUENCE customer_id_seq
+START WITH 1
+INCREMENT BY 1
+NO MINVALUE
+NO MAXVALUE
+CACHE 1;
+
+CREATE TABLE CUSTOMER (
+  id_customer INTEGER PRIMARY KEY   NOT NULL DEFAULT nextval('customer_id_seq' :: REGCLASS),
+  first_name  CHARACTER VARYING(64) NOT NULL,
+  last_name   CHARACTER VARYING(64) NOT NULL,
+  birthday    DATE                  NOT NULL,
+  id_city     INTEGER REFERENCES CITY (id_city)
+);
+
+ALTER SEQUENCE customer_id_seq OWNED BY CUSTOMER.id_customer;
 
 -- Fly
 

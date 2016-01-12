@@ -17,8 +17,11 @@ import java.util.List;
  */
 public class CustomerDAO extends DAO<Customer> {
 
+    protected CityDAO cityDao;
+
     public CustomerDAO() {
         super();
+        cityDao = new CityDAO();
     }
 
     @Override
@@ -28,13 +31,13 @@ public class CustomerDAO extends DAO<Customer> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
             if (result.first()) {
                 long id = result.getLong("id");
-                String insertRequest = "INSERT INTO customer (id_customer, first_name, last_name, birthday , city) VALUES(?, ?, ?, ?, ?)";
+                String insertRequest = "INSERT INTO customer (id_customer, first_name, last_name, birthday , id_city) VALUES(?, ?, ?, ?, ?)";
                 PreparedStatement prepare = this.connection.prepareStatement(insertRequest);
                 prepare.setLong(1, id);
                 prepare.setString(2, customer.getFirstName());
                 prepare.setString(3, customer.getLastName());
                 prepare.setDate(4, Date.valueOf(customer.getBirthday()));
-                prepare.setString(5, customer.getCity().toString()); //TODO switch to city latter.
+                prepare.setLong(5, customer.getCityId());
                 prepare.executeUpdate();
                 customer = this.find(id);
             }
@@ -59,7 +62,7 @@ public class CustomerDAO extends DAO<Customer> {
         String request = "UPDATE customer SET first_name = '" + customer.getFirstName() + "'," +
                 " last_name = '" + customer.getLastName() + "'," +
                 " birthday = '" + Date.valueOf(customer.getBirthday()) + "'," +
-                " city = '" + customer.getCity().toString() + "'" + //TODO Use real city!
+                " id_city = '" + customer.getCityId().toString() + "'" +
                 " WHERE id_customer = " + customer.getId();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);
@@ -75,7 +78,7 @@ public class CustomerDAO extends DAO<Customer> {
         try {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(request);
             if (result.first()) {
-                return new Customer(id, result.getString("first_name"), result.getString("last_name"), result.getDate("birthday").toLocalDate(),/* result.getString("city")*/ new City("Foo")); //TODO replace by the real city latter :)
+                return new Customer(id, result.getString("first_name"), result.getString("last_name"), result.getDate("birthday").toLocalDate(), cityDao.find(result.getLong("id_city")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

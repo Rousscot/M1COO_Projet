@@ -38,6 +38,11 @@ public class Customer implements DAOSerializable {
         return Period.between(this.birthday, LocalDate.now()).getYears();
     }
 
+    @Override
+    public String toString() {
+        return firstName + " " + lastName ;
+    }
+
 
     //GETTERS AND SETTERS FOR DAO.
 

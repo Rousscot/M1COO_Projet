@@ -44,28 +44,14 @@ public class CustomerForm extends AbstractForm<Customer> {
     protected void initPanel(){
         birthdayPanel = new JPanel();
         birthdayPanel.setLayout(new GridLayout(3,1));
+        configureBirthdayTabbedPanel();
 
-        configureTabbedPanel(dayField, BDLABEL, birthdayPanel);
-        configureTabbedPanel(monthField, BMLABEL, birthdayPanel);
-        configureTabbedPanel(yearField, BYLABEL, birthdayPanel);
-/*
-        JLabel bdLabel = new JLabel(CustomerForm.BDLABEL);
-        JLabel bmLabel = new JLabel(CustomerForm.BMLABEL);
-        JLabel byLabel = new JLabel(CustomerForm.BYLABEL);
-        birthdayPanel.add(bdLabel);
-        birthdayPanel.add(dayField);
-        birthdayPanel.add(bmLabel);
-        birthdayPanel.add(monthField);
-        birthdayPanel.add(byLabel);
-        birthdayPanel.add(yearField);
-*/
     }
 
     @Override
     protected void initLabels() {
         initPanel();
-        configureTabbedPanel(firstNameField, FNLABEL);
-        configureTabbedPanel(lastNameField, LNLABEL);
+        configureNameTabbedPanel();
         initCityTap();
         add(birthdayPanel);
     }
@@ -120,44 +106,45 @@ public class CustomerForm extends AbstractForm<Customer> {
     public void initCityTap() {
         System.out.println(); //TODO retirer affichage
         JTabbedPane cityTabbedPanel = new JTabbedPane();
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        this.add(cityTabbedPanel, gridBagConstraints);
+        this.add(cityTabbedPanel);
         JPanel cityPanel = new JPanel();
         cityPanel.setLayout(new BorderLayout(0, 0));
-        cityTabbedPanel.addTab("Ville", cityPanel);
+        cityTabbedPanel.addTab("Ville :", cityPanel);
         JScrollPane cityScrollPane = new JScrollPane();
         cityPanel.add(cityScrollPane, BorderLayout.CENTER);
-        cities = new JList();
-        //final DefaultListModel defaultListModel1 = new DefaultListModel();
-        //origins.setModel(defaultListModel1);
-        //origins.setSelectionMode(0);
+        cities = new JList<>();
         cityScrollPane.setViewportView(cities);
     }
 
 
-    public void configureTabbedPanel(JTextField jTextField, String label){
-        JTabbedPane fsTabbedPanel = new JTabbedPane();
-        this.add(fsTabbedPanel);
-        jTextField = new JTextField();
-        fsTabbedPanel.addTab(label, jTextField);
+    public void configureNameTabbedPanel(){
+        JTabbedPane fnTabbedPanel = new JTabbedPane();
+        this.add(fnTabbedPanel);
+        firstNameField = new JTextField();
+        fnTabbedPanel.addTab(FNLABEL, firstNameField);
+
+        JTabbedPane lnTabbedPanel = new JTabbedPane();
+        this.add(lnTabbedPanel);
+        lastNameField = new JTextField();
+        lnTabbedPanel.addTab(LNLABEL, lastNameField);
     }
 
-    public void configureTabbedPanel(JTextField jTextField, String label, JPanel panel){
-        JTabbedPane fsTabbedPanel = new JTabbedPane();
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        panel.add(fsTabbedPanel, gridBagConstraints);
-        jTextField = new JTextField();
-        fsTabbedPanel.addTab(label, jTextField);
+    public void configureBirthdayTabbedPanel(){
+        JTabbedPane bdTabbedPanel = new JTabbedPane();
+        birthdayPanel.add(bdTabbedPanel);
+        dayField = new JTextField();
+        bdTabbedPanel.addTab(BDLABEL, dayField);
+
+        JTabbedPane bmTabbedPanel = new JTabbedPane();
+        birthdayPanel.add(bmTabbedPanel);
+        monthField = new JTextField();
+        bmTabbedPanel.addTab(BMLABEL, monthField);
+
+        JTabbedPane byTabbedPanel = new JTabbedPane();
+        birthdayPanel.add(byTabbedPanel);
+        yearField = new JTextField();
+        byTabbedPanel.addTab(BYLABEL, yearField);
+
     }
 
     @Override
@@ -168,11 +155,13 @@ public class CustomerForm extends AbstractForm<Customer> {
         }
     }
 
-
-
     @Override
     public void setWithNotNull(Customer controller) {
         refresh();
+        firstNameField.setText(controller.getFirstName());
+        lastNameField.setText(controller.getLastName());
+        //TODO selectionne la ville du customer
+        cities.setSelectedValue(controller.getCity(), true);
     }
 
     public City city(){
@@ -180,8 +169,10 @@ public class CustomerForm extends AbstractForm<Customer> {
     }
 
     public LocalDate birthday(){
-        //TODO
-        return null;
+        int year = Integer.parseInt(yearField.getText());
+        int month = Integer.parseInt(monthField.getText());
+        int day = Integer.parseInt(dayField.getText());
+        return LocalDate.of(year, month, day);
     }
 
     public String firstName(){

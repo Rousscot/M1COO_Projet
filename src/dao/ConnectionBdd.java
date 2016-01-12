@@ -28,7 +28,7 @@ public class ConnectionBdd {
      * I am the constructor. I also check that the connection works.
      */
     private ConnectionBdd() {
-        setHomeConnection();
+        //setHomeConnection();
     }
 
     /**

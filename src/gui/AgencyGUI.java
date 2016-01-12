@@ -32,7 +32,8 @@ public class AgencyGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocation(200, 200);
-        this.setMinimumSize(new Dimension(1500,768));
+        this.setMinimumSize(new Dimension(1700,768));
+        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
     }
 

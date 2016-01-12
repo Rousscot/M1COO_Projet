@@ -28,8 +28,7 @@ public class ConnectionBdd {
      * I am the constructor. I also check that the connection works.
      */
     private ConnectionBdd() {
-        //setHomeConnection();
-        setFacConnection();
+        setHomeConnection();
     }
 
     /**
@@ -78,7 +77,7 @@ public class ConnectionBdd {
             url = "jdbc:postgresql://webtp.fil.univ-lille1.fr:5432/ferlicotdelbe";
             user = "ferlicotdelbe";
             System.out.println("Password : ");
-            passwd = "genji1&2";
+            passwd = (new BufferedReader(new InputStreamReader(System.in))).readLine();
             for (int i = 0; i < 20; i++) {
                 System.out.println();
             }
@@ -87,7 +86,7 @@ public class ConnectionBdd {
         } catch (ClassNotFoundException e) {
             System.out.println("There is a problem with the instantiation of the driver. Check that the driver is on your classpath.");
             System.exit(10);
-        } catch (SQLException  e) {
+        } catch (SQLException | IOException e) {
             System.out.println("There is a problem with the url/login/password of the database :(");
             System.exit(15);
         }

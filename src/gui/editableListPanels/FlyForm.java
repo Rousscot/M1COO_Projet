@@ -153,7 +153,8 @@ public class FlyForm extends AbstractForm<Fly> {
     }
 
     public void initSecondCapacityField() {
-        GridBagConstraints gridBagConstraints;JTabbedPane secondCapacityTab = new JTabbedPane();
+        GridBagConstraints gridBagConstraints;
+        JTabbedPane secondCapacityTab = new JTabbedPane();
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -172,7 +173,8 @@ public class FlyForm extends AbstractForm<Fly> {
     }
 
     public void initFirstCapacityField() {
-        GridBagConstraints gridBagConstraints;JTabbedPane firstCapacityTab = new JTabbedPane();
+        GridBagConstraints gridBagConstraints;
+        JTabbedPane firstCapacityTab = new JTabbedPane();
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -334,6 +336,14 @@ public class FlyForm extends AbstractForm<Fly> {
     @Override
     public void setWithNotNull(Fly controller) {
         refresh();
+        day.getModel().setSelectedItem(controller.getDay());
+        hour.getModel().setSelectedItem(controller.getHour());
+        duration.setText(controller.getDuration().toString());
+        firstClassCapacity.setText(controller.getFirstClassCapacity().toString());
+        firstClassPrice.setText(controller.getFirstClassPrice().toString());
+        secondClassCapacity.setText(controller.getSecondClassCapacity().toString());
+        secondClassPrice.setText(controller.getSecondClassPrice().toString());
+        daysOfRetractation.setText(controller.getDaysOfResignation().toString());
     }
 
     public void setCityController(Agency cityController) {

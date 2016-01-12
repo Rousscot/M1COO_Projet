@@ -41,7 +41,7 @@ public class FlyDAO extends DAO<Fly> {
             ResultSet result = this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(idRequest);
             if (result.first()) {
                 long id = result.getLong("id");
-                String insertRequest = "INSERT INTO fly ( id_fly, id_origin, id_destination, day, hour, duration, firstClassCapacity, secondClassCapacity, resignation ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String insertRequest = "INSERT INTO fly ( id_fly, id_origin, id_destination, day, hour, duration, firstClassCapacity, firstClassPrice, secondClassCapacity, secondClassPrice, resignation ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement prepare = this.connection.prepareStatement(insertRequest);
                 prepare.setLong(1, id);
                 prepare.setLong(2, fly.getOriginId());
@@ -49,9 +49,11 @@ public class FlyDAO extends DAO<Fly> {
                 prepare.setInt(4, fly.getDay().getValue());
                 prepare.setTime(5, new Time(Long.valueOf(fly.getHour().toSecondOfDay() * 1000)));
                 prepare.setInt(6, fly.getDuration());
-                prepare.setInt(7, fly.getFirstTimeCapacity());
-                prepare.setInt(8, fly.getSecondClassCapacity());
-                prepare.setInt(9, fly.getDaysOfResignation());
+                prepare.setInt(7, fly.getFirstClassCapacity());
+                prepare.setInt(8, fly.getFirstClassPrice());
+                prepare.setInt(9, fly.getSecondClassCapacity());
+                prepare.setInt(10, fly.getSecondClassCapacity());
+                prepare.setInt(11, fly.getDaysOfResignation());
                 prepare.executeUpdate();
                 fly = this.find(id);
             }
@@ -94,8 +96,10 @@ public class FlyDAO extends DAO<Fly> {
                 " day = '" + fly.getDay().getValue() + "'," +
                 " hour = '" + hour + "'," +
                 " duration = '" + fly.getDuration().toString() + "'," +
-                " firstClassCapacity = '" + fly.getFirstTimeCapacity().toString() + "'," +
+                " firstClassCapacity = '" + fly.getFirstClassCapacity().toString() + "'," +
+                " firstClassPrice = '" + fly.getFirstClassPrice().toString() + "'," +
                 " secondClassCapacity = '" + fly.getSecondClassCapacity().toString() + "'," +
+                " secondClassPrice = '" + fly.getSecondClassPrice().toString() + "'," +
                 " resignation = '" + fly.getDaysOfResignation().toString() + "'," +
                 " WHERE id_fly = " + fly.getId().toString();
         try {
@@ -126,7 +130,9 @@ public class FlyDAO extends DAO<Fly> {
                         result.getTime("hour").toLocalTime(),
                         result.getInt("duration"),
                         result.getInt("firstClassCapacity"),
+                        result.getInt("firstClassPrice"),
                         result.getInt("secondClassCapacity"),
+                        result.getInt("secondClassPrice"),
                         result.getInt("resignation")
                 );
             }

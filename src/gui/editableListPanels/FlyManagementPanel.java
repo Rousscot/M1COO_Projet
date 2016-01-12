@@ -45,7 +45,7 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
             JOptionPane.showMessageDialog(this, "Les deux villes doivent être différentes.");
         } else {
             try {
-                getController().createAndAddFly(flyOrigin(), flyDestination(), flyDay(), flyHour(), flyDuration(), flyFirstTimeCapacity(), flySecondClassCapacity(), flyDaysOfResignation());
+                getController().createAndAddFly(flyOrigin(), flyDestination(), flyDay(), flyHour(), flyDuration(), flyFirstClassCapacity(), flyFirstClassPrice(), flySecondClassCapacity(), flySecondClassPrice(), flyDaysOfResignation());
             } catch (DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
             } catch (DuplicatedFlyException e) {
@@ -115,7 +115,7 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
         return form.flyDuration();
     }
 
-    public Integer flyFirstTimeCapacity() throws NumberFormatException {
+    public Integer flyFirstClassCapacity() throws NumberFormatException {
         return form.flyFirstTimeCapacity();
     }
 
@@ -125,6 +125,14 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
 
     public Integer flyDaysOfResignation() throws NumberFormatException {
         return form.flyDaysOfResignation();
+    }
+
+    public  Integer flySecondClassPrice()  throws NumberFormatException {
+        return form.flySecondClassPrice();
+    }
+
+    public Integer flyFirstClassPrice() throws NumberFormatException  {
+        return form.flyFirstClassPrice();
     }
 
     @Override

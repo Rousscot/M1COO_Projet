@@ -114,8 +114,8 @@ public class Agency {
         return getFlies().size();
     }
 
-    public void createAndAddFly(City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstTimeCapacity, Integer secondClassCapacity, Integer daysOfResignation) throws DAOException, DuplicatedFlyException {
-        Fly fly = new Fly(origin, destination, day, hour, duration, firstTimeCapacity, secondClassCapacity, daysOfResignation);
+    public void createAndAddFly(City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstTimeCapacity, Integer firstClassPrice, Integer secondClassCapacity, Integer secondClassPrice, Integer daysOfResignation) throws DAOException, DuplicatedFlyException {
+        Fly fly = new Fly(origin, destination, day, hour, duration, firstTimeCapacity, firstClassPrice, secondClassCapacity, secondClassPrice, daysOfResignation);
         if(getFlies().contains(fly)){
             throw new DuplicatedFlyException(fly);
         }

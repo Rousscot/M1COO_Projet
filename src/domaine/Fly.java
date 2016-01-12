@@ -24,25 +24,31 @@ public class Fly implements DAOSerializable {
 
     protected Integer duration;
 
-    protected Integer firstTimeCapacity;
+    protected Integer firstClassCapacity;
+
+    protected Integer firstClassPrice;
+
+    protected Integer secondClassPrice;
 
     protected Integer secondClassCapacity;
 
     protected Integer daysOfResignation;
 
-    public Fly(City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstTimeCapacity, Integer secondClassCapacity, Integer daysOfResignation) {
-        this(0L, origin, destination, day, hour, duration, firstTimeCapacity, secondClassCapacity, daysOfResignation);
+    public Fly(City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstClassCapacity, Integer firstClassPrice, Integer secondClassCapacity, Integer secondClassPrice, Integer daysOfResignation) {
+        this(0L, origin, destination, day, hour, duration, firstClassCapacity, firstClassPrice, secondClassCapacity, secondClassPrice, daysOfResignation);
     }
 
-    public Fly(Long id, City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstTimeCapacity, Integer secondClassCapacity, Integer daysOfResignation) {
+    public Fly(Long id, City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstClassCapacity, Integer firstClassPrice, Integer secondClassCapacity, Integer secondClassPrice, Integer daysOfResignation) {
         this.id = id;
         this.origin = origin;
         this.destination = destination;
         this.day = day;
         this.hour = hour;
         this.duration = duration;
-        this.firstTimeCapacity = firstTimeCapacity;
+        this.firstClassCapacity = firstClassCapacity;
+        this.firstClassPrice = firstClassPrice;
         this.secondClassCapacity = secondClassCapacity;
+        this.secondClassPrice = secondClassPrice;
         this.daysOfResignation = daysOfResignation;
     }
 
@@ -95,12 +101,12 @@ public class Fly implements DAOSerializable {
         this.duration = duration;
     }
 
-    public Integer getFirstTimeCapacity() {
-        return firstTimeCapacity;
+    public Integer getFirstClassCapacity() {
+        return firstClassCapacity;
     }
 
-    public void setFirstTimeCapacity(Integer firstTimeCapacity) {
-        this.firstTimeCapacity = firstTimeCapacity;
+    public void setFirstClassCapacity(Integer firstClassCapacity) {
+        this.firstClassCapacity = firstClassCapacity;
     }
 
     public Integer getSecondClassCapacity() {
@@ -119,6 +125,22 @@ public class Fly implements DAOSerializable {
         this.daysOfResignation = daysOfResignation;
     }
 
+    public Integer getFirstClassPrice() {
+        return firstClassPrice;
+    }
+
+    public void setFirstClassPrice(Integer firstClassPrice) {
+        this.firstClassPrice = firstClassPrice;
+    }
+
+    public Integer getSecondClassPrice() {
+        return secondClassPrice;
+    }
+
+    public void setSecondClassPrice(Integer secondClassPrice) {
+        this.secondClassPrice = secondClassPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,7 +153,9 @@ public class Fly implements DAOSerializable {
         if (day != fly.day) return false;
         if (!hour.equals(fly.hour)) return false;
         if (!duration.equals(fly.duration)) return false;
-        if (!firstTimeCapacity.equals(fly.firstTimeCapacity)) return false;
+        if (!firstClassCapacity.equals(fly.firstClassCapacity)) return false;
+        if (!firstClassPrice.equals(fly.firstClassPrice)) return false;
+        if (!secondClassPrice.equals(fly.secondClassPrice)) return false;
         if (!secondClassCapacity.equals(fly.secondClassCapacity)) return false;
         return daysOfResignation.equals(fly.daysOfResignation);
 
@@ -144,7 +168,9 @@ public class Fly implements DAOSerializable {
         result = 31 * result + day.hashCode();
         result = 31 * result + hour.hashCode();
         result = 31 * result + duration.hashCode();
-        result = 31 * result + firstTimeCapacity.hashCode();
+        result = 31 * result + firstClassCapacity.hashCode();
+        result = 31 * result + firstClassPrice.hashCode();
+        result = 31 * result + secondClassPrice.hashCode();
         result = 31 * result + secondClassCapacity.hashCode();
         result = 31 * result + daysOfResignation.hashCode();
         return result;

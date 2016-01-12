@@ -13,13 +13,9 @@ import java.time.Period;
 public class Customer implements DAOSerializable {
 
     protected Long id;
-
     protected String firstName;
-
     protected String lastName;
-
     protected LocalDate birthday;
-
     protected City city;
 
     public Customer(Long id, String firstName, String lastName, LocalDate birthday, City city) {
@@ -40,6 +36,11 @@ public class Customer implements DAOSerializable {
      */
     public Integer age() {
         return Period.between(this.birthday, LocalDate.now()).getYears();
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName ;
     }
 
 

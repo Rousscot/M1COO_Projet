@@ -128,7 +128,9 @@ CREATE TABLE FLY (
   hour                TIME                  NOT NULL,
   duration            INTEGER               NOT NULL,
   firstClassCapacity  INTEGER               NOT NULL,
+  firstClassPrice     INTEGER               NOT NULL,
   secondClassCapacity INTEGER               NOT NULL,
+  secondClassPrice    INTEGER               NOT NULL,
   resignation         INTEGER               NOT NULL
 );
 

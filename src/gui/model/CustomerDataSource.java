@@ -14,7 +14,7 @@ public class CustomerDataSource extends AbstractListModel<Customer> {
 
     protected Agency agency;
 
-    public CustomerDataSource(Agency agency){
+    public CustomerDataSource(Agency agency) {
         this.agency = agency;
     }
 
@@ -30,9 +30,9 @@ public class CustomerDataSource extends AbstractListModel<Customer> {
 
     @Override
     public Customer getElementAt(int index) {
-        try{
+        try {
             return agency.customerAt(index);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             // TODO raise a message of error
         }
         return null;

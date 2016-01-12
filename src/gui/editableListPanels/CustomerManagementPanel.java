@@ -18,6 +18,8 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
 
     public CustomerManagementPanel(Agency controller){
         super(controller);
+        selectFirstIfPossible();
+        form.setCustomerController(controller);
     }
 
     @Override
@@ -28,6 +30,11 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
     @Override
     public void initForm() {
         form = new CustomerForm();
+    }
+
+    @Override
+    public void initButtonsBar() {
+        buttonsBar = new StandardButtonsBar(this, true);
     }
 
     @Override
@@ -79,6 +86,14 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
 
     public String toString(){
         return "Gestion des clients";
+    }
+
+    @Override
+    public void revalidate() {
+        super.revalidate();
+        if (form != null) {
+            form.revalidate();
+        }
     }
 
 }

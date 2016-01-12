@@ -100,7 +100,7 @@ public class FlyDAO extends DAO<Fly> {
                 " firstClassPrice = '" + fly.getFirstClassPrice().toString() + "'," +
                 " secondClassCapacity = '" + fly.getSecondClassCapacity().toString() + "'," +
                 " secondClassPrice = '" + fly.getSecondClassPrice().toString() + "'," +
-                " resignation = '" + fly.getDaysOfResignation().toString() + "'," +
+                " resignation = '" + fly.getDaysOfResignation().toString() + "' " +
                 " WHERE id_fly = " + fly.getId().toString();
         try {
             this.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeUpdate(request);

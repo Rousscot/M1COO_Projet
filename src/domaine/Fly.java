@@ -152,7 +152,7 @@ public class Fly implements DAOSerializable {
 
     @Override
     public String toString() {
-        return "Vol " + origin.toString() + " - " + destination.toString() + " du " + day + " à " + hour;
+        return "Vol " + origin.toString() + " - " + destination.toString() + " du " + day + " à " + hour ;
     }
 
     public Long getOriginId() {

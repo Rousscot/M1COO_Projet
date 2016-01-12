@@ -19,20 +19,23 @@ public class CityForm extends AbstractForm<City> {
 
     @Override
     public LayoutManager getFormLayout(){
-        return new GridLayout(1, 2, 0, 5);
+        return new BorderLayout();
     }
 
     @Override
     public void initLabels() {
-        JLabel label = new JLabel(CityForm.LABEL);
-        add(label);
-        add(nameField);
+        configureTabbedPanel(LABEL);
     }
 
     @Override
     public void initTextFields() {
+    }
+
+    public void configureTabbedPanel(String label){
+        JTabbedPane fsTabbedPanel = new JTabbedPane();
+        this.add(fsTabbedPanel);
         nameField = new JTextField();
-        nameField.setColumns(2);
+        fsTabbedPanel.addTab(label, nameField);
     }
 
     @Override

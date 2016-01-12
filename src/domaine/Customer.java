@@ -13,13 +13,9 @@ import java.time.Period;
 public class Customer implements DAOSerializable {
 
     protected Long id;
-
     protected String firstName;
-
     protected String lastName;
-
     protected LocalDate birthday;
-
     protected City city;
 
     public Customer(Long id, String firstName, String lastName, LocalDate birthday, City city) {

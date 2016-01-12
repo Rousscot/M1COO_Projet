@@ -162,6 +162,12 @@ public class CustomerForm extends AbstractForm<Customer> {
         lastNameField.setText(controller.getLastName());
         //TODO selectionne la ville du customer
         cities.setSelectedValue(controller.getCity(), true);
+        String year = controller.getBirthday().getYear() + "";
+        String month = controller.getBirthday().getMonthValue() + "";
+        String day = controller.getBirthday().getDayOfMonth() + "";
+        dayField.setText(day);
+        monthField.setText(month);
+        yearField.setText(year);
     }
 
     public City city(){

@@ -76,19 +76,15 @@ public class FlyManagementPanel extends AbstractManagementPanel<Agency, Fly, Fly
         }
     }
 
-    /*@Override
+    @Override
     public void updateItem() {
-        if (jList.getSelectedValue().getDesignation().equals(categoryDesignation())) {
             try {
-                jList.getSelectedValue().updateWith(categoryCapacity(), categoryPrice());
+                jList.getSelectedValue().updateWith(flyOrigin(), flyDestination(), flyDay(), flyHour(), flyDuration(), flyFirstClassCapacity(), flyFirstClassPrice(), flySecondClassCapacity(), flySecondClassPrice(), flyDaysOfResignation());
                 refresh();
             } catch (DAOException e) {
                 JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Veuillez ne pas changer le nom de la désignation.");
-        }
-    }*/
+    }
 
     @Override
     public String toString() {

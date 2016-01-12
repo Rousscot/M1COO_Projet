@@ -19,7 +19,7 @@ public class FlyForm extends AbstractForm<Fly> {
     protected JList<City> origins;
     protected JList<City> destinations;
     protected JComboBox<DayOfWeek> day;
-    protected JComboBox<Integer> hour;
+    protected JComboBox<LocalTime> hour;
     protected JTextField duration;
     protected JTextField firstClassCapacity;
     protected JTextField secondClassCapacity;
@@ -230,9 +230,9 @@ public class FlyForm extends AbstractForm<Fly> {
         hourTab.addTab("Heure de départ", hourPanel);
 
         //I don't know if there is a class as Interval in java and I don't have the time to check so I do this horrible initialization.
-        Integer[] hours = new Integer[24];
+        LocalTime[] hours = new LocalTime[24];
         for (Integer i = 0; i < 24; i++) {
-            hours[i] = i;
+            hours[i] = LocalTime.of(i, 0, 0);
         }
 
         hour = new JComboBox<>(hours);
@@ -288,8 +288,6 @@ public class FlyForm extends AbstractForm<Fly> {
         JScrollPane destinationScrollPane = new JScrollPane();
         destinationPanel.add(destinationScrollPane, BorderLayout.CENTER);
         destinations = new JList<>();
-        //DefaultListModel defaultListModel2 = new DefaultListModel();
-        //destinations.setModel(defaultListModel2);
         destinationScrollPane.setViewportView(destinations);
     }
 
@@ -307,10 +305,7 @@ public class FlyForm extends AbstractForm<Fly> {
         originTabbedPanel.addTab("Origine", originPanel);
         JScrollPane originScrollPane = new JScrollPane();
         originPanel.add(originScrollPane, BorderLayout.CENTER);
-        origins = new JList();
-        //final DefaultListModel defaultListModel1 = new DefaultListModel();
-        //origins.setModel(defaultListModel1);
-        //origins.setSelectionMode(0);
+        origins = new JList<>();
         originScrollPane.setViewportView(origins);
     }
 
@@ -336,6 +331,8 @@ public class FlyForm extends AbstractForm<Fly> {
     @Override
     public void setWithNotNull(Fly controller) {
         refresh();
+        origins.setSelectedValue(controller.getOrigin(), true);
+        destinations.setSelectedValue(controller.getDestination(), true);
         day.getModel().setSelectedItem(controller.getDay());
         hour.getModel().setSelectedItem(controller.getHour());
         duration.setText(controller.getDuration().toString());
@@ -358,7 +355,7 @@ public class FlyForm extends AbstractForm<Fly> {
         }
     }
 
-    public void refreshList(JList list) {
+    public void refreshList(JList<City> list) {
         list.setModel(new CitiesDataSource(cityController));
         //list.revalidate();
         //list.repaint(); // I don't know why the repaint doesn't work :(
@@ -392,7 +389,7 @@ public class FlyForm extends AbstractForm<Fly> {
     }
 
     public LocalTime flyHour() {
-        return LocalTime.of((Integer) hour.getSelectedItem(), 0, 0); //Idem
+        return (LocalTime) hour.getSelectedItem(); //Idem
     }
 
     public Integer flyDuration() throws NumberFormatException {

@@ -1,5 +1,7 @@
 package domaine;
 
+import dao.exception.DAOException;
+import dao.implement.FlyDAO;
 import domaine.destination.City;
 
 import java.time.DayOfWeek;
@@ -187,5 +189,19 @@ public class Fly implements DAOSerializable {
 
     public Long getDestinationId() {
         return destination.getId();
+    }
+
+    public void updateWith(City origin, City destination, DayOfWeek dayOfWeek, LocalTime hour, Integer duration, Integer firstClassCapacity, Integer firstClassPrice, Integer secondClassCapacity, Integer secondClassPrice, Integer daysOfResignation) throws DAOException{
+        this.setOrigin(origin);
+        this.setDestination(destination);
+        this.setDay(dayOfWeek);
+        this.setHour(hour);
+        this.setDestination(destination);
+        this.setFirstClassCapacity(firstClassCapacity);
+        this.setFirstClassPrice(firstClassPrice);
+        this.setSecondClassCapacity(secondClassCapacity);
+        this.setSecondClassPrice(secondClassPrice);
+        this.setDaysOfResignation(daysOfResignation);
+        new FlyDAO().update(this);
     }
 }

@@ -63,7 +63,7 @@ public class CustomerForm extends AbstractForm<Customer> {
     @Override
     //TODO
     protected LayoutManager getFormLayout() {
-        return new GridLayout(1, 1);
+        return new GridBagLayout();
     }
 
     @Override

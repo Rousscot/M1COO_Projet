@@ -66,16 +66,6 @@ public class CustomerForm extends AbstractForm<Customer> {
         return new GridLayout(1, 1);
     }
 
-    /**
-     * initialize the birthday panel
-     */
-    protected void initPanel() {
-        birthdayPanel = new JPanel();
-        birthdayPanel.setLayout(new GridLayout(3, 1));
-        configureBirthdayTabbedPanel();
-        return new GridBagLayout();
-    }
-
     @Override
     protected void initLabels() {
     }
@@ -180,42 +170,6 @@ public class CustomerForm extends AbstractForm<Customer> {
         cityScrollPane.setViewportView(cities);
     }
 
-    /**
-     * initialize and add the name tabbed panes to the main panel
-     */
-    public void configureNameTabbedPanel() {
-        JTabbedPane fnTabbedPanel = new JTabbedPane();
-        this.add(fnTabbedPanel);
-        firstNameField = new JTextField();
-        fnTabbedPanel.addTab(FNLABEL, firstNameField);
-
-        JTabbedPane lnTabbedPanel = new JTabbedPane();
-        this.add(lnTabbedPanel);
-        lastNameField = new JTextField();
-        lnTabbedPanel.addTab(LNLABEL, lastNameField);
-    }
-
-    /**
-     * initialize and add the birthday tabbed panes to the Birthaday pannel
-     */
-    public void configureBirthdayTabbedPanel() {
-        JTabbedPane bdTabbedPanel = new JTabbedPane();
-        birthdayPanel.add(bdTabbedPanel);
-        dayField = new JTextField();
-        bdTabbedPanel.addTab(BDLABEL, dayField);
-
-        JTabbedPane bmTabbedPanel = new JTabbedPane();
-        birthdayPanel.add(bmTabbedPanel);
-        monthField = new JTextField();
-        bmTabbedPanel.addTab(BMLABEL, monthField);
-
-        JTabbedPane byTabbedPanel = new JTabbedPane();
-        birthdayPanel.add(byTabbedPanel);
-        yearField = new JTextField();
-        byTabbedPanel.addTab(BYLABEL, yearField);
-
-    }
-
     @Override
     public void revalidate() {
         super.revalidate();
@@ -260,46 +214,6 @@ public class CustomerForm extends AbstractForm<Customer> {
      */
     public String lastName() {
         return lastNameField.getText().trim();
-    }
-
-    /**
-     * @return the year filled in the yearField
-     * @throws NumberFormatException   is raised when we don't fill a integer
-     * @throws BirthdayFormatException is raised when the year is not valid (age <100)
-     */
-    public int year() throws NumberFormatException, BirthdayFormatException {
-        int year = Integer.parseInt(yearField.getText());
-        int currentYear = LocalDate.now().getYear();
-        if (year < (currentYear - 100) || year > currentYear) {
-            throw new BirthdayFormatException("L'année de naissance doit être comprise entre " + (currentYear - 100) + " et " + currentYear);
-        }
-        return year;
-    }
-
-    /**
-     * @return the month filled in the monthField
-     * @throws NumberFormatException   is raised when we don't fill an integer
-     * @throws BirthdayFormatException is raised when the month is not valid (1to12)
-     */
-    public int month() throws NumberFormatException, BirthdayFormatException {
-        int month = Integer.parseInt(monthField.getText());
-        if (month < 1 || month > 12) {
-            throw new BirthdayFormatException("Le mois de naissance doit être compris entre 1 et 12");
-        }
-        return month;
-    }
-
-    /**
-     * @return the day filled in the dayField
-     * @throws NumberFormatException   is raised when we don't fill an integer
-     * @throws BirthdayFormatException is raised when the day is not valid (1to31)
-     */
-    public int day() throws NumberFormatException, BirthdayFormatException {
-        int day = Integer.parseInt(dayField.getText());
-        if (day < 1 || day > 31) {
-            throw new BirthdayFormatException("Le jour de naissance doit être compris entre 1 et 31");
-        }
-        return day;
     }
 
 }

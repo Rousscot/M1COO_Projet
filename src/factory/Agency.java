@@ -70,28 +70,6 @@ public class Agency {
         getCustomers().remove(customer);
     }
 
-    public void updateCustomer(Customer customerBefore, Customer customerAfter) throws DAOException {
-        if (!customerBefore.getFirstName().equals(customerAfter.getFirstName()) && !customerAfter.getFirstName().equals("")) {
-            //TODO update firstname of the customer
-            System.out.println("prénom modifié");
-        }
-        if (!customerBefore.getLastName().equals(customerAfter.getLastName()) && !customerAfter.getFirstName().equals("")) {
-            //TODO update lasttname of the customer
-            System.out.println("nom modifié");
-        }
-        if (!customerBefore.getCity().getName().trim().equals(customerAfter.getCity().getName().trim())) {
-            //TODO update the city of the customer
-            System.out.println("city modifiée");
-        }
-        LocalDate bDayBefore = customerBefore.getBirthday();
-        LocalDate bDayAfter = customerAfter.getBirthday();
-        if (bDayBefore.getDayOfMonth() != bDayAfter.getDayOfMonth() || bDayBefore.getMonthValue() != bDayAfter.getMonthValue() || bDayBefore.getYear() != bDayAfter.getYear()   ) {
-            //TODO update the birthday of the customer
-            System.out.println("Birthday modifié");
-        }
-
-    }
-
     public void createAndAddCustomer(String firstName, String lastName, LocalDate birthday, City city) throws DuplicatedCustomerException, DAOException {
         Customer customer = new Customer(firstName, lastName, birthday, city);
         if (getCustomers().contains(customer)) {

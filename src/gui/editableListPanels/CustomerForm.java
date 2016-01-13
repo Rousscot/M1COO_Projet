@@ -2,6 +2,7 @@ package gui.editableListPanels;
 
 import domaine.Customer;
 import domaine.destination.City;
+import domaine.exception.BirthdayFormatException;
 import factory.Agency;
 import gui.model.CitiesDataSource;
 
@@ -31,7 +32,7 @@ public class CustomerForm extends AbstractForm<Customer> {
     protected static final String BYLABEL = "Année de naissance :";
     protected JTextField yearField;
 
-    public CustomerForm(){
+    public CustomerForm() {
         super();
     }
 
@@ -41,9 +42,9 @@ public class CustomerForm extends AbstractForm<Customer> {
         return new GridLayout(1, 7);
     }
 
-    protected void initPanel(){
+    protected void initPanel() {
         birthdayPanel = new JPanel();
-        birthdayPanel.setLayout(new GridLayout(3,1));
+        birthdayPanel.setLayout(new GridLayout(3, 1));
         configureBirthdayTabbedPanel();
     }
 
@@ -116,7 +117,7 @@ public class CustomerForm extends AbstractForm<Customer> {
     }
 
 
-    public void configureNameTabbedPanel(){
+    public void configureNameTabbedPanel() {
         JTabbedPane fnTabbedPanel = new JTabbedPane();
         this.add(fnTabbedPanel);
         firstNameField = new JTextField();
@@ -128,7 +129,7 @@ public class CustomerForm extends AbstractForm<Customer> {
         lnTabbedPanel.addTab(LNLABEL, lastNameField);
     }
 
-    public void configureBirthdayTabbedPanel(){
+    public void configureBirthdayTabbedPanel() {
         JTabbedPane bdTabbedPanel = new JTabbedPane();
         birthdayPanel.add(bdTabbedPanel);
         dayField = new JTextField();
@@ -170,23 +171,48 @@ public class CustomerForm extends AbstractForm<Customer> {
     }
 
 
-
-    public City city(){
+    public City city() {
         return cities.getSelectedValue();
     }
 
-    public LocalDate birthday(){
-        int year = Integer.parseInt(yearField.getText());
-        int month = Integer.parseInt(monthField.getText());
-        int day = Integer.parseInt(dayField.getText());
+    public LocalDate birthday() throws BirthdayFormatException {
+        int year = year();
+        int month = month();
+        int day = day();
         return LocalDate.of(year, month, day);
     }
 
-    public String firstName(){
+    public String firstName() {
         return firstNameField.getText().trim();
     }
 
-    public String lastName(){
+    public String lastName() {
         return lastNameField.getText().trim();
     }
+
+    public int year() throws NumberFormatException, BirthdayFormatException {
+        int year = Integer.parseInt(yearField.getText());
+        int currentYear = LocalDate.now().getYear();
+        if (year < (currentYear - 100) || year > currentYear) {
+            throw new BirthdayFormatException("L'année de naissance doit être comprise entre " + (currentYear - 100) + " et " + currentYear);
+        }
+        return year;
+    }
+
+    public int month() throws NumberFormatException, BirthdayFormatException{
+        int month = Integer.parseInt(monthField.getText());
+        if (month < 1 || month > 12) {
+            throw new BirthdayFormatException("Le mois de naissance doit être compris entre 1 et 12");
+        }
+        return month;
+    }
+
+    public int day() throws NumberFormatException, BirthdayFormatException{
+        int day = Integer.parseInt(dayField.getText());
+        if (day < 1 || day > 31) {
+            throw new BirthdayFormatException("Le jour de naissance doit être compris entre 1 et 31");
+        }
+        return day;
+    }
+
 }

@@ -1,8 +1,9 @@
 package domaine;
 
+import dao.exception.DAOException;
+import dao.implement.CustomerDAO;
 import domaine.destination.City;
 
-import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -42,6 +43,14 @@ public class Customer implements DAOSerializable {
     @Override
     public String toString() {
         return firstName + " " + lastName ;
+    }
+
+    public void updateWith(String firstName, String lastName, City city, LocalDate birthday) throws DAOException {
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setCity(city);
+        this.setBirthday(birthday);
+        new CustomerDAO().update(this);
     }
 
 

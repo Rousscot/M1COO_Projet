@@ -3,6 +3,7 @@ package gui.editableListPanels;
 import dao.exception.DAOException;
 import domaine.Customer;
 import domaine.destination.City;
+import domaine.exception.BirthdayFormatException;
 import domaine.exception.CustomerNotFoundException;
 import domaine.exception.DuplicatedCustomerException;
 import factory.Agency;
@@ -14,9 +15,9 @@ import java.time.LocalDate;
 /**
  * Created by aurelien on 10/01/2016.
  */
-public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Customer, CustomerForm>{
+public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Customer, CustomerForm> {
 
-    public CustomerManagementPanel(Agency controller){
+    public CustomerManagementPanel(Agency controller) {
         super(controller);
         selectFirstIfPossible();
         form.setCustomerController(controller);
@@ -42,10 +43,14 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
         // TODO check that the field is not empty
         try {
             getController().createAndAddCustomer(firstName(), lastName(), birthday(), city());
-        } catch (DAOException e){
+        } catch (DAOException e) {
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
-        } catch (DuplicatedCustomerException e){
+        } catch (DuplicatedCustomerException e) {
             JOptionPane.showMessageDialog(this, e.getCustomer().toString() + " existe déjà.");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "La date de naissance doit être composée uniquement de nombres entiers.");
+        } catch (BirthdayFormatException e) {
+            JOptionPane.showMessageDialog(this, e.err());
         }
         cleanFields();
         refresh();
@@ -54,33 +59,31 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
     @Override
     public void deleteItem() {
         Customer customer = jList.getSelectedValue();
-        if (customer==null){
+        if (customer == null) {
             JOptionPane.showMessageDialog(this, "Pas de client selectionné.");
         } else {
             try {
                 getController().deleteCustomer(customer);
                 refresh();
             } catch (DAOException e) {
-                JOptionPane.showMessageDialog(this, "Une erreur s'est produite, veuillez réessayer plus tard: "+e.toString());
-            } catch (CustomerNotFoundException e){
-                JOptionPane.showMessageDialog(this, customer.getLastName() +" "+ customer.getFirstName()+ " a déjà été supprimé.");
+                JOptionPane.showMessageDialog(this, "Une erreur s'est produite, veuillez réessayer plus tard: " + e.toString());
+            } catch (CustomerNotFoundException e) {
+                JOptionPane.showMessageDialog(this, customer.getLastName() + " " + customer.getFirstName() + " a déjà été supprimé.");
             }
         }
     }
 
     @Override
-    public void updateItem(){
-        Customer customerBefore = jList.getSelectedValue();
-        Customer customerAfter = new Customer(firstName(), lastName(), birthday(), city());
-        if (customerBefore==null){
-            JOptionPane.showMessageDialog(this, "Pas de client selectionné.");
-        } else {
-            try {
-                getController().updateCustomer(customerBefore, customerAfter);
-                refresh();
-            } catch (DAOException e) {
-                JOptionPane.showMessageDialog(this, "Une erreur s'est produite, veuillez réessayer plus tard: "+e.toString());
-            }
+    public void updateItem() {
+        try {
+            jList.getSelectedValue().updateWith(firstName(), lastName(), city(), birthday());
+            refresh();
+        } catch (DAOException e) {
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite. Veuillez réessayer plus tard." + e.toString());
+        } catch (BirthdayFormatException e) {
+            JOptionPane.showMessageDialog(this, e.err());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "La date de naissance doit être composée uniquement de nombres entiers.");
         }
     }
 
@@ -88,7 +91,7 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
         return form.city();
     }
 
-    private LocalDate birthday() {
+    private LocalDate birthday() throws BirthdayFormatException {
         return form.birthday();
     }
 
@@ -100,7 +103,7 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
         return form.firstName();
     }
 
-    public String toString(){
+    public String toString() {
         return "Gestion des clients";
     }
 

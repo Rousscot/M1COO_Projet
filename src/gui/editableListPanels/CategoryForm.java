@@ -4,7 +4,6 @@ import domaine.destination.Category;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Locale;
 
 /**
  * Created by ferlicotdelbe on 17/12/15.
@@ -17,6 +16,7 @@ public class CategoryForm extends AbstractForm<Category> {
     protected static final String LABEL = "Designation :";
     protected static final String LABEL2 = "Capacité :";
     protected static final String LABEL3 = "Prix :";
+    protected JPanel categoryPanel;
 
     public CategoryForm(){
         super();
@@ -24,20 +24,36 @@ public class CategoryForm extends AbstractForm<Category> {
 
     @Override
     public LayoutManager getFormLayout(){
-        return new GridLayout(3, 2, 0, 5);
+        return new GridLayout(1,1);
     }
 
     @Override
     public void initLabels() {
-        JLabel label = new JLabel(CategoryForm.LABEL);
-        JLabel label2 = new JLabel(CategoryForm.LABEL2);
-        JLabel label3 = new JLabel(CategoryForm.LABEL3);
-        add(label);
-        add(designationField);
-        add(label2);
-        add(capacityField);
-        add(label3);
-        add(priceField);
+        initPanel();
+        add(categoryPanel);
+    }
+
+    public void initPanel(){
+        categoryPanel = new JPanel();
+        categoryPanel.setLayout(new GridLayout(3,1));
+        configureCategoryTabbedPane();
+    }
+
+    private void configureCategoryTabbedPane() {
+        JTabbedPane designationTabbedPanel = new JTabbedPane();
+        categoryPanel.add(designationTabbedPanel);
+        designationField = new JTextField();
+        designationTabbedPanel.addTab(LABEL, designationField);
+
+        JTabbedPane capacityTabbedPanel = new JTabbedPane();
+        categoryPanel.add(capacityTabbedPanel);
+        capacityField = new JTextField();
+        capacityTabbedPanel.addTab(LABEL2, capacityField);
+
+        JTabbedPane priceTabbedPanel = new JTabbedPane();
+        categoryPanel.add(priceTabbedPanel);
+        priceField = new JTextField();
+        priceTabbedPanel.addTab(LABEL3, priceField);
     }
 
     @Override

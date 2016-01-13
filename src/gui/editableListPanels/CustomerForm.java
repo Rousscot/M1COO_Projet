@@ -39,9 +39,12 @@ public class CustomerForm extends AbstractForm<Customer> {
     @Override
     //TODO
     protected LayoutManager getFormLayout() {
-        return new GridLayout(1, 7);
+        return new GridLayout(1, 1);
     }
 
+    /**
+     * initialize the birthday panel
+     */
     protected void initPanel() {
         birthdayPanel = new JPanel();
         birthdayPanel.setLayout(new GridLayout(3, 1));
@@ -98,13 +101,13 @@ public class CustomerForm extends AbstractForm<Customer> {
 
     public void refreshList(JList list) {
         list.setModel(new CitiesDataSource(agency));
-        //list.revalidate();
-        //list.repaint(); // I don't know why the repaint doesn't work :(
         selectFirstElementIfPossible(list);
     }
 
+    /**
+     * initialize and add the city tabbedPane to the main panel
+     */
     public void initCityTap() {
-        System.out.println(); //TODO retirer affichage
         JTabbedPane cityTabbedPanel = new JTabbedPane();
         this.add(cityTabbedPanel);
         JPanel cityPanel = new JPanel();
@@ -116,7 +119,9 @@ public class CustomerForm extends AbstractForm<Customer> {
         cityScrollPane.setViewportView(cities);
     }
 
-
+    /**
+     * initialize and add the name tabbed panes to the main panel
+     */
     public void configureNameTabbedPanel() {
         JTabbedPane fnTabbedPanel = new JTabbedPane();
         this.add(fnTabbedPanel);
@@ -129,6 +134,9 @@ public class CustomerForm extends AbstractForm<Customer> {
         lnTabbedPanel.addTab(LNLABEL, lastNameField);
     }
 
+    /**
+     * initialize and add the birthday tabbed panes to the Birthaday pannel
+     */
     public void configureBirthdayTabbedPanel() {
         JTabbedPane bdTabbedPanel = new JTabbedPane();
         birthdayPanel.add(bdTabbedPanel);
@@ -170,11 +178,17 @@ public class CustomerForm extends AbstractForm<Customer> {
         yearField.setText(year);
     }
 
-
+    /**
+     * @return the selected City
+     */
     public City city() {
         return cities.getSelectedValue();
     }
 
+    /**
+     * @return the filled birthday
+     * @throws BirthdayFormatException is raised when there's an error with the filled birthday
+     */
     public LocalDate birthday() throws BirthdayFormatException {
         int year = year();
         int month = month();
@@ -182,14 +196,25 @@ public class CustomerForm extends AbstractForm<Customer> {
         return LocalDate.of(year, month, day);
     }
 
+    /**
+     * @return the firstName filled in the firstNameField
+     */
     public String firstName() {
         return firstNameField.getText().trim();
     }
 
+    /**
+     * @return the lastName filled in the lastNameField
+     */
     public String lastName() {
         return lastNameField.getText().trim();
     }
 
+    /**
+     * @return the year filled in the yearField
+     * @throws NumberFormatException   is raised when we don't fill a integer
+     * @throws BirthdayFormatException is raised when the year is not valid (age <100)
+     */
     public int year() throws NumberFormatException, BirthdayFormatException {
         int year = Integer.parseInt(yearField.getText());
         int currentYear = LocalDate.now().getYear();
@@ -199,7 +224,12 @@ public class CustomerForm extends AbstractForm<Customer> {
         return year;
     }
 
-    public int month() throws NumberFormatException, BirthdayFormatException{
+    /**
+     * @return the month filled in the monthField
+     * @throws NumberFormatException   is raised when we don't fill an integer
+     * @throws BirthdayFormatException is raised when the month is not valid (1to12)
+     */
+    public int month() throws NumberFormatException, BirthdayFormatException {
         int month = Integer.parseInt(monthField.getText());
         if (month < 1 || month > 12) {
             throw new BirthdayFormatException("Le mois de naissance doit être compris entre 1 et 12");
@@ -207,7 +237,12 @@ public class CustomerForm extends AbstractForm<Customer> {
         return month;
     }
 
-    public int day() throws NumberFormatException, BirthdayFormatException{
+    /**
+     * @return the day filled in the dayField
+     * @throws NumberFormatException   is raised when we don't fill an integer
+     * @throws BirthdayFormatException is raised when the day is not valid (1to31)
+     */
+    public int day() throws NumberFormatException, BirthdayFormatException {
         int day = Integer.parseInt(dayField.getText());
         if (day < 1 || day > 31) {
             throw new BirthdayFormatException("Le jour de naissance doit être compris entre 1 et 31");

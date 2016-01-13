@@ -14,6 +14,7 @@ public class HotelForm extends AbstractForm<Hotel> {
     protected static final String LABEL2 = "Jours d'annulation :";
     protected JTextField nameField;
     protected JTextField resignationField;
+    protected JPanel hotelPanel;
 
     public HotelForm() {
         super();
@@ -21,21 +22,41 @@ public class HotelForm extends AbstractForm<Hotel> {
 
     @Override
     public LayoutManager getFormLayout() {
-        return new GridLayout(2, 2, 0, 5);
+        return new GridLayout(1,1);
     }
 
     @Override
     public void initLabels() {
-        add(new JLabel(HotelForm.LABEL));
-        add(nameField);
-        add(new JLabel(HotelForm.LABEL2));
-        add(resignationField);
+        initPanel();
+        add(hotelPanel);
+    }
+
+    /**
+     * initialize the hotel panel
+     */
+    public void initPanel(){
+        hotelPanel = new JPanel();
+        hotelPanel.setLayout(new GridLayout(2,1));
+        configureHotelTabbedPanel();
+    }
+
+    /**
+     * initialize the hotel tabbed panes and add them to the hotel panel
+     */
+    private void configureHotelTabbedPanel() {
+        JTabbedPane nameTabbedPanel = new JTabbedPane();
+        hotelPanel.add(nameTabbedPanel);
+        nameField = new JTextField();
+        nameTabbedPanel.addTab(LABEL, nameField);
+
+        JTabbedPane resignationTabbedPanel = new JTabbedPane();
+        hotelPanel.add(resignationTabbedPanel);
+        resignationField = new JTextField();
+        resignationTabbedPanel.addTab(LABEL2, resignationField);
     }
 
     @Override
     public void initTextFields() {
-        nameField = new JTextField();
-        resignationField = new JTextField();
     }
 
     @Override

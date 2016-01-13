@@ -31,6 +31,10 @@ public class CityForm extends AbstractForm<City> {
     public void initTextFields() {
     }
 
+    /**
+     * initialize the city tabbed pane to the main panel
+     * @param label the label to set to the tabbed pane
+     */
     public void configureTabbedPanel(String label){
         JTabbedPane fsTabbedPanel = new JTabbedPane();
         this.add(fsTabbedPanel);

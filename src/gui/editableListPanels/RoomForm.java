@@ -24,15 +24,22 @@ public class RoomForm extends AbstractForm<Room> {
 
     @Override
     public void initLabels() {
-        JLabel label = new JLabel(RoomForm.LABEL);
-        add(label);
-        add(numberField);
+        configureTabbedPanel(LABEL);
     }
 
     @Override
     public void initTextFields() {
+    }
+
+    /**
+     * initialize the city tabbed pane to the main panel
+     * @param label the label to set to the tabbed pane
+     */
+    public void configureTabbedPanel(String label){
+        JTabbedPane fsTabbedPanel = new JTabbedPane();
+        this.add(fsTabbedPanel);
         numberField = new JTextField();
-        numberField.setColumns(2);
+        fsTabbedPanel.addTab(label, numberField);
     }
 
     @Override

@@ -68,6 +68,22 @@ public class CustomerManagementPanel extends AbstractManagementPanel<Agency, Cus
         }
     }
 
+    @Override
+    public void updateItem(){
+        Customer customerBefore = jList.getSelectedValue();
+        Customer customerAfter = new Customer(firstName(), lastName(), birthday(), city());
+        if (customerBefore==null){
+            JOptionPane.showMessageDialog(this, "Pas de client selectionné.");
+        } else {
+            try {
+                getController().updateCustomer(customerBefore, customerAfter);
+                refresh();
+            } catch (DAOException e) {
+                JOptionPane.showMessageDialog(this, "Une erreur s'est produite, veuillez réessayer plus tard: "+e.toString());
+            }
+        }
+    }
+
     private City city() {
         return form.city();
     }

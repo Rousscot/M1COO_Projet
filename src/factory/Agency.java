@@ -51,28 +51,50 @@ public class Agency {
         return flies;
     }
 
-    public List<Customer> getCustomers() throws DAOException{
-        if(customers == null){
+    public List<Customer> getCustomers() throws DAOException {
+        if (customers == null) {
             customers = daoCustomer.allCustomers();
         }
         return customers;
     }
 
-    public void addCustomer(Customer customer) throws DAOException, DuplicatedCustomerException{
+    public void addCustomer(Customer customer) throws DAOException, DuplicatedCustomerException {
         getCustomers().add(customer);
     }
 
     public void deleteCustomer(Customer customer) throws DAOException, CustomerNotFoundException {
-        if(!getCustomers().contains(customer)){
+        if (!getCustomers().contains(customer)) {
             throw new CustomerNotFoundException(customer);
         }
         daoCustomer.delete(customer);
         getCustomers().remove(customer);
     }
 
+    public void updateCustomer(Customer customerBefore, Customer customerAfter) throws DAOException {
+        if (!customerBefore.getFirstName().equals(customerAfter.getFirstName()) && !customerAfter.getFirstName().equals("")) {
+            //TODO update firstname of the customer
+            System.out.println("prénom modifié");
+        }
+        if (!customerBefore.getLastName().equals(customerAfter.getLastName()) && !customerAfter.getFirstName().equals("")) {
+            //TODO update lasttname of the customer
+            System.out.println("nom modifié");
+        }
+        if (!customerBefore.getCity().getName().trim().equals(customerAfter.getCity().getName().trim())) {
+            //TODO update the city of the customer
+            System.out.println("city modifiée");
+        }
+        LocalDate bDayBefore = customerBefore.getBirthday();
+        LocalDate bDayAfter = customerAfter.getBirthday();
+        if (bDayBefore.getDayOfMonth() != bDayAfter.getDayOfMonth() || bDayBefore.getMonthValue() != bDayAfter.getMonthValue() || bDayBefore.getYear() != bDayAfter.getYear()   ) {
+            //TODO update the birthday of the customer
+            System.out.println("Birthday modifié");
+        }
+
+    }
+
     public void createAndAddCustomer(String firstName, String lastName, LocalDate birthday, City city) throws DuplicatedCustomerException, DAOException {
         Customer customer = new Customer(firstName, lastName, birthday, city);
-        if(getCustomers().contains(customer)){
+        if (getCustomers().contains(customer)) {
             throw new DuplicatedCustomerException(customer);
         }
         addCustomer(daoCustomer.create(customer));
@@ -88,7 +110,7 @@ public class Agency {
 
     public void createAndAddCity(String name) throws DAOException, DuplicatedCityException {
         City city = new City(name);
-        if(getCities().contains(city)){
+        if (getCities().contains(city)) {
             throw new DuplicatedCityException(city);
         }
         addCity(daoCity.create(city));
@@ -116,7 +138,7 @@ public class Agency {
 
     public void createAndAddFly(City origin, City destination, DayOfWeek day, LocalTime hour, Integer duration, Integer firstTimeCapacity, Integer firstClassPrice, Integer secondClassCapacity, Integer secondClassPrice, Integer daysOfResignation) throws DAOException, DuplicatedFlyException {
         Fly fly = new Fly(origin, destination, day, hour, duration, firstTimeCapacity, firstClassPrice, secondClassCapacity, secondClassPrice, daysOfResignation);
-        if(getFlies().contains(fly)){
+        if (getFlies().contains(fly)) {
             throw new DuplicatedFlyException(fly);
         }
         addFly(daoFly.create(fly));
@@ -134,11 +156,13 @@ public class Agency {
         getFlies().remove(fly);
     }
 
-    public int numberOfCustomers() throws DAOException{
+    public int numberOfCustomers() throws DAOException {
         return getCustomers().size();
     }
 
     public Customer customerAt(int index) throws DAOException {
         return getCustomers().get(index);
     }
+
+
 }

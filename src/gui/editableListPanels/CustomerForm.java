@@ -45,7 +45,6 @@ public class CustomerForm extends AbstractForm<Customer> {
         birthdayPanel = new JPanel();
         birthdayPanel.setLayout(new GridLayout(3,1));
         configureBirthdayTabbedPanel();
-
     }
 
     @Override
@@ -169,6 +168,8 @@ public class CustomerForm extends AbstractForm<Customer> {
         monthField.setText(month);
         yearField.setText(year);
     }
+
+
 
     public City city(){
         return cities.getSelectedValue();

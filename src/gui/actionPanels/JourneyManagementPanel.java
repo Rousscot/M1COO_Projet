@@ -3,6 +3,7 @@ package gui.actionPanels;
 import domaine.Customer;
 import domaine.destination.City;
 import factory.Agency;
+import gui.AgencyGUI;
 import gui.editableListPanels.DateLabelFormatter;
 import gui.editableListPanels.NextButtonBar;
 import gui.editableListPanels.NextButtonUser;
@@ -14,12 +15,14 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Properties;
 
 /**
  * Created by JeCisC on 16/12/2015.
  */
-public class JourneyManagementPanel extends JPanel implements NextButtonUser{
+public class JourneyManagementPanel extends JPanel implements NextButtonUser {
 
     protected JList<Customer> customerList;
 
@@ -33,9 +36,12 @@ public class JourneyManagementPanel extends JPanel implements NextButtonUser{
 
     protected Agency controller;
 
-    public JourneyManagementPanel(Agency controller){
+    protected AgencyGUI owner;
+
+    public JourneyManagementPanel(Agency controller, AgencyGUI owner) {
         super();
         this.controller = controller;
+        this.owner = owner;
         this.setLayout(new GridBagLayout());
         initSpacers();
         initCustomerList(controller);
@@ -108,6 +114,7 @@ public class JourneyManagementPanel extends JPanel implements NextButtonUser{
         destinationPanel.setLayout(new BorderLayout(0, 0));
         destinationTab.addTab("Ville d'arrivée", destinationPanel);
         destinationList = new JList<>();
+        customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         destinationList.setModel(new CitiesDataSource(controller));
         destinationPanel.add(destinationList, BorderLayout.CENTER);
     }
@@ -125,6 +132,7 @@ public class JourneyManagementPanel extends JPanel implements NextButtonUser{
         originPanel.setLayout(new BorderLayout(0, 0));
         originTab.addTab("Ville de départ", originPanel);
         originList = new JList<>();
+        customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         originList.setModel(new CitiesDataSource(controller));
         originPanel.add(originList, BorderLayout.CENTER);
     }
@@ -143,6 +151,7 @@ public class JourneyManagementPanel extends JPanel implements NextButtonUser{
         customerPanel.setLayout(new BorderLayout(0, 0));
         customerTab.addTab("Client", customerPanel);
         customerList = new JList<>();
+        customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         customerList.setModel(new CustomerDataSource(controller));
         customerPanel.add(customerList, BorderLayout.CENTER);
     }
@@ -168,12 +177,53 @@ public class JourneyManagementPanel extends JPanel implements NextButtonUser{
         gbc.fill = GridBagConstraints.VERTICAL;
         this.add(spacer3, gbc);
     }
-    public String toString(){
+
+    @Override
+    public String toString() {
         return "Gestion des voyages";
     }
 
     @Override
     public void nextAction() {
-        //TODO
+        try {
+            if (getCustomer() == null || getDestination() == null) {
+                throw new IllegalArgumentException();
+            } else {
+                if (getFirstDate().isAfter(getSecondDate()) || getFirstDate().isBefore(LocalDate.now())) {
+                    JOptionPane.showMessageDialog(this, "Veuillez selectionner des dates valides.");
+                } else {
+                    if (getOrigin().equals(getDestination())) {
+                        JOptionPane.showMessageDialog(this, "Veuillez selectionner deux villes différentes.");
+                    } else {
+                        owner.setMainPanelWith(new SelectFlightsPanel(this));
+                    }
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Veuillez selectionner tous les champs necessaires.");
+        }
+    }
+
+    public Customer getCustomer() {
+        return customerList.getSelectedValue();
+    }
+
+    public City getOrigin() {
+        if (originList.getSelectedValue() == null) {
+            return getCustomer().getCity();
+        }
+        return originList.getSelectedValue();
+    }
+
+    public City getDestination() {
+        return destinationList.getSelectedValue();
+    }
+
+    public LocalDate getFirstDate() throws IllegalArgumentException {
+        return LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(firstDate.getModel().getValue()));
+    }
+
+    public LocalDate getSecondDate() throws IllegalArgumentException {
+        return LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(secondDate.getModel().getValue()));
     }
 }

@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class Agency {
 
-    //protected Planning planning;
     protected List<Customer> customers;
     protected List<City> cities;
     protected List<Fly> flies;
@@ -141,6 +140,5 @@ public class Agency {
     public Customer customerAt(int index) throws DAOException {
         return getCustomers().get(index);
     }
-
 
 }

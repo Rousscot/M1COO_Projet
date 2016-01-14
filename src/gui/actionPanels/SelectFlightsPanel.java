@@ -8,6 +8,6 @@ import javax.swing.*;
 public class SelectFlightsPanel extends JPanel {
 
     public SelectFlightsPanel(JourneyManagementPanel previousPannel){
-
+        //TODO
     }
 }

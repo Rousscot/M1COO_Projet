@@ -77,7 +77,6 @@ public class FlyForm extends AbstractForm<Fly> {
     @Override
     public void initTextFields() {
         initTabbedPanels();
-
         initDayField();
         initHourField();
         initDurationField();
@@ -307,11 +306,6 @@ public class FlyForm extends AbstractForm<Fly> {
         originPanel.add(originScrollPane, BorderLayout.CENTER);
         origins = new JList<>();
         originScrollPane.setViewportView(origins);
-    }
-
-    @Override
-    public void initLabels() {
-
     }
 
     @Override

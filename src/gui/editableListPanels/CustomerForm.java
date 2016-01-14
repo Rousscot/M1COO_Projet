@@ -67,10 +67,6 @@ public class CustomerForm extends AbstractForm<Customer> {
     }
 
     @Override
-    protected void initLabels() {
-    }
-
-    @Override
     protected void initTextFields() {
         JTabbedPane fnTabbedPanel = new JTabbedPane();
         GridBagConstraints gbc;

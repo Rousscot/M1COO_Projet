@@ -18,7 +18,12 @@ public abstract class AbstractForm<T> extends JPanel {
 
     protected abstract void initTextFields();
 
-    protected abstract void initLabels();
+    /**
+     * I am a Hook because all my subclasses doesn't need labels.
+     */
+    protected void initLabels(){
+        //Nothing byu default :D
+    }
 
     public abstract void clean();
 

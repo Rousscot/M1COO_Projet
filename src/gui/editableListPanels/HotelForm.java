@@ -25,21 +25,6 @@ public class HotelForm extends AbstractForm<Hotel> {
         return new GridLayout(1,1);
     }
 
-    @Override
-    public void initLabels() {
-        initPanel();
-        add(hotelPanel);
-    }
-
-    /**
-     * initialize the hotel panel
-     */
-    public void initPanel(){
-        hotelPanel = new JPanel();
-        hotelPanel.setLayout(new GridLayout(2,1));
-        configureHotelTabbedPanel();
-    }
-
     /**
      * initialize the hotel tabbed panes and add them to the hotel panel
      */
@@ -57,6 +42,10 @@ public class HotelForm extends AbstractForm<Hotel> {
 
     @Override
     public void initTextFields() {
+        hotelPanel = new JPanel();
+        hotelPanel.setLayout(new GridLayout(2,1));
+        configureHotelTabbedPanel();
+        add(hotelPanel);
     }
 
     @Override

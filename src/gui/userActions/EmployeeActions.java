@@ -1,5 +1,6 @@
 package gui.userActions;
 
+import factory.Agency;
 import gui.actionPanels.JourneyManagementPanel;
 
 import javax.swing.*;
@@ -11,14 +12,14 @@ public class EmployeeActions extends JList<JPanel>{
 
     protected DefaultListModel<JPanel> model;
 
-    public EmployeeActions(){
+    public EmployeeActions(Agency controller){
         model = new DefaultListModel<>();
         setModel(model);
-        initializeActions();
+        initializeActions(controller);
     }
 
-    public void initializeActions() {
-        model.addElement(new JourneyManagementPanel());
+    public void initializeActions(Agency controller) {
+        model.addElement(new JourneyManagementPanel(controller));
     }
 
     public String toString(){

@@ -48,7 +48,7 @@ public class ActionPanel extends JPanel implements ItemListener, ListSelectionLi
 
     public void initUserManagerContent(Agency controller) {
         userManager.addItem(new ManagerActions(controller));
-        userManager.addItem(new EmployeeActions());
+        userManager.addItem(new EmployeeActions(controller));
     }
 
     @Override

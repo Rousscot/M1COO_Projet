@@ -8,6 +8,7 @@ import domaine.exception.HotelNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * I am a class that describe a city.
@@ -110,7 +111,9 @@ public class City implements DAOSerializable {
     }
 
     public void deleteAllHotels() throws HotelNotFoundException, DAOException {
-        for (Hotel hotel : getHotels()) {
+        List<Hotel> copy = getHotels().stream().collect(Collectors.toList());
+
+        for (Hotel hotel : copy) {
             deleteHotel(hotel);
         }
     }

@@ -11,6 +11,7 @@ import javax.tools.JavaCompiler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
+import java.util.stream.Collectors;
 
 /**
  * I am a class that describe a Hotel.
@@ -140,7 +141,8 @@ public class Hotel implements DAOSerializable {
     }
 
     public void deleteAllCategories() throws CategoryNotFoundException, DAOException {
-        for(Category category : getCategories()) {
+        List<Category> copy = getCategories().stream().collect(Collectors.toList());
+        for(Category category : copy) {
             deleteCategory(category);
         }
     }

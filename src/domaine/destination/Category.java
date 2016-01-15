@@ -11,6 +11,7 @@ import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * I am a class that describe a Category.
@@ -157,7 +158,8 @@ public class Category implements DAOSerializable {
     }
 
     public void deleteAllRooms() throws SQLException, RoomNotFoundException {
-        for(Room room : getRooms()) {
+        List<Room> copy = getRooms().stream().collect(Collectors.toList());
+        for(Room room : copy) {
             deleteRoom(room);
         }
     }
